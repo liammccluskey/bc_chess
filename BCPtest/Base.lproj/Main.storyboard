@@ -1,24 +1,262 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="13122.16" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="PCL-Lq-iiO">
+    <device id="retina4_0" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="13104.12"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--View Controller-->
+        <!--PuzzleVC-->
         <scene sceneID="tne-QT-ifu">
             <objects>
-                <viewController id="BYZ-38-t0r" customClass="ViewController" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController id="BYZ-38-t0r" customClass="puzzleVC" customModule="BCPtest" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="8bC-Xf-vdC">
-                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hes-OK-25p">
+                                <rect key="frame" x="25" y="219" width="120" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="30" id="2UX-G3-UaH"/>
+                                    <constraint firstAttribute="width" constant="120" id="Uwk-hl-bkG"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="17"/>
+                                <state key="normal" title="Play Moves">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="playMovesPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="J5d-T8-zFB"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Chess Puzzle" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="HlG-Wg-EiN">
+                                <rect key="frame" x="76.5" y="76" width="167" height="35"/>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Player to Move:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="rec-Iy-SOs">
+                                <rect key="frame" x="25" y="179" width="130.5" height="22"/>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Turns:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3t6-ss-cLq">
+                                <rect key="frame" x="25" y="135" width="147" height="22"/>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wXo-NO-ngh">
+                                <rect key="frame" x="200" y="135" width="90" height="24"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="f6B-a4-qGi"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="BSd-e7-mY4">
+                                <rect key="frame" x="200" y="178" width="90" height="24"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="24" id="2SV-bE-Okf"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="19"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="bnZ-nH-Ph3">
+                                <rect key="frame" x="175" y="219" width="120" height="30"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="Vf2-zh-RCp"/>
+                                    <constraint firstAttribute="height" constant="30" id="Yfp-CO-esk"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="17"/>
+                                <state key="normal" title="Play Solution">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="playSolutionPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="eGJ-nh-VVU"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ikm-6q-3Hj">
+                                <rect key="frame" x="25" y="485" width="120" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="120" id="zxo-Vp-e8F"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="17"/>
+                                <state key="normal" title="Show Puzzle">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="showPuzzlePress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="qEw-N2-QBQ"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="PQA-Ca-tJe">
+                                <rect key="frame" x="165" y="485" width="130" height="33"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="130" id="RrH-mB-H8U"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="17"/>
+                                <state key="normal" title="Show Solution">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                </state>
+                                <connections>
+                                    <action selector="showSolutionPress:" destination="BYZ-38-t0r" eventType="touchUpInside" id="jBv-cx-VhI"/>
+                                </connections>
+                            </button>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="oIc-VF-WcT">
+                                <rect key="frame" x="37" y="399" width="340" height="340"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" secondItem="oIc-VF-WcT" secondAttribute="height" multiplier="1:1" id="IUD-5s-eMO"/>
+                                </constraints>
+                            </imageView>
+                        </subviews>
+                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="hes-OK-25p" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="155" id="7gw-LB-cUE"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PQA-Ca-tJe" secondAttribute="trailing" constant="25" id="A0s-bQ-o7y"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="ikm-6q-3Hj" secondAttribute="bottom" constant="50" id="Arg-hX-G2d"/>
+                            <constraint firstItem="rec-Iy-SOs" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="BUP-Mf-mcV"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="wXo-NO-ngh" secondAttribute="trailing" constant="30" id="CLm-Lt-iG0"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="PQA-Ca-tJe" secondAttribute="trailing" constant="25" id="Eui-Nq-U3l"/>
+                            <constraint firstItem="oIc-VF-WcT" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="55" id="GKh-dg-Pgs"/>
+                            <constraint firstItem="BSd-e7-mY4" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="200" id="IZF-UX-7Kd"/>
+                            <constraint firstItem="rec-Iy-SOs" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="115" id="KHN-95-YDc"/>
+                            <constraint firstItem="ikm-6q-3Hj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="KN2-4z-Ggv"/>
+                            <constraint firstItem="hes-OK-25p" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="L1j-cD-AaC"/>
+                            <constraint firstItem="BSd-e7-mY4" firstAttribute="top" secondItem="wXo-NO-ngh" secondAttribute="bottom" constant="19" id="NoJ-ap-TjB"/>
+                            <constraint firstAttribute="trailing" secondItem="BSd-e7-mY4" secondAttribute="trailing" constant="30" id="RHI-Yv-bJH"/>
+                            <constraint firstItem="bnZ-nH-Ph3" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="155" id="V6Q-kg-eMB"/>
+                            <constraint firstItem="wXo-NO-ngh" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="200" id="WII-73-ber"/>
+                            <constraint firstItem="HlG-Wg-EiN" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="X4J-Ag-pDX"/>
+                            <constraint firstItem="ikm-6q-3Hj" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="ZsT-0A-EiZ"/>
+                            <constraint firstItem="PQA-Ca-tJe" firstAttribute="top" secondItem="oIc-VF-WcT" secondAttribute="bottom" constant="20" id="agT-Kj-y8B"/>
+                            <constraint firstItem="oIc-VF-WcT" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="cQc-44-Ize"/>
+                            <constraint firstItem="3t6-ss-cLq" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="71" id="e1Y-ZR-23M"/>
+                            <constraint firstItem="HlG-Wg-EiN" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" constant="12" id="fkf-Io-2ZH"/>
+                            <constraint firstItem="ikm-6q-3Hj" firstAttribute="top" secondItem="oIc-VF-WcT" secondAttribute="bottom" constant="20" id="gMl-aA-85h"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="bottom" secondItem="PQA-Ca-tJe" secondAttribute="bottom" constant="50" id="j6k-cI-6Ij"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="bnZ-nH-Ph3" secondAttribute="trailing" constant="25" id="lfi-MF-L9g"/>
+                            <constraint firstItem="6Tk-OE-BBY" firstAttribute="trailing" secondItem="oIc-VF-WcT" secondAttribute="trailing" constant="55" id="qbC-He-CmP"/>
+                            <constraint firstItem="wXo-NO-ngh" firstAttribute="top" secondItem="3t6-ss-cLq" secondAttribute="top" id="vec-sp-5bB"/>
+                            <constraint firstItem="3t6-ss-cLq" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" constant="25" id="zoh-Yj-5yd"/>
+                        </constraints>
                         <viewLayoutGuide key="safeArea" id="6Tk-OE-BBY"/>
                     </view>
+                    <navigationItem key="navigationItem" id="uB2-C2-yee"/>
+                    <connections>
+                        <outlet property="boardImage" destination="oIc-VF-WcT" id="G6I-3x-GTu"/>
+                        <outlet property="numTurnsLabel" destination="wXo-NO-ngh" id="xfP-46-UIx"/>
+                        <outlet property="playerMoveLabel" destination="BSd-e7-mY4" id="qPX-Nk-ZXg"/>
+                        <outlet property="showPuzzleButton" destination="ikm-6q-3Hj" id="HQB-St-wzn"/>
+                        <outlet property="showSolutionButton" destination="PQA-Ca-tJe" id="C33-cM-Qhu"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
+            <point key="canvasLocation" x="3600.0000000000005" y="133.25892857142856"/>
+        </scene>
+        <!--HomepageVC-->
+        <scene sceneID="qQh-12-QG2">
+            <objects>
+                <viewController id="Vsu-j4-KSu" customClass="homepageVC" customModule="BCPtest" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="xd4-s8-7DT">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter # Turns" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="ji3-Vr-7Dd">
+                                <rect key="frame" x="177" y="255" width="108" height="30"/>
+                                <nil key="textColor"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blindfold Chess Puzzles" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ysh-0y-geu">
+                                <rect key="frame" x="6.5" y="76" width="307" height="35"/>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="28"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Puzzle Type" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3hA-3s-r3d">
+                                <rect key="frame" x="89" y="204" width="142" height="32"/>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="26"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Number of Turns:" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2Ug-IM-KsN">
+                                <rect key="frame" x="25" y="259" width="147" height="22"/>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="18"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="OuL-Mz-E4M">
+                                <rect key="frame" x="75" y="331" width="170" height="37"/>
+                                <color key="backgroundColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="170" id="RFB-WI-JzO"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" name="Charter-Bold" family="Charter" pointSize="20"/>
+                                <state key="normal" title="Generate Puzzle">
+                                    <color key="titleColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                    <color key="titleShadowColor" cocoaTouchSystemColor="darkTextColor"/>
+                                </state>
+                                <connections>
+                                    <segue destination="BYZ-38-t0r" kind="show" id="Xhn-T4-QZC"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.016804177310000001" green="0.19835099580000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <color key="tintColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <constraints>
+                            <constraint firstItem="Ysh-0y-geu" firstAttribute="top" secondItem="aCR-qv-gI2" secondAttribute="top" constant="12" id="14W-6O-7q0"/>
+                            <constraint firstItem="aCR-qv-gI2" firstAttribute="trailing" secondItem="ji3-Vr-7Dd" secondAttribute="trailing" constant="35" id="5z9-DF-9xu"/>
+                            <constraint firstItem="3hA-3s-r3d" firstAttribute="top" secondItem="aCR-qv-gI2" secondAttribute="top" constant="140" id="D19-iI-N2k"/>
+                            <constraint firstItem="Ysh-0y-geu" firstAttribute="centerX" secondItem="xd4-s8-7DT" secondAttribute="centerX" id="DJZ-qY-5Sk"/>
+                            <constraint firstItem="2Ug-IM-KsN" firstAttribute="top" secondItem="aCR-qv-gI2" secondAttribute="top" constant="195" id="IEs-kw-rHH"/>
+                            <constraint firstItem="3hA-3s-r3d" firstAttribute="centerX" secondItem="xd4-s8-7DT" secondAttribute="centerX" id="Ik1-1I-pq3"/>
+                            <constraint firstItem="2Ug-IM-KsN" firstAttribute="leading" secondItem="aCR-qv-gI2" secondAttribute="leading" constant="25" id="ax2-uN-67l"/>
+                            <constraint firstItem="ji3-Vr-7Dd" firstAttribute="top" secondItem="aCR-qv-gI2" secondAttribute="top" constant="191" id="fsm-pl-5OA"/>
+                            <constraint firstItem="OuL-Mz-E4M" firstAttribute="centerX" secondItem="xd4-s8-7DT" secondAttribute="centerX" id="tOg-yT-gMF"/>
+                            <constraint firstItem="OuL-Mz-E4M" firstAttribute="top" secondItem="2Ug-IM-KsN" secondAttribute="bottom" constant="50" id="xgz-oD-cAC"/>
+                        </constraints>
+                        <viewLayoutGuide key="safeArea" id="aCR-qv-gI2"/>
+                    </view>
+                    <navigationItem key="navigationItem" id="6eg-gQ-7bp"/>
+                    <connections>
+                        <outlet property="genPuzzButton" destination="OuL-Mz-E4M" id="j1t-KK-gR7"/>
+                        <outlet property="numTurnsField" destination="ji3-Vr-7Dd" id="5kK-j2-fya"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="tLZ-q9-037" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2764" y="133.5832083958021"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="tU3-Q1-lk4">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="PCL-Lq-iiO" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="XKm-Lw-wbU">
+                        <rect key="frame" x="0.0" y="20" width="320" height="44"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="Vsu-j4-KSu" kind="relationship" relationship="rootViewController" id="QbA-PW-Tdx"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="5vD-gW-QzO" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1824.8" y="133.5832083958021"/>
         </scene>
     </scenes>
 </document>
