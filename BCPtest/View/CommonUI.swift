@@ -17,6 +17,11 @@ class CommonUI {
     let purpleColor = UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
     let blueColor = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
     
+    let purpleColorLight = UIColor(red: 165/255, green: 135/255, blue: 212/255, alpha: 1)
+    let blueColorLight = UIColor(red: 141/255, green: 192/255, blue: 235/255, alpha: 1)
+    
+    let blueColorDark = UIColor(red: 0/255, green: 112/255, blue: 204/255, alpha: 1)
+    
     func configureDividerLabel() -> UILabel {
     /*
         Creates blue divider
@@ -38,7 +43,7 @@ class CommonUI {
         label.text = title
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 23)
+        label.font = UIFont(name: fontString, size: 21)
         label.backgroundColor = .clear
         return label
     }
@@ -61,6 +66,7 @@ class CommonUI {
          Creates vertical stack view
     */
         let stackView = UIStackView(arrangedSubviews: arrangedSubViews)
+        //stackView.distribution = .fillProportionally
         stackView.alignment = .fill
         stackView.axis = .vertical
         stackView.spacing = 9

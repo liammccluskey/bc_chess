@@ -20,6 +20,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window = UIWindow()
         window?.makeKeyAndVisible()
         window?.rootViewController = UINavigationController(rootViewController: HomeController())
+        
+        //window?.rootViewController = UINavigationController(rootViewController: ChessBoardController())
  
         return true
     }

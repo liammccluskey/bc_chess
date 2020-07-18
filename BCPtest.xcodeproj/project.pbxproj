@@ -13,6 +13,7 @@
 		7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC324BB891C00135967 /* CommonUI.swift */; };
 		7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC524BB91D800135967 /* PositionTableController.swift */; };
 		7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC724BBC71300135967 /* PuzzleUI.swift */; };
+		7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC924C2171300135967 /* ChessBoardController.swift */; };
 		7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96CC3F23A03C1D00EE9129 /* AppDelegate.swift */; };
 		7C96CC4523A03C1D00EE9129 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C96CC4323A03C1D00EE9129 /* Main.storyboard */; };
 		7C96CC4723A03C1E00EE9129 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 7C96CC4623A03C1E00EE9129 /* Assets.xcassets */; };
@@ -49,6 +50,7 @@
 		7C33CCC324BB891C00135967 /* CommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUI.swift; sourceTree = "<group>"; };
 		7C33CCC524BB91D800135967 /* PositionTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTableController.swift; sourceTree = "<group>"; };
 		7C33CCC724BBC71300135967 /* PuzzleUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleUI.swift; sourceTree = "<group>"; };
+		7C33CCC924C2171300135967 /* ChessBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardController.swift; sourceTree = "<group>"; };
 		7C96CC3C23A03C1C00EE9129 /* BCPtest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BCPtest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96CC3F23A03C1D00EE9129 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		7C96CC4423A03C1D00EE9129 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -163,6 +165,7 @@
 				7CE941E9245B6B2900B9A2A0 /* HomeController.swift */,
 				7C33C51824BAC4E200135967 /* PuzzleController.swift */,
 				7C33CCC524BB91D800135967 /* PositionTableController.swift */,
+				7C33CCC924C2171300135967 /* ChessBoardController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -316,6 +319,7 @@
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
+				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 			);

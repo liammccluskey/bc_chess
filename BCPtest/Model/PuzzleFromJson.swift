@@ -93,5 +93,38 @@ struct WBMove: Codable {
     let response_san: String
 }
 
+// data structures
+enum PieceType: Int {
+    case wp, bp, wn, bn, wb, bb, wr, br, wq, bq, wk, bk
+    var image: UIImage {
+        switch self {
+        case .wp: // 0
+            return UIImage(named: "wp")!
+        case .bp: // 1
+            return UIImage(named: "bp")!
+        case .wn: // 2
+            return UIImage(named: "wn")!
+        case .bn: // 3
+            return UIImage(named: "bn")!
+        case .wb: // 4
+            return UIImage(named: "wb")!
+        case .bb: // 5
+            return UIImage(named: "bb")!
+        case .wr: // 6
+            return UIImage(named: "wr")!
+        case .br: // 7
+            return UIImage(named: "br")!
+        case .wq: // 8
+            return UIImage(named: "wq")!
+        case .bq: // 9
+            return UIImage(named: "bq")!
+        case .wk: // 10
+            return UIImage(named: "wk")!
+        case .bk: // 11
+            return UIImage(named: "bk")!
+        }
+    }
+}
+
 
 
