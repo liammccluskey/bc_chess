@@ -22,6 +22,8 @@ class CommonUI {
     
     let blueColorDark = UIColor(red: 0/255, green: 112/255, blue: 204/255, alpha: 1)
     
+    let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
+    
     func configureDividerLabel() -> UILabel {
     /*
         Creates blue divider

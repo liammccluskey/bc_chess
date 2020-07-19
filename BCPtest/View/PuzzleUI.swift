@@ -50,19 +50,32 @@ class PuzzleUI {
     
     // MARK: - Buttons
     
-    func configureButton(title: String) -> UIButton {
+    func configureButton(title: String, titleColor: UIColor, borderColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontStringLight, size: 18)
         button.backgroundColor = .clear
         button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.white.cgColor
-        button.layer.cornerRadius = 5
-        button.clipsToBounds = true
-        button.setTitleColor(.white, for: .normal)
+        //button.layer.borderColor = borderColor.cgColor
+        //button.layer.cornerRadius = 5
+        //button.clipsToBounds = true
+        button.setTitleColor(titleColor, for: .normal)
         return button
-
     }
+    
+    func configureButtonHStack(arrangedSubViews: [UIView]) -> UIStackView {
+        /*
+         Creates horizontal stack view for bottom button bar
+         */
+        let stackView = UIStackView(arrangedSubviews: arrangedSubViews)
+        stackView.distribution = .fillProportionally
+        stackView.axis = .horizontal
+        stackView.spacing = 0
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        return stackView
+    }
+    
+    
     
     
     

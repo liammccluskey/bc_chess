@@ -11,10 +11,13 @@ import UIKit
 class ChessBoardController: UIViewController {
     
     // MARK: - Properties
+    var delegate: ChessBoardDelegate?
     var currentPosition: Position?
     
     var startSquare: Int?
+    var startSquareUCI: String?
     var endSquare: Int?
+    var endSquareUCI: String?
     var squareButtons: [UIButton]! // all squares on chessboard -> button.tag in [0,63]
     
     var vstack: UIStackView! // vertical stack of horizontal stacks with all chessboard squares
@@ -48,7 +51,7 @@ class ChessBoardController: UIViewController {
         
         view.addSubview(vstack)
         
-        showPieces()
+        //showPieces()
         
     }
     
@@ -56,7 +59,6 @@ class ChessBoardController: UIViewController {
         
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
-        //vstack.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstack.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
@@ -96,50 +98,21 @@ class ChessBoardController: UIViewController {
         if !choseStart {
             print(sender.tag)
             startSquare = sender.tag
+            startSquareUCI = indexToUCI(index: sender.tag)
             DispatchQueue.main.async {
-                self.squareButtons[sender.tag].backgroundColor = .green
+                self.squareButtons[sender.tag].backgroundColor = CommonUI().purpleColor
             }
         } else if !choseEnd {
             print(sender.tag)
             endSquare = sender.tag
+            endSquareUCI = indexToUCI(index: sender.tag)
+            delegate?.didMakeMove(moveUCI: "\(startSquareUCI!)\(endSquareUCI!)")
             DispatchQueue.main.async {
-                self.squareButtons[sender.tag].backgroundColor = .red
+                self.squareButtons[sender.tag].backgroundColor = CommonUI().purpleColorLight
             }
         } else {
             print("called clear selections")
             clearSelections()
-        }
-    }
-    
-    // MARK: - Interface
-    
-    func clearSelections() {
-        if let start = startSquare {
-            DispatchQueue.main.async {
-                self.squareButtons[start].backgroundColor = self.getSquareColor(squareIndex: start)
-
-            }
-            
-            self.startSquare = nil
-        }
-        if let end = endSquare {
-            DispatchQueue.main.async {
-                self.squareButtons[end].backgroundColor = self.getSquareColor(squareIndex: end)
-            }
-            self.endSquare = nil
-        }
-    }
-    
-    func showPieces() {
-        guard let pos = currentPosition else {return}
-        let pieces: [[String]] = [pos.P, pos.p, pos.N, pos.n, pos.B, pos.b, pos.R, pos.r, pos.Q, pos.q, pos.K, pos.k]
-        for i in 0..<pieces.count {
-            for square in pieces[i] {
-                let index: Int = squareToIndex(square: square)
-                DispatchQueue.main.async {
-                    self.squareButtons[index].setImage(PieceType(rawValue: i)?.image.withRenderingMode(.alwaysOriginal), for: .normal)
-                }
-            }
         }
     }
     
@@ -186,6 +159,60 @@ class ChessBoardController: UIViewController {
         let rank = Int(String(square.last!))!
         let files: [Character: Int] = ["a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7]
         return (rank-1)*8 + files[file]!
+    }
+    
+    func indexToUCI(index: Int) -> String {
+        let rank = index/8 + 1
+        let fileIndex = index % 8
+        let files = ["a","b","c","d","e","f","g","h"]
+        let file = files[fileIndex]
+        return "\(file)\(rank)"
+    }
+    
+    // MARK: - Interface
+    
+    func setButtonInteraction(isEnabled: Bool) {
+        squareButtons.forEach{ (button) in
+            button.isEnabled = isEnabled
+        }
+    }
+    
+    func clearSelections() {
+        if let start = startSquare {
+            DispatchQueue.main.async {
+                self.squareButtons[start].backgroundColor = self.getSquareColor(squareIndex: start)
+            }
+            self.startSquare = nil
+            self.startSquareUCI = nil
+        }
+        if let end = endSquare {
+            DispatchQueue.main.async {
+                self.squareButtons[end].backgroundColor = self.getSquareColor(squareIndex: end)
+            }
+            self.endSquare = nil
+            self.endSquareUCI = nil
+        }
+    }
+    
+    func showPieces() {
+        guard let pos = currentPosition else {return}
+        let pieces: [[String]] = [pos.P, pos.p, pos.N, pos.n, pos.B, pos.b, pos.R, pos.r, pos.Q, pos.q, pos.K, pos.k]
+        for i in 0..<pieces.count {
+            for square in pieces[i] {
+                let index: Int = squareToIndex(square: square)
+                DispatchQueue.main.async {
+                    self.squareButtons[index].setImage(PieceType(rawValue: i)?.image.withRenderingMode(.alwaysOriginal), for: .normal)
+                }
+            }
+        }
+    }
+    
+    func hidePieces() {
+        squareButtons.forEach{ (squareButton) in
+            DispatchQueue.main.async {
+                squareButton.setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
+            }
+        }
     }
     
 }
