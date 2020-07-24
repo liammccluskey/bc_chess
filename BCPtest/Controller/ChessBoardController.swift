@@ -18,9 +18,11 @@ class ChessBoardController: UIViewController {
     var startSquareUCI: String?
     var endSquare: Int?
     var endSquareUCI: String?
-    var squareButtons: [UIButton]! // all squares on chessboard -> button.tag in [0,63]
+    var squareButtons: [UIButton]! // all squares on chessboard -> button.tag in [0,63], pieces are shown
+    var squareButtonsBlank: [UIButton]! // all squares, pieces are not shown
     
     var vstack: UIStackView! // vertical stack of horizontal stacks with all chessboard squares
+    var vstackBlank: UIStackView! // repeat above but squares don't show pieces
     
     
     // MARK: - Init
@@ -39,30 +41,35 @@ class ChessBoardController: UIViewController {
         
         configureUI()
         setUpAutoLayout()
-    
         
     }
     
     // MARK: - Config
     
     func configureUI() {
-        squareButtons = configureSquareButtons()
-        vstack = configureSquaresVStack()
+        squareButtons = configureSquareButtons() // squares with visible pieces
+        squareButtonsBlank = configureSquareButtons() // squares without pieces
+        vstack = configureSquaresVStack(piecesAreVisible: true)
+        vstack.isHidden = true
+        configureStartingPosition() // set piece images on squares in vstack
+        vstackBlank = configureSquaresVStack(piecesAreVisible: false)
         
+        view.addSubview(vstackBlank)
         view.addSubview(vstack)
-        
-        //showPieces()
-        
     }
     
     func setUpAutoLayout() {
-        
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstack.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
         
+        vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
+        vstackBlank.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        vstackBlank.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        vstackBlank.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
     }
     
     func configureSquareButtons() -> [UIButton] {
@@ -78,10 +85,10 @@ class ChessBoardController: UIViewController {
         return buttons
     }
     
-    func configureSquaresVStack() -> UIStackView {
+    func configureSquaresVStack(piecesAreVisible: Bool) -> UIStackView {
         var rankHStacks = [UIStackView](repeating: UIStackView(), count: 8)
         for i in 0..<8 {
-            let rankButtons = Array(squareButtons[i*8...(i*8+7)])
+            let rankButtons = piecesAreVisible ? Array(squareButtons[i*8...(i*8+7)]) : Array(squareButtonsBlank [i*8...(i*8+7)])
             let rankHStack = configureHStack(arrangedSubViews: rankButtons)
             let index = 7 - i // want first rank at bottom of vertical stack
             rankHStacks[index] = rankHStack
@@ -90,29 +97,52 @@ class ChessBoardController: UIViewController {
         return boardVStack
     }
     
+    func configureStartingPosition() {
+        guard let pos = currentPosition else {return}
+        for i in 0..<64 {
+            squareButtons[i].setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
+        }
+        let pieces: [[String]] = [pos.P, pos.p, pos.N, pos.n, pos.B, pos.b, pos.R, pos.r, pos.Q, pos.q, pos.K, pos.k]
+        for i in 0..<pieces.count {
+            for square in pieces[i] {
+                let index: Int = squareNameToIndex(square: square)
+                DispatchQueue.main.async {
+                    self.squareButtons[index].setImage(PieceType(rawValue: i)?.image.withRenderingMode(.alwaysOriginal), for: .normal)
+                }
+            }
+        }
+    }
+    
     // MARK: - Selectors
     
     @objc func squareAction(_ sender: UIButton) {
         let choseStart: Bool = startSquare != nil
         let choseEnd: Bool = endSquare != nil
         if !choseStart {
-            print(sender.tag)
             startSquare = sender.tag
             startSquareUCI = indexToUCI(index: sender.tag)
             DispatchQueue.main.async {
+                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().purpleColor
                 self.squareButtons[sender.tag].backgroundColor = CommonUI().purpleColor
             }
         } else if !choseEnd {
+            if sender.tag == startSquare {clearSelections(); return}
             print(sender.tag)
             endSquare = sender.tag
             endSquareUCI = indexToUCI(index: sender.tag)
-            delegate?.didMakeMove(moveUCI: "\(startSquareUCI!)\(endSquareUCI!)")
+            let moveUCI = "\(startSquareUCI!)\(endSquareUCI!)"
+            delegate?.didMakeMove(moveUCI: moveUCI)
             DispatchQueue.main.async {
+                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().purpleColorLight
                 self.squareButtons[sender.tag].backgroundColor = CommonUI().purpleColorLight
             }
-        } else {
-            print("called clear selections")
+        } else if choseStart && choseEnd {
             clearSelections()
+            startSquare = sender.tag
+            startSquareUCI = indexToUCI(index: sender.tag)
+            DispatchQueue.main.async {
+                sender.backgroundColor = CommonUI().purpleColor
+            }
         }
     }
     
@@ -154,7 +184,7 @@ class ChessBoardController: UIViewController {
         }
     }
     
-    func squareToIndex(square: String) -> Int {
+    func squareNameToIndex(square: String) -> Int {
         let file = square.first!
         let rank = Int(String(square.last!))!
         let files: [Character: Int] = ["a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7]
@@ -175,12 +205,16 @@ class ChessBoardController: UIViewController {
         squareButtons.forEach{ (button) in
             button.isEnabled = isEnabled
         }
+        squareButtonsBlank.forEach{ (button) in
+            button.isEnabled = isEnabled
+        }
     }
     
     func clearSelections() {
         if let start = startSquare {
             DispatchQueue.main.async {
                 self.squareButtons[start].backgroundColor = self.getSquareColor(squareIndex: start)
+                self.squareButtonsBlank[start].backgroundColor = self.getSquareColor(squareIndex: start)
             }
             self.startSquare = nil
             self.startSquareUCI = nil
@@ -188,6 +222,7 @@ class ChessBoardController: UIViewController {
         if let end = endSquare {
             DispatchQueue.main.async {
                 self.squareButtons[end].backgroundColor = self.getSquareColor(squareIndex: end)
+                self.squareButtonsBlank[end].backgroundColor = self.getSquareColor(squareIndex: end)
             }
             self.endSquare = nil
             self.endSquareUCI = nil
@@ -195,30 +230,38 @@ class ChessBoardController: UIViewController {
     }
     
     func showPieces() {
-        guard let pos = currentPosition else {return}
-        let pieces: [[String]] = [pos.P, pos.p, pos.N, pos.n, pos.B, pos.b, pos.R, pos.r, pos.Q, pos.q, pos.K, pos.k]
-        for i in 0..<pieces.count {
-            for square in pieces[i] {
-                let index: Int = squareToIndex(square: square)
-                DispatchQueue.main.async {
-                    self.squareButtons[index].setImage(PieceType(rawValue: i)?.image.withRenderingMode(.alwaysOriginal), for: .normal)
-                }
-            }
-        }
+        guard let _ = vstack else {return}
+        vstack.isHidden = false
     }
     
     func hidePieces() {
-        squareButtons.forEach{ (squareButton) in
-            DispatchQueue.main.async {
-                squareButton.setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
-            }
+        guard let _ = vstack else {return}
+        vstack.isHidden = true
+    }
+    
+    func pushMove(wbMove: WBMove) {
+        displayMove(moveUCI: wbMove.answer_uci)
+    }
+    
+    func displayMove(moveUCI: String) {
+        let startIndex = squareNameToIndex(square: moveUCI[0,1])
+        let endIndex = squareNameToIndex(square: moveUCI[2,3])
+        let pieceImage = self.squareButtons[startIndex].currentImage
+        UIView.animate(withDuration: 0.3) {
+            self.squareButtons[startIndex].setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
+            self.squareButtons[endIndex].setImage(pieceImage, for: .normal)
         }
     }
+    
+    // MARK: - Helper
     
 }
 
 extension String {
-    subscript (characterIndex: Int) -> Character {
-        return self[index(startIndex, offsetBy: characterIndex)]
+    subscript(from: Int, to: Int) -> String {
+        /*
+         only valid for substring of length 2
+        */
+        return String(self[index(startIndex, offsetBy: from)]) + String(self[index(startIndex, offsetBy: to)])
     }
 }

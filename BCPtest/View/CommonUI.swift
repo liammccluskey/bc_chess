@@ -71,7 +71,7 @@ class CommonUI {
         //stackView.distribution = .fillProportionally
         stackView.alignment = .fill
         stackView.axis = .vertical
-        stackView.spacing = 9
+        stackView.spacing = 0 // edit: = 9
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }

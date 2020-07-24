@@ -110,7 +110,7 @@ class PositionTableController: UITableViewController {
         default:
             print()
         }
-        cell.imageView?.backgroundColor = CommonUI().blueColor
+        cell.imageView?.backgroundColor = CommonUI().blueColorDark
         cell.imageView?.layer.cornerRadius = 10
         cell.imageView?.clipsToBounds = true
         cell.textLabel?.textColor = .white

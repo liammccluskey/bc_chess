@@ -22,7 +22,7 @@ class PuzzleUI {
         answer.textColor = .white
         answer.font = UIFont(name: fontStringLight, size: 23)
         answer.layer.cornerRadius = 5
-        answer.layer.borderColor = CommonUI().purpleColor.cgColor
+        answer.layer.borderColor = CommonUI().blueColorDark.cgColor
         answer.layer.borderWidth = 3
         answer.clipsToBounds = true
         let response = move.response_san == "complete" ? "Checkmate" : move.response_san
@@ -32,7 +32,7 @@ class PuzzleUI {
         let correct = UIImageView()
         correct.translatesAutoresizingMaskIntoConstraints = false
         correct.contentMode = .scaleAspectFit
-        correct.image = #imageLiteral(resourceName: "Image").withRenderingMode(.alwaysOriginal)
+        correct.image = #imageLiteral(resourceName: "checkmark").withRenderingMode(.alwaysOriginal)
         
         let container = UIView()
         container.addSubview(answer)
@@ -75,7 +75,32 @@ class PuzzleUI {
         return stackView
     }
     
+    // MARK: - Labels
     
+    func configureToMoveLabel(playerToMove: String) -> UILabel {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.backgroundColor = CommonUI().blueColorLight
+        label.textColor = .black
+        label.textAlignment = .center
+        label.font = UIFont(name: fontString, size: 18)
+        label.text = "\(playerToMove.uppercased()) TO MOVE"
+        return label
+    }
+    
+    // MARK: - Misc.
+    
+    func configurePiecesShownSegCont() -> UISegmentedControl {
+        let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
+        sc.isEnabled = true
+        sc.selectedSegmentIndex = 0
+        sc.layer.cornerRadius = 5
+        sc.backgroundColor = .black
+        sc.tintColor = CommonUI().blueColorLight
+        sc.translatesAutoresizingMaskIntoConstraints = false
+        return sc
+
+    }
     
     
     
