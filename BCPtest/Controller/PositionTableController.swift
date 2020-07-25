@@ -30,7 +30,7 @@ class PositionTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.backgroundColor = .black
+        tableView.backgroundColor = CommonUI().blackColor
         tableView.separatorStyle = .singleLine
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 10
@@ -50,7 +50,7 @@ class PositionTableController: UITableViewController {
         label.textColor = .white
         label.backgroundColor = .clear
         label.textAlignment = .center
-        view.backgroundColor = .black
+        view.backgroundColor = CommonUI().blackColor
         view.addSubview(label)
         label.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         label.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -69,7 +69,6 @@ class PositionTableController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        cell.imageView?.image = UIImage(named: "bb")?.withRenderingMode(.alwaysOriginal)
         guard let p = puzzle else {return cell}
         let position = p.position
         switch indexPath.row {
@@ -114,7 +113,7 @@ class PositionTableController: UITableViewController {
         cell.imageView?.layer.cornerRadius = 10
         cell.imageView?.clipsToBounds = true
         cell.textLabel?.textColor = .white
-        cell.backgroundColor = .black
+        cell.backgroundColor = CommonUI().blackColor
         
         return cell
     }

@@ -63,14 +63,14 @@ class ChessBoardController: UIViewController {
     }
     
     func setUpAutoLayout() {
-        vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
+        vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstack.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
         
-        vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
+        vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
+        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
         vstackBlank.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstackBlank.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstackBlank.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
@@ -126,8 +126,8 @@ class ChessBoardController: UIViewController {
             startSquare = sender.tag
             startSquareUCI = indexToUCI(index: sender.tag)
             DispatchQueue.main.async {
-                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().purpleColor
-                self.squareButtons[sender.tag].backgroundColor = CommonUI().purpleColor
+                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().blueColorDark
+                self.squareButtons[sender.tag].backgroundColor = CommonUI().blueColorDark
             }
         } else if !choseEnd {
             if sender.tag == startSquare {clearSelections(); return}
@@ -137,15 +137,15 @@ class ChessBoardController: UIViewController {
             let moveUCI = "\(startSquareUCI!)\(endSquareUCI!)"
             delegate?.didMakeMove(moveUCI: moveUCI)
             DispatchQueue.main.async {
-                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().purpleColorLight
-                self.squareButtons[sender.tag].backgroundColor = CommonUI().purpleColorLight
+                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().blueColorLight
+                self.squareButtons[sender.tag].backgroundColor = CommonUI().blueColorLight
             }
         } else if choseStart && choseEnd {
             clearSelections()
             startSquare = sender.tag
             startSquareUCI = indexToUCI(index: sender.tag)
             DispatchQueue.main.async {
-                sender.backgroundColor = CommonUI().purpleColor
+                sender.backgroundColor = CommonUI().blueColorDark
             }
         }
     }
@@ -181,10 +181,17 @@ class ChessBoardController: UIViewController {
         /*
          Returns correct color of the square based on square index
         */
+        /*
         if (squareIndex / 8)  % 2 == 0 {
             return squareIndex % 2 == 0 ? CommonUI().blueColorDark : CommonUI().blueColorLight
         } else {
             return squareIndex % 2 != 0 ? CommonUI().blueColorDark : CommonUI().blueColorLight
+        }
+        */
+        if (squareIndex / 8)  % 2 == 0 {
+            return squareIndex % 2 == 0 ? CommonUI().tanColorDark : CommonUI().tanColorLight
+        } else {
+            return squareIndex % 2 != 0 ? CommonUI().tanColorDark : CommonUI().tanColorLight
         }
     }
     

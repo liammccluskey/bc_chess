@@ -57,7 +57,7 @@ class PuzzleUI {
         button.titleLabel?.font = UIFont(name: fontStringLight, size: 18)
         button.backgroundColor = .clear
         button.layer.borderWidth = 2
-        //button.layer.borderColor = borderColor.cgColor
+        button.layer.borderColor = UIColor.black.cgColor
         //button.layer.cornerRadius = 5
         //button.clipsToBounds = true
         button.setTitleColor(titleColor, for: .normal)
@@ -75,6 +75,8 @@ class PuzzleUI {
         stackView.translatesAutoresizingMaskIntoConstraints = false
         return stackView
     }
+    
+   
     
     // MARK: - Labels
     

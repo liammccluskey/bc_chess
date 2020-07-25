@@ -22,7 +22,7 @@ class HomeController: UIViewController {
         label.text = "BLINDFOLD CHESS PUZZLES"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 25)
+        label.font = UIFont(name: fontString, size: 21)
         label.backgroundColor = .clear
         return label
     }()
@@ -46,7 +46,7 @@ class HomeController: UIViewController {
         label.text = "AUDIO CHESS PUZZLES"
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 25)
+        label.font = UIFont(name: fontString, size: 21)
         label.backgroundColor = .clear
         return label
     }()
@@ -100,7 +100,7 @@ class HomeController: UIViewController {
         view.addSubview(stack1)
         
         
-        view.backgroundColor = .black
+        view.backgroundColor = CommonUI().blackColor
     }
     
     func configureAutoLayout() {
@@ -113,6 +113,7 @@ class HomeController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barStyle = .black
         navigationItem.title = "HOME"
+        navigationController?.navigationBar.prefersLargeTitles = true
     }
     
     func configureStackView(arrangedSubViews: [UIView]) -> UIStackView {

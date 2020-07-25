@@ -18,13 +18,18 @@ class CommonUI {
     let blueColor = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
     
     let purpleColorLight = UIColor(red: 165/255, green: 135/255, blue: 212/255, alpha: 1)
-    let blueColorLight = UIColor(red: 141/255, green: 192/255, blue: 235/255, alpha: 1)
     
+    
+    let blueColorLight = UIColor(red: 141/255, green: 192/255, blue: 235/255, alpha: 1)
     let blueColorDark = UIColor(red: 0/255, green: 112/255, blue: 204/255, alpha: 1)
     
-    let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
+    let tanColorLight = UIColor(red: 236/255, green: 220/255, blue: 188/255, alpha: 1)
+    let tanColorDark = UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
     
+    
+    let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
     let greenColor = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
+    let blackColor = UIColor(red: 15/255, green: 15/255, blue: 15/255, alpha: 1)
     
     func configureDividerLabel() -> UILabel {
     /*
@@ -47,7 +52,7 @@ class CommonUI {
         label.text = title
         label.textColor = .white
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 21)
+        label.font = UIFont(name: fontString, size: 18)
         label.backgroundColor = .clear
         return label
     }
