@@ -43,6 +43,7 @@ class PuzzleController: UIViewController {
     // stack 1
     var stack1: UIStackView!
     var chessBoardController: ChessBoardController!
+    var solutionm4: UIView!
     var solutionm3: UIView!
     var solutionm2: UIView!
     var solutionm1: UIView!
@@ -190,13 +191,20 @@ class PuzzleController: UIViewController {
             containerView.addSubview(positionTableB.tableView)
         } else {
             playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
+            playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .white : .black
             positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
             positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
             positionTableW.tableView.reloadData()
             positionTableB.tableView.reloadData()
         }
         
-        if currentPuzzle.solution_moves.count == 3 {
+        if currentPuzzle.solution_moves.count == 4 {
+            solutionm4 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 3)
+            solutionm3 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 2)
+            solutionm2 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[2], matePly: 1)
+            solutionm1 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[3], matePly: 0)
+            solutionViews = [solutionm4, solutionm3, solutionm2, solutionm1]
+        } else if currentPuzzle.solution_moves.count == 3 {
             solutionm3 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 2)
             solutionm2 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 1)
             solutionm1 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[2], matePly: 0)
@@ -295,7 +303,7 @@ class PuzzleController: UIViewController {
         showSolutionButton.isEnabled = !isShowingSolution
         DispatchQueue.main.async {
             self.solutionViews.forEach{ (view) in
-                UIView.animate(withDuration: 0.3, animations: {
+                UIView.animate(withDuration: 0.1, animations: {
                     if view.isHidden == isShowingSolution {
                         view.isHidden = !isShowingSolution
                         self.view.layoutIfNeeded()
@@ -304,13 +312,20 @@ class PuzzleController: UIViewController {
                 })
             }
             if isShowingSolution {
-            self.retryButton.backgroundColor = CommonUI().greenColor
-            UIView.animate(withDuration: 0.2, animations: {
-                self.retryButton.alpha = 1
-                self.view.layoutIfNeeded()
-            })
+                self.retryButton.backgroundColor = CommonUI().greenColor
+                UIView.animate(withDuration: 0.2, animations: {
+                    self.retryButton.alpha = 1
+                    self.view.layoutIfNeeded()
+                })
             }
         }
+        
+        if isShowingSolution {
+            let movesRemaining = currentPuzzle.solution_moves.count - onSolutionMoveIndex
+            let movesToPush = Array(currentPuzzle.solution_moves.suffix(movesRemaining))
+            chessBoardController.displaySolutionMoves(solutionMoves: movesToPush)
+        }
+        
         
     }
     

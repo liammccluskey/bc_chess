@@ -14,6 +14,8 @@ class ChessBoardController: UIViewController {
     var delegate: ChessBoardDelegate?
     var currentPosition: Position?
     var showPiecesInitially: Bool!
+    var highlightedStartTag: Int?
+    var highlightedEndTag: Int?
     
     var startSquare: Int?
     var startSquareUCI: String?
@@ -103,6 +105,7 @@ class ChessBoardController: UIViewController {
     
     func configureStartingPosition() {
         guard let pos = currentPosition else {return}
+        clearSelections()
         for i in 0..<64 {
             squareButtons[i].setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
         }
@@ -252,15 +255,45 @@ class ChessBoardController: UIViewController {
     
     func pushMove(wbMove: WBMove) {
         displayMove(moveUCI: wbMove.answer_uci)
+        let seconds = 0.6
+        DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
+            self.clearSelections()
+            self.displayMove(moveUCI: wbMove.response_uci, needsHighlight: true)
+        }
     }
     
-    func displayMove(moveUCI: String) {
-        let startIndex = squareNameToIndex(square: moveUCI[0,1])
-        let endIndex = squareNameToIndex(square: moveUCI[2,3])
-        let pieceImage = self.squareButtons[startIndex].currentImage
-        UIView.animate(withDuration: 0.3) {
-            self.squareButtons[startIndex].setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
-            self.squareButtons[endIndex].setImage(pieceImage, for: .normal)
+    func displayMove(moveUCI: String, needsHighlight: Bool = false) {
+        if moveUCI == "complete" {return}
+        let start = squareNameToIndex(square: moveUCI[0,1])
+        let end = squareNameToIndex(square: moveUCI[2,3])
+        let pieceImage = self.squareButtons[start].currentImage
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.6) {
+                if needsHighlight {
+                    self.squareButtons[start].backgroundColor = CommonUI().blueColorDark
+                    self.squareButtons[end].backgroundColor = CommonUI().blueColorLight
+                    self.startSquare = start
+                    self.endSquare = end
+                }
+                self.squareButtons[start].setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
+                self.squareButtons[end].setImage(pieceImage, for: .normal)
+            }
+        }
+    }
+    
+    // fix this
+    func displaySolutionMoves(solutionMoves: [WBMove]) {
+        let moveDelay = 0.5
+        solutionMoves.forEach{ (wbMove) in
+            for moveUCI in [wbMove.answer_uci, wbMove.response_uci] {
+                /*DispatchQueue.main.asyncAfter(deadline: .now() + moveDelay) {
+                    self.displayMove(moveUCI: moveUCI)
+                */
+                self.displayMove(moveUCI: moveUCI)
+                sleep(UInt32(0.5))
+            }
+                
+            
         }
     }
     

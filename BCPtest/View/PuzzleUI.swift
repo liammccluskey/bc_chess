@@ -83,8 +83,8 @@ class PuzzleUI {
     func configureToMoveLabel(playerToMove: String) -> UILabel {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = CommonUI().blueColorLight
-        label.textColor = .black
+        label.backgroundColor = CommonUI().blueColorDark
+        label.textColor = playerToMove == "white" ? .white : .black
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 18)
         label.text = "\(playerToMove.uppercased()) TO MOVE"

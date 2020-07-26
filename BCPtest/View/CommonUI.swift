@@ -29,7 +29,7 @@ class CommonUI {
     
     let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
     let greenColor = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
-    let blackColor = UIColor(red: 15/255, green: 15/255, blue: 15/255, alpha: 1)
+    let blackColor = UIColor(red: 18/255, green: 18/255, blue: 18/255, alpha: 1)
     
     func configureDividerLabel() -> UILabel {
     /*

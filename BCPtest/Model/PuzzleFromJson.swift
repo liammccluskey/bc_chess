@@ -17,7 +17,7 @@ class PuzzlesFromJson {
     // MARK: - Init
     
     init() {
-        guard let path = Bundle.main.path(forResource: "puzzles", ofType: "json") else {return}
+        guard let path = Bundle.main.path(forResource: "puzzlesM1234", ofType: "json") else {return}
         do {
             let jsonData = try Data.init(contentsOf: URL(fileURLWithPath: path))
             let decoder = JSONDecoder()
@@ -35,6 +35,8 @@ class PuzzlesFromJson {
             return puzzles!.m2.randomElement()
         case 3:
             return puzzles!.m3.randomElement()
+        case 4:
+            return puzzles!.m4.randomElement()
         default:
             return nil
         }
@@ -42,25 +44,13 @@ class PuzzlesFromJson {
     
     
 }
- /*
-        let jsonData = """
-{"position": {"N": [], "B": [], "R": [], "P": ["b3", "a2"], "Q": [], "K": ["c1"], "n": ["f6", "a6"], "b": [], "r": ["g7", "e2"], "p": ["f7", "c7", "a7", "h6", "a5"], "q": [], "k": ["b7"]}, "solution_moves": [{"answer_uci": "g7g1", "answer_san": "Rg1#", "response": "complete"}], "player_to_move": "black", "piece_count": 13}
-""".data(using: .utf8)!
-        
-        do {
-            let decoder = JSONDecoder()
-            let puzzle = try decoder.decode(Puzzle.self, from: jsonData)
-            print(puzzle.position)
-            
-        } catch {print(error)}
-    }
-*/
     
 // tier 0
 struct Puzzles: Codable {
     let m1: [Puzzle]
     let m2: [Puzzle]
     let m3: [Puzzle]
+    let m4: [Puzzle]
 }
 
 // tier 1
@@ -91,6 +81,7 @@ struct WBMove: Codable {
     let answer_uci: String
     let answer_san: String
     let response_san: String
+    let response_uci: String
 }
 
 // data structures

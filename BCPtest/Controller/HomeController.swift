@@ -39,6 +39,7 @@ class HomeController: UIViewController {
     var mate1Button: UIButton!
     var mate2Button: UIButton!
     var mate3Button: UIButton!
+    var mate4Button: UIButton!
     
     let divider2aLabel: UILabel = CommonUI().configureDividerLabel()
     let header2Label: UILabel = {
@@ -75,12 +76,19 @@ class HomeController: UIViewController {
         setBackgroundImage()
         
         divider1Label = configureDividerLabel()
+        /*
         mate1Button = configurePuzzleTypeButton(title: "MATE IN 1")
         mate1Button.addTarget(self, action: #selector(mate1Action), for: .touchUpInside)
         mate2Button = configurePuzzleTypeButton(title: "MATE IN 2")
         mate2Button.addTarget(self, action: #selector(mate2Action), for: .touchUpInside)
         mate3Button = configurePuzzleTypeButton(title: "MATE IN 3")
         mate3Button.addTarget(self, action: #selector(mate3Action), for: .touchUpInside)
+        */
+        mate1Button = configurePuzzleTypeButton(title: "MATE IN 1", tag: 1)
+        mate2Button = configurePuzzleTypeButton(title: "MATE IN 2", tag: 2)
+        mate3Button = configurePuzzleTypeButton(title: "MATE IN 3", tag: 3)
+        mate4Button = configurePuzzleTypeButton(title: "MATE IN 4", tag: 4)
+                
         divider2Label = configureDividerLabel()
         stack1 = configureStackView(arrangedSubViews: [
             divider1aLabel,
@@ -90,15 +98,15 @@ class HomeController: UIViewController {
             mate1Button,
             mate2Button,
             mate3Button,
+            mate4Button,
             divider2aLabel,
             header2Label,
             divider2Label,
             subheader2Label
             ])
-        stack1.setCustomSpacing(40, after: mate3Button)
+        stack1.setCustomSpacing(30, after: mate4Button)
         stack1.setCustomSpacing(10, after: header2Label)
         view.addSubview(stack1)
-        
         
         view.backgroundColor = CommonUI().blackColor
     }
@@ -126,13 +134,14 @@ class HomeController: UIViewController {
         return stackView
     }
     
-    func configurePuzzleTypeButton(title: String) -> UIButton {
+    func configurePuzzleTypeButton(title: String, tag: Int) -> UIButton {
         let button = UIButton(type: .system)
+        button.tag = tag
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontStringLight, size: 20)
         button.backgroundColor = .clear
         button.layer.borderWidth = 2
-        //button.layer.borderColor = UIColor(white: 1.0, alpha: 1).cgColor
+        button.addTarget(self, action: #selector(mateAction), for: .touchUpInside)
         button.layer.borderColor = CommonUI().purpleColor.cgColor
         button.layer.cornerRadius = 5
         button.clipsToBounds = true
@@ -149,22 +158,40 @@ class HomeController: UIViewController {
     
     // MARK: - Selectors
     
+    @objc func mateAction(_ sender: UIButton) {
+        switch sender.tag {
+        case 1: let controller = PuzzleController(puzzles: puzzles.m1);
+            navigationController?.pushViewController(controller, animated: true); break
+        case 2: let controller = PuzzleController(puzzles: puzzles.m2)
+            navigationController?.pushViewController(controller, animated: true); break
+        case 3: let controller = PuzzleController(puzzles: puzzles.m3)
+            navigationController?.pushViewController(controller, animated: true); break
+        case 4: let controller = PuzzleController(puzzles: puzzles.m4)
+            navigationController?.pushViewController(controller, animated: true); break
+        default:
+            break
+        }
+    }
+    
+    /*
     @objc func mate1Action() {
         let controller = PuzzleController(puzzles: puzzles.m1)
         navigationController?.pushViewController(controller, animated: true)
     }
-    
     @objc func mate2Action() {
         let controller = PuzzleController(puzzles: puzzles.m2)
         navigationController?.pushViewController(controller, animated: true)
 
     }
-    
     @objc func mate3Action() {
         let controller = PuzzleController(puzzles: puzzles.m3)
         navigationController?.pushViewController(controller, animated: true)
-
     }
+    @objc func mate4Action() {
+        let controller = PuzzleController(puzzles: puzzles.m3)
+        navigationController?.pushViewController(controller, animated: true)
+    }
+ */
     
     // MARK: - UI Helper
     
