@@ -8,4 +8,5 @@
 
 protocol ChessBoardDelegate {
     func didMakeMove(moveUCI: String)
+    func didFinishShowingSolution()
 }

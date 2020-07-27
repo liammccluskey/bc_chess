@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		014BA66D24CF177B00BF7A61 /* PositionTableCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014BA66C24CF177B00BF7A61 /* PositionTableCell.swift */; };
 		0161D74224CDEB770043E860 /* puzzlesGood.json in Resources */ = {isa = PBXBuildFile; fileRef = 0161D74124CDEB770043E860 /* puzzlesGood.json */; };
 		0161D74424CE1F1F0043E860 /* puzzlesM1234.json in Resources */ = {isa = PBXBuildFile; fileRef = 0161D74324CE1F1F0043E860 /* puzzlesM1234.json */; };
 		7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33C51824BAC4E200135967 /* PuzzleController.swift */; };
@@ -47,6 +48,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		014BA66C24CF177B00BF7A61 /* PositionTableCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTableCell.swift; sourceTree = "<group>"; };
 		0161D74124CDEB770043E860 /* puzzlesGood.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzlesGood.json; sourceTree = "<group>"; };
 		0161D74324CE1F1F0043E860 /* puzzlesM1234.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzlesM1234.json; sourceTree = "<group>"; };
 		7C33C51824BAC4E200135967 /* PuzzleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleController.swift; sourceTree = "<group>"; };
@@ -105,6 +107,7 @@
 			children = (
 				7C33CCC324BB891C00135967 /* CommonUI.swift */,
 				7C33CCC724BBC71300135967 /* PuzzleUI.swift */,
+				014BA66C24CF177B00BF7A61 /* PositionTableCell.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -332,6 +335,7 @@
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
 				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
+				014BA66D24CF177B00BF7A61 /* PositionTableCell.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 			);
@@ -517,7 +521,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -538,7 +542,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.10;
+				MARKETING_VERSION = 1.11;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

@@ -64,6 +64,10 @@ class PositionTableController: UITableViewController {
         return 25
     }
     
+    override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        return 50
+    }
+    
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         return 6
     }
@@ -75,54 +79,18 @@ class PositionTableController: UITableViewController {
         let pieceTag = isWhite ? indexPath.row*2 : indexPath.row*2 + 1
         let pieceType = PieceType(rawValue: pieceTag)
         let squares = position.getSquaresFor(isWhitePosition: isWhite, pieceTag: pieceTag)
-        cell.imageView?.image = pieceType?.image.withRenderingMode(.alwaysOriginal)
+        print(squares.count, "  ->  ")
+        var pieceImage = pieceType?.image.withRenderingMode(.alwaysOriginal)
+        cell.imageView?.clipsToBounds = true
         cell.textLabel?.text = squares
             .joined(separator: ", ")
         if squares.count > 4 {
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.lineBreakMode = .byWordWrapping
+            pieceImage = pieceImage?
+                .resizeImageWithBounds(bounds: CGSize(width: cell.frame.width, height: cell.frame.height))
         }
-        
-        /*
-        switch indexPath.row {
-        case 0: // pawn
-            let squares = isWhite ? position.P : position.p
-            cell.textLabel?.text = squares.joined(separator: ", ")
-            let imageName = isWhite ? "wp":"bp"
-            cell.imageView?.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-            if squares.count > 4 {
-                cell.textLabel?.numberOfLines = 0
-                cell.textLabel?.lineBreakMode = .byWordWrapping
-            }
-        case 1: // knight
-            let squares = isWhite ? position.N : position.n
-            cell.textLabel?.text = squares.joined(separator: ", ")
-            let imageName = isWhite ? "wn":"bn"
-            cell.imageView?.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-        case 2: // bishop
-            let squares = isWhite ? position.B : position.b
-            cell.textLabel?.text = squares.joined(separator: ", ")
-            let imageName = isWhite ? "wb":"bb"
-            cell.imageView?.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-        case 3: // rook
-            let squares = isWhite ? position.R : position.r
-            cell.textLabel?.text = squares.joined(separator: ", ")
-            let imageName = isWhite ? "wr":"br"
-            cell.imageView?.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-        case 4: // queen
-            let squares = isWhite ? position.Q : position.q
-            cell.textLabel?.text = squares.joined(separator: ", ")
-            let imageName = isWhite ? "wq":"bq"
-            cell.imageView?.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-        case 5: // king
-            let squares = isWhite ? position.K : position.k
-            cell.textLabel?.text = squares.joined(separator: ", ")
-            let imageName = isWhite ? "wk":"bk"
-            cell.imageView?.image = UIImage(named: imageName)?.withRenderingMode(.alwaysOriginal)
-        default:
-            print()
-        }
-        */
+        cell.imageView?.image = pieceImage
         cell.imageView?.contentMode = .scaleAspectFit
         cell.imageView?.backgroundColor = .clear
         cell.textLabel?.textColor = .white
@@ -137,6 +105,20 @@ class PositionTableController: UITableViewController {
     func setData(puzzle: Puzzle, isWhite: Bool) {
         self.puzzle = puzzle
         self.isWhite = isWhite
+    }
+}
+
+extension UIImage {
+    func resizeImageWithBounds(bounds: CGSize) -> UIImage {
+        let horizontalRatio = bounds.width/size.width
+        let verticalRatio = bounds.height/size.height
+        let ratio = max(horizontalRatio, verticalRatio)
+        let newSize = CGSize(width: size.width * ratio, height: size.height * ratio)
+        UIGraphicsBeginImageContextWithOptions(newSize, false, 0)
+        draw(in: CGRect(origin: CGPoint.zero, size: newSize))
+        let newImage = UIGraphicsGetImageFromCurrentImageContext()
+        UIGraphicsEndImageContext()
+        return newImage!
     }
 }
 

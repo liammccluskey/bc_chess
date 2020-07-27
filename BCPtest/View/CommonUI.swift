@@ -10,22 +10,45 @@ import UIKit
 
 
 
-public let piece_image_extension = "fancy_"
+public var boardColor = "gray"
+enum BoardColor: String {
+    case gray
+    case green
+    case darkBlue
+    case tan
+    var darkSquareColor: UIColor {
+        switch self {
+        case .gray: return UIColor(red: 125/255, green: 135/255, blue: 150/255, alpha: 1)
+        case .green: return UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
+        case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
+        case .tan: return UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
+        }
+    }
+    var lightSquareColor: UIColor {
+        switch self {
+        case .gray: return UIColor(red: 232/255, green: 235/255, blue: 239/255, alpha: 1)
+        case .green: return UIColor(red: 238/255, green: 238/255, blue: 210/255, alpha: 1)
+        case .darkBlue: return UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
+        case .tan: return UIColor(red: 236/255, green: 220/255, blue: 188/255, alpha: 1)
+        }
+    }
+}
+public var pieceStyle = "lichess"
+enum PieceStyle: String {
+    case lichess
+    case simple
+    case fancy
+    var fileExtension: String {
+        switch self {
+        case.lichess: return "lichess_"
+        case.simple: return "simple_"
+        case.fancy: return "fancy_"
+        }
+    }
+}
 
 public let fontString = "Avenir-Medium"
 public let fontStringLight = "Avenir-Book"
-
-// gray
-//public let lightSquareColor = UIColor(red: 232/255, green: 235/255, blue: 239/255, alpha: 1)
-//public let darkSquareColor = UIColor(red: 125/255, green: 135/255, blue: 150/255, alpha: 1)
-
-// green chess.com
-var lightSquareColor = UIColor(red: 238/255, green: 238/255, blue: 210/255, alpha: 1)
-var darkSquareColor = UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
-
-// dark blues
-//var lightSquareColor = UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
-//var darkSquareColor = UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
 
 
 class CommonUI {

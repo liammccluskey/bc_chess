@@ -77,9 +77,7 @@ class PuzzleUI {
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
         let label = UILabel()
-        //label.backgroundColor = playerToMove == "white" ? lightSquareColor : darkSquareColor
-        //label.textColor = playerToMove != "white" ? lightSquareColor : darkSquareColor
-        label.backgroundColor = darkSquareColor
+        label.backgroundColor = BoardColor(rawValue: boardColor)!.darkSquareColor
         label.textColor = playerToMove == "white" ? .white : .black
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 19)
@@ -97,8 +95,8 @@ class PuzzleUI {
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .normal)
         sc.tintColor = .white
         sc.selectedSegmentIndex = 0
-        sc.backgroundColor = darkSquareColor
-        sc.selectedSegmentTintColor = lightSquareColor
+        sc.backgroundColor = BoardColor(rawValue: boardColor)!.darkSquareColor
+        sc.selectedSegmentTintColor = BoardColor(rawValue: boardColor)!.lightSquareColor
         sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
 

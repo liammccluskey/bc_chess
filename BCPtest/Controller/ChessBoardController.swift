@@ -8,6 +8,7 @@
 
 import UIKit
 
+
 class ChessBoardController: UIViewController {
     
     // MARK: - Properties
@@ -182,9 +183,9 @@ class ChessBoardController: UIViewController {
         
     func getSquareColor(squareIndex: Int) -> UIColor {
         if (squareIndex / 8)  % 2 == 0 {
-            return squareIndex % 2 == 0 ? darkSquareColor : lightSquareColor
+            return squareIndex % 2 == 0 ? BoardColor(rawValue: boardColor)!.darkSquareColor : BoardColor(rawValue: boardColor)!.lightSquareColor
         } else {
-            return squareIndex % 2 != 0 ? darkSquareColor : lightSquareColor
+            return squareIndex % 2 != 0 ? BoardColor(rawValue: boardColor)!.darkSquareColor : BoardColor(rawValue: boardColor)!.lightSquareColor
         }
     }
     
@@ -281,10 +282,16 @@ class ChessBoardController: UIViewController {
     // fix this
     func displaySolutionMoves(solutionMoves: [WBMove], playerToMove: String ) {
         var delay = 0.5
-        for wbMove in solutionMoves {
+        for i in 0..<solutionMoves.count {
+            let wbMove = solutionMoves[i]
             for moveUCI in [wbMove.answer_uci, wbMove.response_uci] {
                 DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
                     print(moveUCI)
+                    if moveUCI == "complete" {
+                        self.delegate?.didFinishShowingSolution()
+                        return
+                        
+                    }
                     self.clearSelections()
                     let playerIsWhite = playerToMove == "white" ? true : false
                     self.displayMove(moveUCI: moveUCI, needsHighlight: true, playerIsWhite: playerIsWhite)

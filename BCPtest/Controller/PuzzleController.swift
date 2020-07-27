@@ -57,6 +57,7 @@ class PuzzleController: UIViewController {
     
     // bottom buttons
     var exitButton: UIButton!
+    var colorButton: UIButton!
     var showSolutionButton: UIButton!
     var nextButton: UIButton!
     var buttonStack: UIStackView!
@@ -110,11 +111,14 @@ class PuzzleController: UIViewController {
         // buttons
         exitButton = PuzzleUI().configureButton(title: "EXIT", titleColor: .white, borderColor: .white)
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "SHOW SOLUTION", titleColor: .white, borderColor: .white)
+        showSolutionButton = PuzzleUI().configureButton(title: "SOLUTION", titleColor: .white, borderColor: .white)
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
         nextButton = PuzzleUI().configureButton(title: "NEXT", titleColor: .white, borderColor: .white)
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
-        buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton, showSolutionButton, nextButton])
+        colorButton = PuzzleUI().configureButton(title: "BOARD COLOR", titleColor: .white, borderColor: .white)
+        colorButton.addTarget(self, action: #selector(colorAction), for: .touchUpInside)
+        
+        buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,colorButton,showSolutionButton,nextButton])
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
         
@@ -269,6 +273,11 @@ class PuzzleController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
+    @objc func colorAction() {
+        boardColor = ["gray", "green", "darkBlue", "tan"].randomElement()!
+        pieceStyle = ["lichess", "simple", "fancy"].randomElement()!
+    }
+    
     @objc func showSolutionAction() {
         configPageForSolutionState(
             isShowingSolution: true,
@@ -320,6 +329,7 @@ class PuzzleController: UIViewController {
             }
             if stateIsIncorrect {self.chessBoardController.configureStartingPosition()}
             if stateIsIncorrect || stateIsPartialCorrect {
+                self.retryButton.isEnabled = false
                 self.piecesShownSegment.selectedSegmentIndex = 1
                 self.piecesShownSegment.sendActions(for: .valueChanged)
             }
@@ -340,6 +350,11 @@ class PuzzleController: UIViewController {
 }
 
 extension PuzzleController: ChessBoardDelegate {
+    func didFinishShowingSolution() {
+        retryButton.isEnabled = true
+        print("did enable button")
+    }
+    
     func didMakeMove(moveUCI: String) {
         let solutionUCI = currentPuzzle.solution_moves[onSolutionMoveIndex].answer_uci
         if solutionUCI.contains(moveUCI) {
