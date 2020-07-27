@@ -48,6 +48,7 @@ class PositionTableController: UITableViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = isWhite ? "WHITE POSITION" : "BLACK POSITION"
         label.textColor = .white
+        label.font = UIFont(name: fontStringLight, size: 18)
         label.backgroundColor = .clear
         label.textAlignment = .center
         view.backgroundColor = CommonUI().blackColor
@@ -110,9 +111,12 @@ class PositionTableController: UITableViewController {
             print()
         }
         cell.imageView?.backgroundColor = CommonUI().blueColorDark
-        cell.imageView?.layer.cornerRadius = 10
-        cell.imageView?.clipsToBounds = true
+        cell.imageView?.layer.cornerRadius = 7
+        cell.imageView?.layer.borderColor = CommonUI().blackColor.cgColor
+        cell.imageView?.layer.borderWidth = 1
+        //cell.imageView?.clipsToBounds = true
         cell.textLabel?.textColor = .white
+        cell.textLabel?.font = UIFont(name: fontStringLight, size: 17)
         cell.backgroundColor = CommonUI().blackColor
         
         return cell

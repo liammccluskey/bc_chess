@@ -9,10 +9,7 @@
 import UIKit
 
 class PuzzleUI {
-    
-    let fontString = "PingFangTC-Semibold"
-    let fontStringLight = "PingFangTC-Medium"
-    
+
     // MARK: - Solution Section
     
     func configureAnswerView(move: WBMove, matePly: Int) -> UIView {
@@ -20,7 +17,7 @@ class PuzzleUI {
         answer.translatesAutoresizingMaskIntoConstraints = false
         answer.backgroundColor = .clear
         answer.textColor = .white
-        answer.font = UIFont(name: fontStringLight, size: 23)
+        answer.font = UIFont(name: fontStringLight, size: 20)
         answer.layer.cornerRadius = 5
        // answer.layer.borderColor = CommonUI().blueColorDark.cgColor
         answer.layer.borderColor = UIColor.clear.cgColor
@@ -33,7 +30,7 @@ class PuzzleUI {
         let correct = UIImageView()
         correct.translatesAutoresizingMaskIntoConstraints = false
         correct.contentMode = .scaleAspectFit
-        correct.image = #imageLiteral(resourceName: "checkmark").withRenderingMode(.alwaysOriginal)
+        correct.image = #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal)
         
         let container = UIView()
         container.addSubview(answer)
@@ -43,7 +40,7 @@ class PuzzleUI {
         correct.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -3).isActive = true
         answer.heightAnchor.constraint(equalTo: correct.heightAnchor).isActive = true
         answer.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
-        answer.leftAnchor.constraint(equalTo: container.leftAnchor).isActive = true
+        answer.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 10).isActive = true
         answer.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -55).isActive = true
         
         return container
@@ -54,7 +51,7 @@ class PuzzleUI {
     func configureButton(title: String, titleColor: UIColor, borderColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name: fontStringLight, size: 18)
+        button.titleLabel?.font = UIFont(name: fontStringLight, size: 17)
         button.backgroundColor = .clear
         button.layer.borderWidth = 2
         button.layer.borderColor = UIColor.black.cgColor
@@ -76,8 +73,6 @@ class PuzzleUI {
         return stackView
     }
     
-   
-    
     // MARK: - Labels
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
@@ -86,7 +81,7 @@ class PuzzleUI {
         label.backgroundColor = CommonUI().blueColorDark
         label.textColor = playerToMove == "white" ? .white : .black
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 18)
+        label.font = UIFont(name: fontString, size: 19)
         label.text = "\(playerToMove.uppercased()) TO MOVE"
         return label
     }
@@ -96,6 +91,9 @@ class PuzzleUI {
     func configurePiecesShownSegCont() -> UISegmentedControl {
         let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
         sc.isEnabled = true
+        let font = UIFont(name: fontString, size: 13)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.white], for: .normal)
+        sc.tintColor = .white
         sc.selectedSegmentIndex = 0
         sc.backgroundColor = CommonUI().blueColorDark
         sc.selectedSegmentTintColor = CommonUI().blueColorLight

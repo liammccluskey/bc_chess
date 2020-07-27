@@ -65,14 +65,14 @@ class ChessBoardController: UIViewController {
     }
     
     func setUpAutoLayout() {
-        vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
-        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstack.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
         
-        vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 30).isActive = true
-        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -30).isActive = true
+        vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
         vstackBlank.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstackBlank.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstackBlank.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
@@ -82,10 +82,15 @@ class ChessBoardController: UIViewController {
         var buttons: [UIButton] = []
         for i in 0..<64 {
             let button = UIButton(type: .system)
+            button.layer.borderWidth = 4
+            button.layer.borderColor = UIColor.clear.cgColor
+            button.imageView?.contentMode = .scaleAspectFit
+            button.titleLabel?.textColor = .black
             button.tag = i
             button.addTarget(self, action: #selector(squareAction), for: .touchUpInside)
             button.backgroundColor = getSquareColor(squareIndex: i)
             button.setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
+            button.imageEdgeInsets = UIEdgeInsets(top: 1, left: 1, bottom: 3, right: 1)
             buttons.append(button)
         }
         return buttons
@@ -128,10 +133,6 @@ class ChessBoardController: UIViewController {
         if !choseStart {
             startSquare = sender.tag
             startSquareUCI = indexToUCI(index: sender.tag)
-            DispatchQueue.main.async {
-                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().blueColorDark
-                self.squareButtons[sender.tag].backgroundColor = CommonUI().blueColorDark
-            }
         } else if !choseEnd {
             if sender.tag == startSquare {clearSelections(); return}
             print(sender.tag)
@@ -139,18 +140,17 @@ class ChessBoardController: UIViewController {
             endSquareUCI = indexToUCI(index: sender.tag)
             let moveUCI = "\(startSquareUCI!)\(endSquareUCI!)"
             delegate?.didMakeMove(moveUCI: moveUCI)
-            DispatchQueue.main.async {
-                self.squareButtonsBlank[sender.tag].backgroundColor = CommonUI().blueColorLight
-                self.squareButtons[sender.tag].backgroundColor = CommonUI().blueColorLight
-            }
         } else if choseStart && choseEnd {
             clearSelections()
             startSquare = sender.tag
             startSquareUCI = indexToUCI(index: sender.tag)
-            DispatchQueue.main.async {
-                sender.backgroundColor = CommonUI().blueColorDark
-            }
         }
+        DispatchQueue.main.async {
+            self.squareButtonsBlank[sender.tag].layer.borderColor = UIColor.black.cgColor
+            self.squareButtons[sender.tag].layer.borderColor = UIColor.black.cgColor
+        }
+        let generator = UIImpactFeedbackGenerator(style: .soft)
+        generator.impactOccurred()
     }
     
     // MARK: - Helper
@@ -181,16 +181,6 @@ class ChessBoardController: UIViewController {
     }
         
     func getSquareColor(squareIndex: Int) -> UIColor {
-        /*
-         Returns correct color of the square based on square index
-        */
-        /*
-        if (squareIndex / 8)  % 2 == 0 {
-            return squareIndex % 2 == 0 ? CommonUI().blueColorDark : CommonUI().blueColorLight
-        } else {
-            return squareIndex % 2 != 0 ? CommonUI().blueColorDark : CommonUI().blueColorLight
-        }
-        */
         if (squareIndex / 8)  % 2 == 0 {
             return squareIndex % 2 == 0 ? CommonUI().tanColorDark : CommonUI().tanColorLight
         } else {
@@ -225,22 +215,20 @@ class ChessBoardController: UIViewController {
     }
     
     func clearSelections() {
-        if let start = startSquare {
-            DispatchQueue.main.async {
-                self.squareButtons[start].backgroundColor = self.getSquareColor(squareIndex: start)
-                self.squareButtonsBlank[start].backgroundColor = self.getSquareColor(squareIndex: start)
-            }
-            self.startSquare = nil
-            self.startSquareUCI = nil
+        guard let start = startSquare else {return}
+        startSquare = nil
+        startSquareUCI = nil
+        guard let end = endSquare else {
+            squareButtons[start].layer.borderColor = UIColor.clear.cgColor
+            squareButtonsBlank[start].layer.borderColor = UIColor.clear.cgColor
+            return
         }
-        if let end = endSquare {
-            DispatchQueue.main.async {
-                self.squareButtons[end].backgroundColor = self.getSquareColor(squareIndex: end)
-                self.squareButtonsBlank[end].backgroundColor = self.getSquareColor(squareIndex: end)
-            }
-            self.endSquare = nil
-            self.endSquareUCI = nil
-        }
+        endSquare = nil
+        endSquareUCI = nil
+        squareButtons[start].layer.borderColor = UIColor.clear.cgColor
+        squareButtonsBlank[start].layer.borderColor = UIColor.clear.cgColor
+        squareButtons[end].layer.borderColor = UIColor.clear.cgColor
+        squareButtonsBlank[end].layer.borderColor = UIColor.clear.cgColor
     }
     
     func showPieces() {
@@ -253,25 +241,34 @@ class ChessBoardController: UIViewController {
         vstack.isHidden = true
     }
     
-    func pushMove(wbMove: WBMove) {
-        displayMove(moveUCI: wbMove.answer_uci)
-        let seconds = 0.6
+    func pushMove(wbMove: WBMove, firstMovingPlayer: String) {
+        let player1isWhite = firstMovingPlayer == "white" ? true : false
+        displayMove(moveUCI: wbMove.answer_uci, playerIsWhite: player1isWhite )
+        let seconds = 1.0
+        if wbMove.response_uci == "complete" {return}
         DispatchQueue.main.asyncAfter(deadline: .now() + seconds) {
             self.clearSelections()
-            self.displayMove(moveUCI: wbMove.response_uci, needsHighlight: true)
+            self.displayMove(moveUCI: wbMove.response_uci, needsHighlight: true, playerIsWhite: !player1isWhite)
         }
     }
     
-    func displayMove(moveUCI: String, needsHighlight: Bool = false) {
+    func displayMove(moveUCI: String, needsHighlight: Bool = false, playerIsWhite: Bool) {
         if moveUCI == "complete" {return}
+        var pieceImage: UIImage = UIImage()
         let start = squareNameToIndex(square: moveUCI[0,1])
         let end = squareNameToIndex(square: moveUCI[2,3])
-        let pieceImage = self.squareButtons[start].currentImage
+        if moveUCI.count == 5 {
+            var pieceName = String(moveUCI.last!)
+            if playerIsWhite {pieceName = pieceName.uppercased()}
+            pieceImage = PieceName(rawValue: pieceName)!.image.withRenderingMode(.alwaysOriginal)
+        } else {
+            pieceImage = self.squareButtons[start].currentImage!
+        }
         DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.6) {
+            UIView.animate(withDuration: 1.0) {
                 if needsHighlight {
-                    self.squareButtons[start].backgroundColor = CommonUI().blueColorDark
-                    self.squareButtons[end].backgroundColor = CommonUI().blueColorLight
+                    self.squareButtons[start].layer.borderColor = UIColor.black.cgColor
+                    self.squareButtons[end].layer.borderColor = UIColor.black.cgColor
                     self.startSquare = start
                     self.endSquare = end
                 }
@@ -282,18 +279,18 @@ class ChessBoardController: UIViewController {
     }
     
     // fix this
-    func displaySolutionMoves(solutionMoves: [WBMove]) {
-        let moveDelay = 0.5
-        solutionMoves.forEach{ (wbMove) in
+    func displaySolutionMoves(solutionMoves: [WBMove], playerToMove: String ) {
+        var delay = 0.5
+        for wbMove in solutionMoves {
             for moveUCI in [wbMove.answer_uci, wbMove.response_uci] {
-                /*DispatchQueue.main.asyncAfter(deadline: .now() + moveDelay) {
-                    self.displayMove(moveUCI: moveUCI)
-                */
-                self.displayMove(moveUCI: moveUCI)
-                sleep(UInt32(0.5))
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+                    print(moveUCI)
+                    self.clearSelections()
+                    let playerIsWhite = playerToMove == "white" ? true : false
+                    self.displayMove(moveUCI: moveUCI, needsHighlight: true, playerIsWhite: playerIsWhite)
+                })
+                delay = delay + 1.0
             }
-                
-            
         }
     }
     
@@ -309,3 +306,22 @@ extension String {
         return String(self[index(startIndex, offsetBy: from)]) + String(self[index(startIndex, offsetBy: to)])
     }
 }
+
+class SquareButton: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if titleLabel != nil {
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0 )
+        }
+    }
+}
+
+extension UIImageView {
+  func setImageColor(color: UIColor) {
+    let templateImage = self.image?.withRenderingMode(.alwaysTemplate)
+    self.image = templateImage
+    self.tintColor = color
+  }
+}
+
+

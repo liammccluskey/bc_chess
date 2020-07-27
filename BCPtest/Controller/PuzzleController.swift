@@ -14,6 +14,7 @@ class PuzzleController: UIViewController {
     let puzzles: [Puzzle]
     var currentPuzzle: Puzzle
     var onSolutionMoveIndex: Int = 0
+    var stateIsIncorrect = false
     var pid: Int
     
     var scrollView: UIScrollView!
@@ -26,7 +27,7 @@ class PuzzleController: UIViewController {
     lazy var retryButton: ButtonWithImage = {
         let button = ButtonWithImage(type: .system)
         button.setTitle("TRY AGAIN", for: .normal)
-        button.titleLabel?.font = UIFont(name: CommonUI().fontString, size: 20)
+        button.titleLabel?.font = UIFont(name: fontString, size: 20)
         button.backgroundColor = CommonUI().redColor
         button.setTitleColor(.white, for: .normal)
         button.setImage(#imageLiteral(resourceName: "refresh").withRenderingMode(.alwaysOriginal), for: .normal)
@@ -63,7 +64,7 @@ class PuzzleController: UIViewController {
     // MARK: - Init
     
     init(puzzles: [Puzzle]) {
-        self.pid = Int.random(in: 1...puzzles.count)
+        self.pid = Int.random(in: 0..<puzzles.count)
         self.puzzles = puzzles
         self.currentPuzzle = puzzles[self.pid]
         super.init(nibName: nil, bundle: nil)
@@ -126,12 +127,12 @@ class PuzzleController: UIViewController {
             buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
             buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 45).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: 38).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
             retryButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            retryButton.heightAnchor.constraint(equalToConstant: 45).isActive = true
+            retryButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
             playerToMoveLabel.topAnchor.constraint(equalTo: retryButton.topAnchor).isActive = true
             playerToMoveLabel.leftAnchor.constraint(equalTo: retryButton.leftAnchor).isActive = true
             playerToMoveLabel.rightAnchor.constraint(equalTo: retryButton.rightAnchor).isActive = true
@@ -157,13 +158,13 @@ class PuzzleController: UIViewController {
         
         positionTableW.tableView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 2).isActive = true
         positionTableW.tableView.rightAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 0).isActive = true
-        positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 10).isActive = true
+        positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
         //positionTableW.tableView.heightAnchor.constraint(equalToConstant: 340).isActive = true
         positionTableW.tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         
         positionTableB.tableView.leftAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 0).isActive = true
         positionTableB.tableView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -2).isActive = true
-        positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 10).isActive = true
+        positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
         //positionTableB.tableView.heightAnchor.constraint(equalToConstant: 340).isActive = true
         positionTableB.tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
@@ -245,6 +246,7 @@ class PuzzleController: UIViewController {
     
     func restartPuzzle(isNewPuzzle: Bool) {
         onSolutionMoveIndex = 0
+        stateIsIncorrect = false
         chessBoardController.configureStartingPosition()
         chessBoardController.clearSelections()
         chessBoardController.setButtonInteraction(isEnabled: true)
@@ -268,8 +270,10 @@ class PuzzleController: UIViewController {
     }
     
     @objc func showSolutionAction() {
-        configPageForSolutionState(isShowingSolution: true)
-        print("ran show solution")
+        configPageForSolutionState(
+            isShowingSolution: true,
+            stateIsIncorrect: stateIsIncorrect,
+            stateIsPartialCorrect: true)
     }
     
     @objc func nextAction() {
@@ -295,19 +299,15 @@ class PuzzleController: UIViewController {
     
     // MARK: - Selector Helper
     
-    func configPageForSolutionState(isShowingSolution: Bool) {
-    /*
-    - Configures page state for state in [showing solution, not showing solution]
-    */
+    func configPageForSolutionState(isShowingSolution:Bool,stateIsIncorrect:Bool=false,stateIsPartialCorrect:Bool=false) {
         chessBoardController.setButtonInteraction(isEnabled: !isShowingSolution)
         showSolutionButton.isEnabled = !isShowingSolution
         DispatchQueue.main.async {
             self.solutionViews.forEach{ (view) in
-                UIView.animate(withDuration: 0.1, animations: {
+                UIView.animate(withDuration: 0.2, animations: {
                     if view.isHidden == isShowingSolution {
                         view.isHidden = !isShowingSolution
                         self.view.layoutIfNeeded()
-
                     }
                 })
             }
@@ -318,15 +318,23 @@ class PuzzleController: UIViewController {
                     self.view.layoutIfNeeded()
                 })
             }
+            if stateIsIncorrect {self.chessBoardController.configureStartingPosition()}
+            if stateIsIncorrect || stateIsPartialCorrect {
+                self.piecesShownSegment.selectedSegmentIndex = 1
+                self.piecesShownSegment.sendActions(for: .valueChanged)
+            }
         }
-        
-        if isShowingSolution {
+        if isShowingSolution && stateIsIncorrect {
+            chessBoardController.displaySolutionMoves(
+                solutionMoves: currentPuzzle.solution_moves,
+                playerToMove: currentPuzzle.player_to_move)
+        } else if isShowingSolution && stateIsPartialCorrect {
             let movesRemaining = currentPuzzle.solution_moves.count - onSolutionMoveIndex
             let movesToPush = Array(currentPuzzle.solution_moves.suffix(movesRemaining))
-            chessBoardController.displaySolutionMoves(solutionMoves: movesToPush)
+            chessBoardController.displaySolutionMoves(
+                solutionMoves: movesToPush,
+                playerToMove: currentPuzzle.player_to_move)
         }
-        
-        
     }
     
 }
@@ -334,12 +342,12 @@ class PuzzleController: UIViewController {
 extension PuzzleController: ChessBoardDelegate {
     func didMakeMove(moveUCI: String) {
         let solutionUCI = currentPuzzle.solution_moves[onSolutionMoveIndex].answer_uci
-        if solutionUCI == moveUCI {
+        if solutionUCI.contains(moveUCI) {
             let solutionMove: WBMove = currentPuzzle.solution_moves[onSolutionMoveIndex]
-            chessBoardController.pushMove(wbMove: solutionMove)
+            chessBoardController.pushMove(wbMove: solutionMove, firstMovingPlayer: currentPuzzle.player_to_move)
             onSolutionMoveIndex = onSolutionMoveIndex + 1
             if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
-                configPageForSolutionState(isShowingSolution: true)
+                configPageForSolutionState(isShowingSolution: true, stateIsPartialCorrect: false)
                 return
             }
             var didDisplaySubsolution = false
@@ -354,8 +362,10 @@ extension PuzzleController: ChessBoardDelegate {
             }
             
         } else {
-            chessBoardController.displayMove(moveUCI: moveUCI)
+            let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false
+            chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
             chessBoardController.setButtonInteraction(isEnabled: false)
+            stateIsIncorrect = true
             DispatchQueue.main.async {
                 self.retryButton.backgroundColor = CommonUI().redColor
                 UIView.animate(withDuration: 0.3, animations: {

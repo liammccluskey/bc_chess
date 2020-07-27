@@ -8,8 +8,6 @@
 
 import UIKit
 
-let fontString = "PingFangTC-Semibold"
-let fontStringLight = "PingFangTC-Medium"
 class HomeController: UIViewController {
     
     // MARK: - Properties
@@ -27,7 +25,7 @@ class HomeController: UIViewController {
         return label
     }()
     var divider1Label: UILabel!
-    let subheader1label: UILabel = {
+    let subheader1Label: UILabel = {
         let label = UILabel()
         label.text = "->  CHOOSE PUZZLE TYPE"
         label.textColor = .white
@@ -44,7 +42,7 @@ class HomeController: UIViewController {
     let divider2aLabel: UILabel = CommonUI().configureDividerLabel()
     let header2Label: UILabel = {
         let label = UILabel()
-        label.text = "AUDIO CHESS PUZZLES"
+        label.text = "FEATURES COMING SOON"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 21)
@@ -53,7 +51,16 @@ class HomeController: UIViewController {
     }()
     var divider2Label: UILabel!
     
-    let subheader2Label: UILabel = CommonUI().configureSubheaderLabel(title: "FEATURE TO BE RELEASED BY 8/1/20")
+    let subheader2Label: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        label.text = "->   Progress Tracking \n->   Global Ranking System \n->   Different Puzzle Modes: \n      - Rush \n      - Training \n->   Audio Chess Puzzles"
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = UIFont(name: fontString, size: 18)
+        label.backgroundColor = .clear
+        return label
+    }()
     
     var stack1: UIStackView!
     
@@ -94,7 +101,7 @@ class HomeController: UIViewController {
             divider1aLabel,
             header1Label,
             divider1Label,
-            subheader1label,
+            subheader1Label,
             mate1Button,
             mate2Button,
             mate3Button,

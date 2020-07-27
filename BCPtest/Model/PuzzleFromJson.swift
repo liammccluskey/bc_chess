@@ -117,5 +117,37 @@ enum PieceType: Int {
     }
 }
 
+enum PieceName: String {
+    case P, p, N, n, B, b, R, r, Q, q, K, k
+    var image: UIImage {
+        switch self {
+        case .P: // 0
+            return UIImage(named: "wp")!
+        case .p: // 1
+            return UIImage(named: "bp")!
+        case .N: // 2
+            return UIImage(named: "wn")!
+        case .n: // 3
+            return UIImage(named: "bn")!
+        case .B: // 4
+            return UIImage(named: "wb")!
+        case .b: // 5
+            return UIImage(named: "bb")!
+        case .R: // 6
+            return UIImage(named: "R")!
+        case .r: // 7
+            return UIImage(named: "br")!
+        case .Q: // 8
+            return UIImage(named: "wq")!
+        case .q: // 9
+            return UIImage(named: "bq")!
+        case .K: // 10
+            return UIImage(named: "wk")!
+        case .k: // 11
+            return UIImage(named: "bk")!
+        }
+    }
+}
+
 
 
