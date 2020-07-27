@@ -37,7 +37,7 @@ class PuzzleUI {
         container.addSubview(correct)
         container.heightAnchor.constraint(equalTo: correct.heightAnchor).isActive = true
         correct.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
-        correct.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -3).isActive = true
+        correct.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -10).isActive = true
         answer.heightAnchor.constraint(equalTo: correct.heightAnchor).isActive = true
         answer.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
         answer.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 10).isActive = true
@@ -77,12 +77,14 @@ class PuzzleUI {
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
         let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.backgroundColor = CommonUI().blueColorDark
+        //label.backgroundColor = playerToMove == "white" ? lightSquareColor : darkSquareColor
+        //label.textColor = playerToMove != "white" ? lightSquareColor : darkSquareColor
+        label.backgroundColor = darkSquareColor
         label.textColor = playerToMove == "white" ? .white : .black
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 19)
         label.text = "\(playerToMove.uppercased()) TO MOVE"
+        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
     
@@ -92,11 +94,11 @@ class PuzzleUI {
         let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
         sc.isEnabled = true
         let font = UIFont(name: fontString, size: 13)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.white], for: .normal)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .normal)
         sc.tintColor = .white
         sc.selectedSegmentIndex = 0
-        sc.backgroundColor = CommonUI().blueColorDark
-        sc.selectedSegmentTintColor = CommonUI().blueColorLight
+        sc.backgroundColor = darkSquareColor
+        sc.selectedSegmentTintColor = lightSquareColor
         sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
 

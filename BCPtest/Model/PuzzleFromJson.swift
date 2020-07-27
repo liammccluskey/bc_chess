@@ -75,6 +75,10 @@ struct Position: Codable {
     let r: [String]
     let q: [String]
     let k: [String]
+    func getSquaresFor(isWhitePosition: Bool, pieceTag: Int) -> [String] {
+        let piecesSquares = [P,p,N,n,B,b,R,r,Q,q,K,k]
+        return piecesSquares[pieceTag]
+    }
 }
 
 struct WBMove: Codable {
@@ -90,29 +94,29 @@ enum PieceType: Int {
     var image: UIImage {
         switch self {
         case .wp: // 0
-            return UIImage(named: "wp")!
+            return UIImage(named: piece_image_extension + "wp")!
         case .bp: // 1
-            return UIImage(named: "bp")!
+            return UIImage(named: piece_image_extension + "bp")!
         case .wn: // 2
-            return UIImage(named: "wn")!
+            return UIImage(named: piece_image_extension + "wn")!
         case .bn: // 3
-            return UIImage(named: "bn")!
+            return UIImage(named: piece_image_extension + "bn")!
         case .wb: // 4
-            return UIImage(named: "wb")!
+            return UIImage(named: piece_image_extension + "wb")!
         case .bb: // 5
-            return UIImage(named: "bb")!
+            return UIImage(named: piece_image_extension + "bb")!
         case .wr: // 6
-            return UIImage(named: "wr")!
+            return UIImage(named: piece_image_extension + "wr")!
         case .br: // 7
-            return UIImage(named: "br")!
+            return UIImage(named: piece_image_extension + "br")!
         case .wq: // 8
-            return UIImage(named: "wq")!
+            return UIImage(named: piece_image_extension + "wq")!
         case .bq: // 9
-            return UIImage(named: "bq")!
+            return UIImage(named: piece_image_extension + "bq")!
         case .wk: // 10
-            return UIImage(named: "wk")!
+            return UIImage(named: piece_image_extension + "wk")!
         case .bk: // 11
-            return UIImage(named: "bk")!
+            return UIImage(named: piece_image_extension + "bk")!
         }
     }
 }
@@ -122,29 +126,29 @@ enum PieceName: String {
     var image: UIImage {
         switch self {
         case .P: // 0
-            return UIImage(named: "wp")!
+            return UIImage(named: piece_image_extension + "wp")!
         case .p: // 1
-            return UIImage(named: "bp")!
+            return UIImage(named: piece_image_extension + "bp")!
         case .N: // 2
-            return UIImage(named: "wn")!
+            return UIImage(named: piece_image_extension + "wn")!
         case .n: // 3
-            return UIImage(named: "bn")!
+            return UIImage(named: piece_image_extension + "bn")!
         case .B: // 4
-            return UIImage(named: "wb")!
+            return UIImage(named: piece_image_extension + "wb")!
         case .b: // 5
-            return UIImage(named: "bb")!
+            return UIImage(named: piece_image_extension + "bb")!
         case .R: // 6
-            return UIImage(named: "R")!
+            return UIImage(named: piece_image_extension + "R")!
         case .r: // 7
-            return UIImage(named: "br")!
+            return UIImage(named: piece_image_extension + "br")!
         case .Q: // 8
-            return UIImage(named: "wq")!
+            return UIImage(named: piece_image_extension + "wq")!
         case .q: // 9
-            return UIImage(named: "bq")!
+            return UIImage(named: piece_image_extension + "bq")!
         case .K: // 10
-            return UIImage(named: "wk")!
+            return UIImage(named: piece_image_extension + "wk")!
         case .k: // 11
-            return UIImage(named: "bk")!
+            return UIImage(named: piece_image_extension + "bk")!
         }
     }
 }

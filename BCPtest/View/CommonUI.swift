@@ -8,14 +8,25 @@
 
 import UIKit
 
-//let fontString = "PingFangTC-Semibold"
-//let fontStringLight = "PingFangTC-Medium"
 
-//public let fontString = "ChalkboardSE-Bold"
-//public let fontStringLight = "ChalkboardSE-Light"
+
+public let piece_image_extension = "fancy_"
 
 public let fontString = "Avenir-Medium"
 public let fontStringLight = "Avenir-Book"
+
+// gray
+//public let lightSquareColor = UIColor(red: 232/255, green: 235/255, blue: 239/255, alpha: 1)
+//public let darkSquareColor = UIColor(red: 125/255, green: 135/255, blue: 150/255, alpha: 1)
+
+// green chess.com
+var lightSquareColor = UIColor(red: 238/255, green: 238/255, blue: 210/255, alpha: 1)
+var darkSquareColor = UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
+
+// dark blues
+//var lightSquareColor = UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
+//var darkSquareColor = UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
+
 
 class CommonUI {
     
@@ -24,11 +35,11 @@ class CommonUI {
     
     let purpleColorLight = UIColor(red: 165/255, green: 135/255, blue: 212/255, alpha: 1)
     
-    
-    //let blueColorLight = UIColor(red: 141/255, green: 192/255, blue: 235/255, alpha: 1)
-    //let blueColorDark = UIColor(red: 0/255, green: 112/255, blue: 204/255, alpha: 1)
+    // main below
     let blueColorLight = UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
     let blueColorDark = UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
+    
+    let lightGray = UIColor(red: 134/255, green: 136/255, blue: 138/255, alpha: 1)
     
     //let tanColorLight = UIColor(red: 236/255, green: 220/255, blue: 188/255, alpha: 1)
     //let tanColorDark = UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
@@ -37,10 +48,10 @@ class CommonUI {
     let tanColorLight = UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
     let tanColorDark = UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
     
-    
     let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
     let greenColor = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
-    let blackColor = UIColor(red: 18/255, green: 25/255, blue: 25/255, alpha: 1)
+    //let blackColor = UIColor(red: 18/255, green: 25/255, blue: 25/255, alpha: 1)
+    let blackColor = UIColor(red: 49/255, green: 51/255, blue: 53/255, alpha: 1)
     let whiteColor = UIColor(red: 237/255, green: 227/255, blue: 214/255, alpha: 1)
     
     func configureDividerLabel() -> UILabel {

@@ -90,7 +90,7 @@ class ChessBoardController: UIViewController {
             button.addTarget(self, action: #selector(squareAction), for: .touchUpInside)
             button.backgroundColor = getSquareColor(squareIndex: i)
             button.setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
-            button.imageEdgeInsets = UIEdgeInsets(top: 1, left: 1, bottom: 3, right: 1)
+            button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             buttons.append(button)
         }
         return buttons
@@ -182,9 +182,9 @@ class ChessBoardController: UIViewController {
         
     func getSquareColor(squareIndex: Int) -> UIColor {
         if (squareIndex / 8)  % 2 == 0 {
-            return squareIndex % 2 == 0 ? CommonUI().tanColorDark : CommonUI().tanColorLight
+            return squareIndex % 2 == 0 ? darkSquareColor : lightSquareColor
         } else {
-            return squareIndex % 2 != 0 ? CommonUI().tanColorDark : CommonUI().tanColorLight
+            return squareIndex % 2 != 0 ? darkSquareColor : lightSquareColor
         }
     }
     

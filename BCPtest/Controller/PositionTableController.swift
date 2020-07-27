@@ -51,7 +51,7 @@ class PositionTableController: UITableViewController {
         label.font = UIFont(name: fontStringLight, size: 18)
         label.backgroundColor = .clear
         label.textAlignment = .center
-        view.backgroundColor = CommonUI().blackColor
+        view.backgroundColor = .clear
         view.addSubview(label)
         label.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         label.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
@@ -72,6 +72,18 @@ class PositionTableController: UITableViewController {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
         guard let p = puzzle else {return cell}
         let position = p.position
+        let pieceTag = isWhite ? indexPath.row*2 : indexPath.row*2 + 1
+        let pieceType = PieceType(rawValue: pieceTag)
+        let squares = position.getSquaresFor(isWhitePosition: isWhite, pieceTag: pieceTag)
+        cell.imageView?.image = pieceType?.image.withRenderingMode(.alwaysOriginal)
+        cell.textLabel?.text = squares
+            .joined(separator: ", ")
+        if squares.count > 4 {
+            cell.textLabel?.numberOfLines = 0
+            cell.textLabel?.lineBreakMode = .byWordWrapping
+        }
+        
+        /*
         switch indexPath.row {
         case 0: // pawn
             let squares = isWhite ? position.P : position.p
@@ -110,14 +122,12 @@ class PositionTableController: UITableViewController {
         default:
             print()
         }
-        cell.imageView?.backgroundColor = CommonUI().blueColorDark
-        cell.imageView?.layer.cornerRadius = 7
-        cell.imageView?.layer.borderColor = CommonUI().blackColor.cgColor
-        cell.imageView?.layer.borderWidth = 1
-        //cell.imageView?.clipsToBounds = true
+        */
+        cell.imageView?.contentMode = .scaleAspectFit
+        cell.imageView?.backgroundColor = .clear
         cell.textLabel?.textColor = .white
         cell.textLabel?.font = UIFont(name: fontStringLight, size: 17)
-        cell.backgroundColor = CommonUI().blackColor
+        cell.backgroundColor = .clear
         
         return cell
     }
@@ -128,5 +138,5 @@ class PositionTableController: UITableViewController {
         self.puzzle = puzzle
         self.isWhite = isWhite
     }
-    
 }
+
