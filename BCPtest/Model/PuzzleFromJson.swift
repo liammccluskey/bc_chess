@@ -94,29 +94,29 @@ enum PieceType: Int {
     var image: UIImage {
         switch self {
         case .wp: // 0
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wp")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wp")!
         case .bp: // 1
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bp")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bp")!
         case .wn: // 2
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wn")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wn")!
         case .bn: // 3
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bn")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bn")!
         case .wb: // 4
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wb")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wb")!
         case .bb: // 5
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bb")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bb")!
         case .wr: // 6
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wr")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wr")!
         case .br: // 7
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "br")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "br")!
         case .wq: // 8
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wq")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wq")!
         case .bq: // 9
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bq")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bq")!
         case .wk: // 10
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wk")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wk")!
         case .bk: // 11
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bk")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bk")!
         }
     }
 }
@@ -126,29 +126,29 @@ enum PieceName: String {
     var image: UIImage {
         switch self {
         case .P: // 0
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wp")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wp")!
         case .p: // 1
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bp")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bp")!
         case .N: // 2
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wn")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wn")!
         case .n: // 3
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bn")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bn")!
         case .B: // 4
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wb")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wb")!
         case .b: // 5
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bb")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bb")!
         case .R: // 6
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "R")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "R")!
         case .r: // 7
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "br")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "br")!
         case .Q: // 8
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wq")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wq")!
         case .q: // 9
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bq")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bq")!
         case .K: // 10
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "wk")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wk")!
         case .k: // 11
-            return UIImage(named: PieceStyle(rawValue: pieceStyle)!.fileExtension + "bk")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bk")!
         }
     }
 }

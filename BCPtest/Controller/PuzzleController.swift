@@ -16,6 +16,9 @@ class PuzzleController: UIViewController {
     var onSolutionMoveIndex: Int = 0
     var stateIsIncorrect = false
     var pid: Int
+    var puzzleUI = PuzzleUI(
+        boardTheme: UserDataManager().getBoardColor()!,
+        buttonTheme: UserDataManager().getButtonColor()!)
     
     var scrollView: UIScrollView!
     let containerView: UIView = {
@@ -39,7 +42,7 @@ class PuzzleController: UIViewController {
     }()
     
     var playerToMoveLabel: UILabel!
-    var piecesShownSegment: UISegmentedControl = PuzzleUI().configurePiecesShownSegCont()
+    var piecesShownSegment: UISegmentedControl!
     
     // stack 1
     var stack1: UIStackView!
@@ -57,10 +60,25 @@ class PuzzleController: UIViewController {
     
     // bottom buttons
     var exitButton: UIButton!
+    var themeButton: UIButton!
+    var boardC: UIButton!
+    var buttC: UIButton!
+    var pieceS: UIButton!
     var colorButton: UIButton!
     var showSolutionButton: UIButton!
     var nextButton: UIButton!
     var buttonStack: UIStackView!
+    
+    // Theme Picker
+    var contentView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.backgroundColor = .clear
+        return view
+    }()
+    var themeStack: UIStackView!
+    var themeTable: ThemeTableController!
+    
     
     // MARK: - Init
     
@@ -78,6 +96,8 @@ class PuzzleController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        pieceStyle = UserDataManager().getPieceStyle()
+        
         configureUI()
         setUpAutoLayout(isInitLoad: true)
         
@@ -92,9 +112,10 @@ class PuzzleController: UIViewController {
     func configureUI() {
         configureNavigationBar()
         configureScrollView()
+        piecesShownSegment = puzzleUI.configurePiecesShownSegCont()
         configurePageData(isReload: false)
         
-        playerToMoveLabel = PuzzleUI().configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
+        playerToMoveLabel = puzzleUI.configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
         view.insertSubview(playerToMoveLabel, at: 0)
         
         piecesShownSegment.addTarget(self, action: #selector(piecesShownAction), for: .valueChanged)
@@ -106,21 +127,32 @@ class PuzzleController: UIViewController {
             ]
         stack1Views.insert(contentsOf: solutionViews, at: 2)
         stack1 = CommonUI().configureStackView(arrangedSubViews: stack1Views)
+        stack1.setCustomSpacing(0, after: chessBoardController.view)
         containerView.addSubview(stack1)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "EXIT", titleColor: .white, borderColor: .white)
+        exitButton = puzzleUI.configureButton(title: "   EXIT   ", titleColor: .white, borderColor: .white)
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "SOLUTION", titleColor: .white, borderColor: .white)
+        themeButton = puzzleUI.configureButton(title: "BOARD THEME", titleColor: .white, borderColor: .white)
+        themeButton.addTarget(self, action: #selector(themeAction), for: .touchUpInside)
+        showSolutionButton = puzzleUI.configureButton(title: "SOLUTION", titleColor: .white, borderColor: .white)
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = PuzzleUI().configureButton(title: "NEXT", titleColor: .white, borderColor: .white)
+        nextButton = puzzleUI.configureButton(title: "   NEXT   ", titleColor: .white, borderColor: .white)
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
-        colorButton = PuzzleUI().configureButton(title: "BOARD COLOR", titleColor: .white, borderColor: .white)
-        colorButton.addTarget(self, action: #selector(colorAction), for: .touchUpInside)
         
-        buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,colorButton,showSolutionButton,nextButton])
+        buttonStack = puzzleUI.configureButtonHStack(arrangedSubViews: [
+            exitButton,themeButton,
+            showSolutionButton,nextButton
+        ])
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
+        
+        
+        // theme stack
+        themeTable = ThemeTableController(style: .insetGrouped)
+        themeTable.delegate = self
+        themeTable.tableView.alpha = 0
+        view.addSubview(themeTable.tableView)
         
         view.backgroundColor = CommonUI().blackColor
     }
@@ -128,10 +160,10 @@ class PuzzleController: UIViewController {
     func setUpAutoLayout(isInitLoad: Bool) {
         if isInitLoad {
             // global anchors
-            buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
             buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
             buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 38).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: 65).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -154,22 +186,26 @@ class PuzzleController: UIViewController {
             containerView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
             containerView.widthAnchor.constraint(equalToConstant: view.frame.width).isActive = true
             containerView.heightAnchor.constraint(equalToConstant: view.frame.height*1.1).isActive = true
+            
+            
+            themeTable.tableView.topAnchor.constraint(equalTo: view.topAnchor, constant: 200).isActive = true
+            themeTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+            themeTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+            themeTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         }
         
-        stack1.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 4).isActive = true
+        stack1.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 0).isActive = true
         stack1.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 0).isActive = true
         stack1.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -0).isActive = true
         
         positionTableW.tableView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 2).isActive = true
         positionTableW.tableView.rightAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 0).isActive = true
         positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
-        //positionTableW.tableView.heightAnchor.constraint(equalToConstant: 340).isActive = true
         positionTableW.tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         
         positionTableB.tableView.leftAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 0).isActive = true
         positionTableB.tableView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -2).isActive = true
         positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
-        //positionTableB.tableView.heightAnchor.constraint(equalToConstant: 340).isActive = true
         positionTableB.tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }
     
@@ -177,7 +213,6 @@ class PuzzleController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.isHidden = true
         navigationController?.navigationBar.barStyle = .black
-        navigationItem.title = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
     }
     
     func configureScrollView() {
@@ -197,6 +232,9 @@ class PuzzleController: UIViewController {
         } else {
             playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
             playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .white : .black
+            playerToMoveLabel.backgroundColor = UserDataManager().getButtonColor()!.darkSquareColor
+            piecesShownSegment.backgroundColor = UserDataManager().getButtonColor()!.darkSquareColor
+            piecesShownSegment.selectedSegmentTintColor = UserDataManager().getButtonColor()!.lightSquareColor
             positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
             positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
             positionTableW.tableView.reloadData()
@@ -204,22 +242,22 @@ class PuzzleController: UIViewController {
         }
         
         if currentPuzzle.solution_moves.count == 4 {
-            solutionm4 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 3)
-            solutionm3 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 2)
-            solutionm2 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[2], matePly: 1)
-            solutionm1 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[3], matePly: 0)
+            solutionm4 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 3)
+            solutionm3 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 2)
+            solutionm2 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[2], matePly: 1)
+            solutionm1 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[3], matePly: 0)
             solutionViews = [solutionm4, solutionm3, solutionm2, solutionm1]
         } else if currentPuzzle.solution_moves.count == 3 {
-            solutionm3 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 2)
-            solutionm2 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 1)
-            solutionm1 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[2], matePly: 0)
+            solutionm3 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 2)
+            solutionm2 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 1)
+            solutionm1 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[2], matePly: 0)
             solutionViews = [solutionm3, solutionm2, solutionm1]
         } else if currentPuzzle.solution_moves.count == 2 {
-            solutionm2 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 1)
-            solutionm1 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 0)
+            solutionm2 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 1)
+            solutionm1 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[1], matePly: 0)
             solutionViews = [solutionm2, solutionm1]
         } else {
-            solutionm1 = PuzzleUI().configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 0)
+            solutionm1 = puzzleUI.configureAnswerView(move: currentPuzzle.solution_moves[0], matePly: 0)
             solutionViews = [solutionm1]
         }
         solutionViews.forEach{ (view) in
@@ -228,7 +266,11 @@ class PuzzleController: UIViewController {
         
         // Done for reloads and initial loads
         let showPieces = piecesShownSegment.selectedSegmentIndex == 1 ? true : false
-        chessBoardController = ChessBoardController(position: currentPuzzle.position, showPiecesInitially: showPieces)
+        chessBoardController = ChessBoardController(
+            position: currentPuzzle.position,
+            showPiecesInitially: showPieces,
+            boardTheme: puzzleUI.boardTheme
+        )
         chessBoardController.delegate = self
         
         // move this
@@ -242,6 +284,7 @@ class PuzzleController: UIViewController {
                 ]
             stack1Views.insert(contentsOf: solutionViews, at: 2)
             stack1 = CommonUI().configureStackView(arrangedSubViews: stack1Views)
+            stack1.setCustomSpacing(0, after: chessBoardController.view)
             containerView.addSubview(stack1)
             
             setUpAutoLayout(isInitLoad: false)
@@ -273,9 +316,12 @@ class PuzzleController: UIViewController {
         navigationController?.popViewController(animated: true)
     }
     
-    @objc func colorAction() {
-        boardColor = ["gray", "green", "darkBlue", "tan"].randomElement()!
-        pieceStyle = ["lichess", "simple", "fancy"].randomElement()!
+    @objc func themeAction() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.3) {
+                self.themeTable.tableView.alpha = 1
+            }
+        }
     }
     
     @objc func showSolutionAction() {
@@ -392,6 +438,37 @@ extension PuzzleController: ChessBoardDelegate {
     }
 }
 
+extension PuzzleController: ThemeTableDelegate {
+    func didDismissTable() {
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.2, animations: {
+                self.themeTable.tableView.alpha = 0
+            }) { didFinish in
+                self.puzzleUI = PuzzleUI(
+                    boardTheme: UserDataManager().getBoardColor()!,
+                    buttonTheme: UserDataManager().getButtonColor()!
+                )
+                self.restartPuzzle(isNewPuzzle: false)
+                self.configurePageData(isReload: true)
+            }
+        }
+    }
+    func didSubmitChangeAt(indexPath: IndexPath) {
+        switch indexPath.section {
+        case 0:
+            let boardColor = ColorTheme(rawValue: indexPath.row)
+            UserDataManager().setBoardColor(boardColor: boardColor!)
+        case 1:
+            UserDataManager().setPieceStyle(pieceStyle: indexPath.row)
+            pieceStyle = indexPath.row
+        case 2:
+            let buttonColor = ColorTheme(rawValue: indexPath.row)
+            UserDataManager().setButtonColor(buttonColor: buttonColor!)
+        default: print()
+        }
+    }
+}
+
 class ButtonWithImage: UIButton {
     
     override func layoutSubviews() {
@@ -403,5 +480,7 @@ class ButtonWithImage: UIButton {
         }
     }
 }
+
+
 
 

@@ -9,6 +9,20 @@
 import UIKit
 
 class PuzzleUI {
+    
+    let boardTheme: ColorTheme!
+    let dsColor: UIColor!
+    let lsColor: UIColor!
+    let dButtonColor: UIColor!
+    let lButtonColor: UIColor!
+    
+    init(boardTheme: ColorTheme, buttonTheme: ColorTheme) {
+        self.boardTheme = boardTheme
+        self.dsColor = boardTheme.darkSquareColor
+        self.lsColor = boardTheme.lightSquareColor
+        self.dButtonColor = buttonTheme.darkSquareColor
+        self.lButtonColor = buttonTheme.lightSquareColor
+    }
 
     // MARK: - Solution Section
     
@@ -19,12 +33,12 @@ class PuzzleUI {
         answer.textColor = .white
         answer.font = UIFont(name: fontStringLight, size: 20)
         answer.layer.cornerRadius = 5
-       // answer.layer.borderColor = CommonUI().blueColorDark.cgColor
         answer.layer.borderColor = UIColor.clear.cgColor
         answer.layer.borderWidth = 3
         answer.clipsToBounds = true
         let response = move.response_san == "complete" ? "Checkmate" : move.response_san
-        let readableMove = " #\(matePly):    \(move.answer_san) -> \(response)"
+        let spaceString = String(repeating: " ", count: 14 - move.answer_san.count)
+        let readableMove = "    #\(matePly):    \(move.answer_san)" + spaceString + response
         answer.text = readableMove
         
         let correct = UIImageView()
@@ -51,12 +65,10 @@ class PuzzleUI {
     func configureButton(title: String, titleColor: UIColor, borderColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name: fontStringLight, size: 17)
-        button.backgroundColor = .clear
-        button.layer.borderWidth = 2
-        button.layer.borderColor = UIColor.black.cgColor
-        //button.layer.cornerRadius = 5
-        //button.clipsToBounds = true
+        button.titleLabel?.font = UIFont(name: fontStringLight, size: 18)
+        button.backgroundColor = .black
+        button.layer.borderWidth = 1
+        button.layer.borderColor = CommonUI().blackColor.cgColor
         button.setTitleColor(titleColor, for: .normal)
         return button
     }
@@ -77,7 +89,7 @@ class PuzzleUI {
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
         let label = UILabel()
-        label.backgroundColor = BoardColor(rawValue: boardColor)!.darkSquareColor
+        label.backgroundColor = dButtonColor
         label.textColor = playerToMove == "white" ? .white : .black
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 19)
@@ -95,8 +107,8 @@ class PuzzleUI {
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .normal)
         sc.tintColor = .white
         sc.selectedSegmentIndex = 0
-        sc.backgroundColor = BoardColor(rawValue: boardColor)!.darkSquareColor
-        sc.selectedSegmentTintColor = BoardColor(rawValue: boardColor)!.lightSquareColor
+        sc.backgroundColor = dButtonColor
+        sc.selectedSegmentTintColor = lButtonColor
         sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
 
