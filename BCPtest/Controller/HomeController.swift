@@ -16,7 +16,6 @@ class HomeController: UIViewController {
     
     var puzzles: Puzzles! = PuzzlesFromJson().puzzles
     
-    let divider1aLabel: UILabel = CommonUI().configureDividerLabel()
     let header1Label: UILabel = {
         let label = UILabel()
         label.text = "Blindfold Chess Puzzles"
@@ -26,23 +25,20 @@ class HomeController: UIViewController {
         label.backgroundColor = .clear
         return label
     }()
-    var divider1Label: UILabel = CommonUI().configureDividerLabel()
     var mate1Button: UIButton!
     var mate2Button: UIButton!
     var mate3Button: UIButton!
     var mate4Button: UIButton!
     
-    let divider2aLabel: UILabel = CommonUI().configureDividerLabel()
     let header2Label: UILabel = {
         let label = UILabel()
-        label.text = "Daily Puzzle"
+        label.text = "Daily Puzzles"
         label.textColor = .white
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 24)
         label.backgroundColor = .clear
         return label
     }()
-    var divider2Label: UILabel = CommonUI().configureDividerLabel()
     
     var stack1: UIStackView!
     
@@ -60,32 +56,27 @@ class HomeController: UIViewController {
     func configureUI() {
         // test
         let puzzle = puzzles.m4.randomElement()!
-        boardController = ChessBoardController(position: puzzle.position, showPiecesInitially: true, boardTheme: .darkBlue)
+        boardController = ChessBoardController(position: puzzle.position, showPiecesInitially: true, boardTheme: .tan)
+        let puzzle1 = puzzles.m4.randomElement()!
+        let boardController1 = ChessBoardController(position: puzzle1.position, showPiecesInitially: true, boardTheme: .tan)
+        
         // end test
         configureNavigationBar()
         mate1Button = configurePuzzleTypeButton(title: "MATE   in   1", tag: 1)
         mate2Button = configurePuzzleTypeButton(title: "MATE   in   2", tag: 2)
         mate3Button = configurePuzzleTypeButton(title: "MATE   in   3", tag: 3)
         mate4Button = configurePuzzleTypeButton(title: "MATE   in   4", tag: 4)
-        /*
+        
         stack1 = configureStackView(arrangedSubViews: [
-            divider1aLabel,header1Label,divider1Label,
+            header1Label,
                 mate1Button,
                 mate2Button,
                 mate3Button,
                 mate4Button,
-            divider2aLabel,header2Label,divider2Label,
-            boardController.view
-            ])
-        */
-        stack1 = configureStackView(arrangedSubViews: [
-            header1Label,divider1Label,
-                mate1Button,
-                mate2Button,
-                mate3Button,
-                mate4Button,
-            header2Label,divider2Label,
-                boardController.view])
+            header2Label,
+            CommonUI().configureHStackView(arrangedSubViews: [boardController.view, boardController1.view])
+        ])
+        stack1.setCustomSpacing(20, after: mate4Button)
                
         view.addSubview(stack1)
         
@@ -94,8 +85,8 @@ class HomeController: UIViewController {
     
     func configureAutoLayout() {
         stack1.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
-        stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
-        stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
     }
     
     func configureNavigationBar() {
@@ -104,7 +95,12 @@ class HomeController: UIViewController {
         navigationController?.navigationBar.tintColor = .white
         let font = UIFont(name: fontString, size: 25)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
-        navigationItem.title = "HOME"
+        navigationItem.title = "Puzzles"
+        
+        let infoButton = UIButton(type: .infoDark)
+        infoButton.addTarget(self, action: #selector(infoAction), for: .touchUpInside)
+        let infoBarButtonItem = UIBarButtonItem(customView: infoButton)
+        navigationItem.rightBarButtonItem = infoBarButtonItem
     }
     
     func configureStackView(arrangedSubViews: [UIView]) -> UIStackView {
@@ -125,7 +121,7 @@ class HomeController: UIViewController {
         button.backgroundColor = .clear
         button.layer.borderWidth = 2
         button.addTarget(self, action: #selector(mateAction), for: .touchUpInside)
-        button.layer.borderColor = CommonUI().blueColorDark.cgColor
+        button.layer.borderColor = CommonUI().blueColor.cgColor
         button.setTitleColor(.white, for: .normal)
         return button
     }
@@ -153,5 +149,11 @@ class HomeController: UIViewController {
         default:
             break
         }
+    }
+    
+    @objc func infoAction() {
+        let puzzle = puzzles.m4.randomElement()!
+        let controller = DailyPuzzleController(puzzles: [puzzle])
+        present(controller, animated: true)
     }
 }

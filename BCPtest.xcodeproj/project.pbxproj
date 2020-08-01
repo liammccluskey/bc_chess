@@ -13,6 +13,7 @@
 		0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0124D5191400726BD8 /* LeaderboardController.swift */; };
 		0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0324D5193700726BD8 /* ProgressController.swift */; };
 		0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0524D51C8000726BD8 /* ContainerController.swift */; };
+		0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
 		7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33C51824BAC4E200135967 /* PuzzleController.swift */; };
@@ -58,6 +59,7 @@
 		0186FC0124D5191400726BD8 /* LeaderboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardController.swift; sourceTree = "<group>"; };
 		0186FC0324D5193700726BD8 /* ProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
 		0186FC0524D51C8000726BD8 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
+		0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPuzzleController.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
 		7C33C51824BAC4E200135967 /* PuzzleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleController.swift; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 		7C96CC3E23A03C1C00EE9129 /* BCPtest */ = {
 			isa = PBXGroup;
 			children = (
+				7C33CCCB24C3118C00135967 /* Protocols.swift */,
 				7C33CCC224BB890E00135967 /* View */,
 				7CE941E8245B6B1700B9A2A0 /* Model */,
 				7CE941E7245B6B0D00B9A2A0 /* Controller */,
@@ -163,7 +166,6 @@
 				7C96CC6D23A03C7600EE9129 /* puzzleInfo.swift */,
 				7C96CC6F23A03CB600EE9129 /* puzzleVC.swift */,
 				7C96CC7123A03CEB00EE9129 /* homepageVC.swift */,
-				7C33CCCB24C3118C00135967 /* Protocols.swift */,
 			);
 			path = BCPtest;
 			sourceTree = "<group>";
@@ -189,6 +191,7 @@
 		7CE941E7245B6B0D00B9A2A0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */,
 				0186FC0524D51C8000726BD8 /* ContainerController.swift */,
 				0186FBFC24D5106E00726BD8 /* TabBarController.swift */,
 				7CE941E9245B6B2900B9A2A0 /* HomeController.swift */,
@@ -358,6 +361,7 @@
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
+				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
 				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,

@@ -24,11 +24,21 @@ class LeaderboardController: UIViewController {
     // MARK: - Config
     
     func configUI() {
-        view.backgroundColor = .blue
+        configNavigationBar()
+        view.backgroundColor = CommonUI().blackColor
     }
     
     func configAutoLayout() {
         
+    }
+    
+    func configNavigationBar() {
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = CommonUI().blackColor
+        navigationController?.navigationBar.tintColor = .white
+        let font = UIFont(name: fontString, size: 25)
+        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
+        navigationItem.title = "Leaderboard"
     }
 }
 

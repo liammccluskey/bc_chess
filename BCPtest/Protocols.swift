@@ -14,6 +14,5 @@ protocol ChessBoardDelegate {
 }
 
 protocol ThemeTableDelegate {
-    func didDismissTable()
     func didSubmitChangeAt(indexPath: IndexPath)
 }

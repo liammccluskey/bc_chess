@@ -14,8 +14,7 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     
     var delegate: ThemeTableDelegate?
     
-    var panGestureRecognizer : UIPanGestureRecognizer!
-    var headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO CLOSE AND APPLY CHANGES", backC: CommonUI().blackColor, textC: .white)
+    var headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO APPLY CHANGES", backC: CommonUI().blackColor, textC: .white)
     
     // MARK: - Init
     
@@ -29,13 +28,10 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
         headerView.translatesAutoresizingMaskIntoConstraints = false
         tableView.tableHeaderView = headerView
         
-        tableView.bounces = true
-        panGestureRecognizer = UIPanGestureRecognizer(target: self, action: #selector(self.panRecognized))
-        panGestureRecognizer.delegate = self
-        tableView.addGestureRecognizer(panGestureRecognizer)
-        
         autoLayout()
     }
+    
+  
     
     func autoLayout() {
         headerView.centerXAnchor.constraint(equalTo: self.tableView.centerXAnchor).isActive = true
@@ -90,41 +86,5 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         delegate?.didSubmitChangeAt(indexPath: indexPath)
-        //displayChangeSavedNotification()
-    }
-    
-    // MARK: - Helper
-
-    @objc func panRecognized(recognizer: UIPanGestureRecognizer) {
-        if recognizer.state == .began && tableView.contentOffset.y == 0 {
-
-        } else if recognizer.state != .ended && recognizer.state != .cancelled && recognizer.state != .failed {
-            let panOffset = recognizer.translation(in: tableView)
-            let eligiblePanOffset = panOffset.y > 300
-            if eligiblePanOffset {
-                recognizer.isEnabled = false
-                recognizer.isEnabled = true
-                delegate?.didDismissTable()
-            }
-        }
-    }
-
-    func gestureRecognizer(_ gestureRecognizer: UIGestureRecognizer, shouldRecognizeSimultaneouslyWith otherGestureRecognizer: UIGestureRecognizer) -> Bool {
-        return true
-    }
-    
-    func displayChangeSavedNotification() {
-        DispatchQueue.main.async {
-            self.headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO CLOSE\nChanges Saved")
-            self.headerView.translatesAutoresizingMaskIntoConstraints = false
-            self.tableView.tableHeaderView = self.headerView
-            self.autoLayout()
-        }
-        DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
-            self.headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO CLOSE")
-            self.headerView.translatesAutoresizingMaskIntoConstraints = false
-            self.tableView.tableHeaderView = self.headerView
-            self.autoLayout()
-        }
     }
 }

@@ -114,7 +114,7 @@ class CommonUI {
         label.text = title
         label.textColor = textC
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 19)
+        label.font = UIFont(name: fontString, size: 18)
         label.backgroundColor = backC
         return label
     }
@@ -200,7 +200,7 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
 }
 
 //public var pieceStyle = "lichess"
-public var pieceStyle = 2
+public var pieceStyle = 0
 enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
     case lichess
     case simple
