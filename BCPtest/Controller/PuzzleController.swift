@@ -146,16 +146,17 @@ class PuzzleController: UIViewController {
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
       
-        view.backgroundColor = CommonUI().blackColor
+        //view.backgroundColor = CommonUI().blackColor
+        view.backgroundColor = .black
     }
     
     func setUpAutoLayout(isInitLoad: Bool) {
         if isInitLoad {
             // global anchors
-            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 65).isActive = true
+            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3).isActive = true
+            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
+            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: 68).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -184,13 +185,13 @@ class PuzzleController: UIViewController {
         stack1.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 0).isActive = true
         stack1.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -0).isActive = true
         
-        positionTableW.tableView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 2).isActive = true
+        positionTableW.tableView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: -3).isActive = true
         positionTableW.tableView.rightAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 0).isActive = true
         positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
         positionTableW.tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
         
         positionTableB.tableView.leftAnchor.constraint(equalTo: containerView.centerXAnchor, constant: 0).isActive = true
-        positionTableB.tableView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -2).isActive = true
+        positionTableB.tableView.rightAnchor.constraint(equalTo: containerView.rightAnchor, constant: -3).isActive = true
         positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
         positionTableB.tableView.bottomAnchor.constraint(equalTo: containerView.bottomAnchor).isActive = true
     }

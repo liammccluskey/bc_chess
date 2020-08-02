@@ -8,38 +8,6 @@
 
 import UIKit
 
-
-
-//public var boardColor = "gray"
-//public var buttonColor = "purple"
-enum BoardColor: String {
-    case gray
-    case green
-    case darkBlue
-    case tan
-    case purple
-    case lightBlue
-    var darkSquareColor: UIColor {
-        switch self {
-        case .gray: return UIColor(red: 125/255, green: 135/255, blue: 150/255, alpha: 1)
-        case .green: return UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
-        case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
-        case .tan: return UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
-        case .purple: return UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
-        case .lightBlue: return UIColor(red: 79/255, green: 118/255, blue: 159/255, alpha: 1)
-        }
-    }
-    var lightSquareColor: UIColor {
-        switch self {
-            case .gray: return UIColor(red: 222/255, green: 225/255, blue: 229/255, alpha: 1)
-            case .green: return UIColor(red: 228/255, green: 228/255, blue: 200/255, alpha: 1)
-            case .darkBlue: return UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
-            case .tan: return UIColor(red: 226/255, green: 210/255, blue: 178/255, alpha: 1)
-            case .purple: return UIColor(red: 155/255, green: 125/255, blue: 202/255, alpha: 1)
-            case .lightBlue: return UIColor(red: 216/255, green: 221/255, blue: 219/255, alpha: 1)
-        }
-    }
-}
 enum PieceStyle: String {
     case lichess
     case simple
@@ -55,12 +23,17 @@ enum PieceStyle: String {
     }
 }
 
-
 public let fontString = "Avenir-Medium"
 public let fontStringLight = "Avenir-Book"
 
 class CommonUI {
     
+    let csBlue = UIColor(red: 5/255, green: 130/255, blue: 202/255, alpha: 1)
+    let csRed = UIColor(red: 7/255, green: 160/255, blue: 195/255, alpha: 1)
+    //
+    //let csRed = UIColor(red: 14/255, green: 52/255, blue: 160/255, alpha: 1)  // good blue color
+    //let csRed = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1) // good green colr
+
     let purpleColor = UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
     let blueColor = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
     let purpleColorLight = UIColor(red: 165/255, green: 135/255, blue: 212/255, alpha: 1)
@@ -71,7 +44,8 @@ class CommonUI {
     let tanColorDark = UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
     let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
     let greenColor = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
-    let blackColor = UIColor(red: 39/255, green: 41/255, blue: 43/255, alpha: 1)
+    //let blackColor = UIColor(red: 39/255, green: 41/255, blue: 43/255, alpha: 1)
+    let blackColor = UIColor(red: 19/255, green: 21/255, blue: 23/255, alpha: 1)
     let whiteColor = UIColor(red: 237/255, green: 227/255, blue: 214/255, alpha: 1)
     
     // MARK: - User Data
@@ -169,20 +143,20 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
     case lightBlue
     var darkSquareColor: UIColor {
         switch self {
-        case .gray: return UIColor(red: 125/255, green: 135/255, blue: 150/255, alpha: 1)
-        case .green: return UIColor(red: 108/255, green: 140/255, blue: 76/255, alpha: 1)
+        case .gray: return UIColor(red: 136/255, green: 136/255, blue: 136/255, alpha: 1)
+        case .green: return UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
         case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
-        case .tan: return UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
+        case .tan: return UIColor(red: 181/255, green: 136/255, blue: 99/255, alpha: 1)
         case .purple: return UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
-        case .lightBlue: return UIColor(red: 79/255, green: 118/255, blue: 159/255, alpha: 1)
+        case .lightBlue: return UIColor(red: 140/255, green: 162/255, blue: 173/255, alpha: 1)
         }
     }
     var lightSquareColor: UIColor {
         switch self {
-            case .gray: return UIColor(red: 222/255, green: 225/255, blue: 229/255, alpha: 1)
+            case .gray: return UIColor(red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
             case .green: return UIColor(red: 238/255, green: 238/255, blue: 210/255, alpha: 1)
             case .darkBlue: return UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
-            case .tan: return UIColor(red: 226/255, green: 210/255, blue: 178/255, alpha: 1)
+            case .tan: return UIColor(red: 240/255, green: 217/255, blue: 181/255, alpha: 1)
             case .purple: return UIColor(red: 155/255, green: 125/255, blue: 202/255, alpha: 1)
             case .lightBlue: return UIColor(red: 216/255, green: 221/255, blue: 219/255, alpha: 1)
         }

@@ -65,11 +65,11 @@ class PuzzleUI {
     func configureButton(title: String, titleColor: UIColor, borderColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name: fontStringLight, size: 18)
+        button.titleLabel?.font = UIFont(name: fontStringLight, size: 16)
         button.backgroundColor = .black
         button.layer.borderWidth = 1
-        button.layer.borderColor = CommonUI().blackColor.cgColor
-        button.setTitleColor(titleColor, for: .normal)
+        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.setTitleColor(.lightGray, for: .normal)
         return button
     }
     

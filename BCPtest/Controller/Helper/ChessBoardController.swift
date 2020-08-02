@@ -211,9 +211,11 @@ class ChessBoardController: UIViewController {
     // MARK: - Interface
     
     func setButtonInteraction(isEnabled: Bool) {
+        guard let _ = squareButtons else {return}
         squareButtons.forEach{ (button) in
             button.isEnabled = isEnabled
         }
+        guard let _ = squareButtonsBlank else {return}
         squareButtonsBlank.forEach{ (button) in
             button.isEnabled = isEnabled
         }

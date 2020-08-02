@@ -19,10 +19,14 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        //window?.rootViewController = UINavigationController(rootViewController: HomeController())
-        
         window?.rootViewController = TabBarController()
- 
+        
+        /*
+        let flow = UICollectionViewFlowLayout()
+        let controller = DailyPuzzlesCollectionController(collectionViewLayout: flow)
+        window?.rootViewController = controller
+ */
+        
         return true
     }
 

@@ -48,7 +48,7 @@ class PositionTableController: UITableViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = isWhite ? "WHITE POSITION" : "BLACK POSITION"
         label.textColor = .white
-        label.font = UIFont(name: fontStringLight, size: 17)
+        label.font = UIFont(name: fontStringLight, size: 16)
         label.backgroundColor = .clear
         label.textAlignment = .center
         view.backgroundColor = .clear
@@ -65,7 +65,7 @@ class PositionTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 46
+        return 47
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -74,6 +74,7 @@ class PositionTableController: UITableViewController {
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
+        
         guard let p = puzzle else {return cell}
         let position = p.position
         let pieceTag = isWhite ? indexPath.row*2 : indexPath.row*2 + 1
@@ -83,7 +84,7 @@ class PositionTableController: UITableViewController {
         var pieceImage = pieceType?.image.withRenderingMode(.alwaysOriginal)
         cell.imageView?.clipsToBounds = true
         cell.textLabel?.text = squares
-            .joined(separator: ", ")
+            .joined(separator: " ")
         if squares.count > 4 {
             cell.textLabel?.numberOfLines = 0
             cell.textLabel?.lineBreakMode = .byWordWrapping
@@ -94,7 +95,7 @@ class PositionTableController: UITableViewController {
         cell.imageView?.contentMode = .scaleAspectFit
         cell.imageView?.backgroundColor = .clear
         cell.textLabel?.textColor = .white
-        cell.textLabel?.font = UIFont(name: fontStringLight, size: 16.8)
+        cell.textLabel?.font = UIFont(name: fontStringLight, size: 17)
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         

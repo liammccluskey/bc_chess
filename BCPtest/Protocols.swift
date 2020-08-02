@@ -16,3 +16,7 @@ protocol ChessBoardDelegate {
 protocol ThemeTableDelegate {
     func didSubmitChangeAt(indexPath: IndexPath)
 }
+
+protocol DailyPuzzlesCollectionDelegate {
+    func didSelectPuzzle(puzzle: Puzzle)
+}

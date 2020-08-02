@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Hiddenmode-PixTeller.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

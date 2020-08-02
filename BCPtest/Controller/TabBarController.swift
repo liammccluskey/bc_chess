@@ -53,7 +53,7 @@ class TabBarController: UITabBarController {
         
         // white bar with black items
         tabBar.barTintColor = .black
-        tabBar.tintColor = CommonUI().blueColorLight
+        tabBar.tintColor = CommonUI().csRed
         
         tabBar.isTranslucent = false
     }

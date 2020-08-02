@@ -35,9 +35,10 @@ class ProgressController: UIViewController {
     func configNavigationBar() {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
+        navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
         let font = UIFont(name: fontString, size: 25)
-        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
+        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
         navigationItem.title = "Your Progress"
     }
 }

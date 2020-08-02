@@ -14,6 +14,8 @@
 		0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0324D5193700726BD8 /* ProgressController.swift */; };
 		0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0524D51C8000726BD8 /* ContainerController.swift */; };
 		0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */; };
+		0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0924D5ABCA00726BD8 /* ChessBoardImageController.swift */; };
+		0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
 		7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33C51824BAC4E200135967 /* PuzzleController.swift */; };
@@ -60,6 +62,8 @@
 		0186FC0324D5193700726BD8 /* ProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
 		0186FC0524D51C8000726BD8 /* ContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContainerController.swift; sourceTree = "<group>"; };
 		0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPuzzleController.swift; sourceTree = "<group>"; };
+		0186FC0924D5ABCA00726BD8 /* ChessBoardImageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardImageController.swift; sourceTree = "<group>"; };
+		0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyPuzzlesCollectionController.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
 		7C33C51824BAC4E200135967 /* PuzzleController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleController.swift; sourceTree = "<group>"; };
@@ -118,6 +122,8 @@
 				7C33CCC924C2171300135967 /* ChessBoardController.swift */,
 				01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */,
 				7C33CCC524BB91D800135967 /* PositionTableController.swift */,
+				0186FC0924D5ABCA00726BD8 /* ChessBoardImageController.swift */,
+				0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -351,6 +357,7 @@
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
 				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
+				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
@@ -360,6 +367,7 @@
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
+				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
 				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
@@ -549,7 +557,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.16;
+				MARKETING_VERSION = 1.19;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -570,7 +578,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.16;
+				MARKETING_VERSION = 1.19;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
