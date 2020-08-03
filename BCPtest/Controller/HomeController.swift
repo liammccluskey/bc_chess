@@ -10,6 +10,16 @@ import UIKit
 
 class HomeController: UIViewController {
     
+    let testL: UILabel = { // paging controller, like spotify -> should be buttons
+        let label = UILabel()
+        label.text = "Play  Create"
+        label.textColor = .white
+        label.textAlignment = .left
+        label.font = UIFont(name: "Avenir-Heavy", size: 36)
+        label.backgroundColor = .clear
+        return label
+    }()
+    
     var boardController: ChessBoardController!
     
     // MARK: - Properties
@@ -60,6 +70,8 @@ class HomeController: UIViewController {
     
     func configureUI() {
         configureNavigationBar()
+        
+        //navigationController?.navigationBar.isHidden = true
 
         piecesShownButton = configureModeButton(puzzleMode: 2)
         piecesHiddenButton = configureModeButton(puzzleMode: 3)
@@ -68,6 +80,7 @@ class HomeController: UIViewController {
         submodeSegment = configureSegment(items: ["Rated", "Learning"])
         
         stack1 = configureStackView(arrangedSubViews: [
+            //testL,
             header1Label,
                 CommonUI().configureHStackView(arrangedSubViews: [piecesShownButton, piecesHiddenButton]),
                 CommonUI().configureHStackView(arrangedSubViews: [trainingButton, rushButton]),
@@ -88,6 +101,7 @@ class HomeController: UIViewController {
     }
     
     func configureAutoLayout() {
+        //stack1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         stack1.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
         stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
@@ -128,16 +142,9 @@ class HomeController: UIViewController {
         button.tag = tag
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontString, size: 20)
-        /*
-        button.backgroundColor = CommonUI().csRed
-        button.layer.cornerRadius = 10
-        button.clipsToBounds = true
-        button.addTarget(self, action: #selector(mateAction), for: .touchUpInside)
-        button.setTitleColor(.white, for: .normal)
- */
         button.backgroundColor = CommonUI().blackColor
         button.layer.borderWidth = 3.5
-        button.layer.borderColor = UIColor(red: 31/255, green: 32/255, blue: 35/255, alpha: 1).cgColor
+        button.layer.borderColor = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1).cgColor
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(mateAction), for: .touchUpInside)

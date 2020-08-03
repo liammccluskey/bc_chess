@@ -20,3 +20,8 @@ protocol ThemeTableDelegate {
 protocol DailyPuzzlesCollectionDelegate {
     func didSelectPuzzle(puzzle: Puzzle)
 }
+
+// Database
+protocol UserDBMSDelegate {
+    func sendUser(user: User)
+}

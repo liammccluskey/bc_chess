@@ -46,13 +46,13 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
         guard let puzzles = puzzles else {return cell}
         let puzzle = puzzles[indexPath.section*2 + indexPath.row]
         cell.configUI(forPuzzle: puzzle)
-        cell.label.text = "Difficulty:  " + String(indexPath.section*2 + indexPath.row)
+        cell.difficultyLabel.text = "Difficulty:  " + String(puzzle.solution_moves.count*400 + Int.random(in: 3...200))
         cell.backgroundColor = .clear
         return cell
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-       return UIEdgeInsets(top: 5, left: 5, bottom: 5, right: 5)
+       return UIEdgeInsets(top: 5, left: 5, bottom: 20, right: 5)
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
@@ -66,7 +66,7 @@ class PuzzleCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    let label: UILabel = {
+    let difficultyLabel: UILabel = {
         let label = UILabel()
         label.backgroundColor = .clear
         label.textAlignment = .left
@@ -74,6 +74,14 @@ class PuzzleCell: UICollectionViewCell {
         label.font = UIFont(name: fontStringLight, size: 13)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    let completedImage: UIImageView = {
+        let imView = UIImageView()
+        imView.translatesAutoresizingMaskIntoConstraints = false
+        imView.contentMode = .scaleAspectFit
+        imView.image = #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal)
+        return imView
     }()
     
     override init(frame: CGRect) {
@@ -90,19 +98,24 @@ class PuzzleCell: UICollectionViewCell {
         bc1.view.backgroundColor = .clear
         addSubview(bc1.view)
         
-        addSubview(label)
+        addSubview(difficultyLabel)
+        addSubview(completedImage)
         
         bc1.view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         bc1.view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         bc1.view.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        //bc1.view.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         
-        label.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        label.topAnchor.constraint(equalTo: bc1.view.bottomAnchor, constant: 5).isActive = true
-        label.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        difficultyLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        difficultyLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        difficultyLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        
+        completedImage.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        completedImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        //completedImage.heightAnchor.constraint(equalToConstant:).isActive = true
         
         
+        bc1.view.layer.cornerRadius = 10
+        bc1.view.clipsToBounds = true
     }
     
     func configAutoLayout() {

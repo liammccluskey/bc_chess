@@ -29,10 +29,10 @@ public let fontStringLight = "Avenir-Book"
 class CommonUI {
     
     let csBlue = UIColor(red: 5/255, green: 130/255, blue: 202/255, alpha: 1)
-    let csRed = UIColor(red: 7/255, green: 160/255, blue: 195/255, alpha: 1)
+    //let csRed = UIColor(red: 7/255, green: 160/255, blue: 195/255, alpha: 1)
     //
     //let csRed = UIColor(red: 14/255, green: 52/255, blue: 160/255, alpha: 1)  // good blue color
-    //let csRed = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1) // good green colr
+    let csRed = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1) // good green colr
 
     let purpleColor = UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
     let blueColor = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
@@ -45,6 +45,8 @@ class CommonUI {
     let redColor = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
     let greenColor = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
     //let blackColor = UIColor(red: 39/255, green: 41/255, blue: 43/255, alpha: 1)
+    
+    let blackColorLight = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1)
     let blackColor = UIColor(red: 19/255, green: 21/255, blue: 23/255, alpha: 1)
     let whiteColor = UIColor(red: 237/255, green: 227/255, blue: 214/255, alpha: 1)
     

@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "Logo3x-PixTeller.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

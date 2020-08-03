@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Firebase
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -19,13 +20,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        window?.rootViewController = TabBarController()
+        //window?.rootViewController = TabBarController()
         
-        /*
-        let flow = UICollectionViewFlowLayout()
-        let controller = DailyPuzzlesCollectionController(collectionViewLayout: flow)
-        window?.rootViewController = controller
- */
+        window?.rootViewController = SignInController()
+        
+        FirebaseApp.configure()
         
         return true
     }
