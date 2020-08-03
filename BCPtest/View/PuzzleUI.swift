@@ -88,9 +88,19 @@ class PuzzleUI {
     // MARK: - Labels
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
+        /*
         let label = UILabel()
         label.backgroundColor = dButtonColor
         label.textColor = playerToMove == "white" ? .white : .black
+        label.textAlignment = .center
+        label.font = UIFont(name: fontString, size: 19)
+        label.text = "\(playerToMove.uppercased()) TO MOVE"
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+        */
+        let label = UILabel()
+        label.backgroundColor = CommonUI().blackColorLight
+        label.textColor = .lightGray
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 19)
         label.text = "\(playerToMove.uppercased()) TO MOVE"
@@ -101,6 +111,7 @@ class PuzzleUI {
     // MARK: - Misc.
     
     func configurePiecesShownSegCont() -> UISegmentedControl {
+        /*
         let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
         sc.isEnabled = true
         let font = UIFont(name: fontString, size: 13)
@@ -110,6 +121,18 @@ class PuzzleUI {
         sc.backgroundColor = dButtonColor
         sc.selectedSegmentTintColor = lButtonColor
         sc.translatesAutoresizingMaskIntoConstraints = false
+        return sc
+        */
+        let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
+        let font = UIFont(name: fontString, size: 16)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
+        sc.tintColor = .lightGray
+        sc.selectedSegmentIndex = 0
+        sc.backgroundColor = .clear
+        sc.selectedSegmentTintColor = CommonUI().blackColor
+        sc.layer.cornerRadius = 20
+        sc.clipsToBounds = true
         return sc
 
     }

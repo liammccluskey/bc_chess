@@ -21,7 +21,13 @@ protocol DailyPuzzlesCollectionDelegate {
     func didSelectPuzzle(puzzle: Puzzle)
 }
 
+protocol SignInDelegate {
+    func notifyOfSignIn()
+}
+
 // Database
 protocol UserDBMSDelegate {
-    func sendUser(user: User)
+    func sendUser(user: User?)
 }
+
+

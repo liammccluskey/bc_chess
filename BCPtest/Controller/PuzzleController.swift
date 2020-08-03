@@ -112,6 +112,7 @@ class PuzzleController: UIViewController {
         configureNavigationBar()
         configureScrollView()
         piecesShownSegment = puzzleUI.configurePiecesShownSegCont()
+        //piecesShownSegment = configureSegment(items: ["HIDE PIECES", "SHOW PIECES"])
         configurePageData(isReload: false)
         
         playerToMoveLabel = puzzleUI.configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
@@ -218,10 +219,10 @@ class PuzzleController: UIViewController {
             containerView.addSubview(positionTableB.tableView)
         } else {
             playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
-            playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .white : .black
-            playerToMoveLabel.backgroundColor = UserDataManager().getButtonColor()!.darkSquareColor
-            piecesShownSegment.backgroundColor = UserDataManager().getButtonColor()!.darkSquareColor
-            piecesShownSegment.selectedSegmentTintColor = UserDataManager().getButtonColor()!.lightSquareColor
+            //playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .white : .black
+            //playerToMoveLabel.backgroundColor = UserDataManager().getButtonColor()!.darkSquareColor
+            //piecesShownSegment.backgroundColor = UserDataManager().getButtonColor()!.darkSquareColor
+            //piecesShownSegment.selectedSegmentTintColor = UserDataManager().getButtonColor()!.lightSquareColor
             positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
             positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
             positionTableW.tableView.reloadData()
@@ -457,6 +458,22 @@ class ButtonWithImage: UIButton {
             titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: (imageView?.frame.width)!)
             imageView?.contentMode = .scaleAspectFit
         }
+    }
+}
+
+extension PuzzleController {
+    func configureSegment(items: [String]) -> UISegmentedControl {
+     let sc = UISegmentedControl(items: items)
+     let font = UIFont(name: fontString, size: 16)
+     sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
+     sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
+     sc.tintColor = .lightGray
+     sc.selectedSegmentIndex = 0
+     sc.backgroundColor = .clear
+     sc.selectedSegmentTintColor = CommonUI().blackColor
+     sc.layer.cornerRadius = 20
+     sc.clipsToBounds = true
+     return sc
     }
 }
 

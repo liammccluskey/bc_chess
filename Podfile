@@ -10,6 +10,7 @@ target 'BCPtest' do
   pod 'Firebase/Analytics'
   pod 'Firebase/Firestore'
   pod 'Firebase/Auth'
+  pod 'FirebaseFirestoreSwift'
 
   target 'BCPtestTests' do
     inherit! :search_paths

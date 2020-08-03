@@ -30,15 +30,15 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
     // MARK: - Config
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 10
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width*0.46, height: view.frame.width*0.52)
+        return CGSize(width: view.frame.width*0.3, height: view.frame.width*0.36)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {

@@ -9,6 +9,7 @@
 import UIKit
 import Firebase
 
+
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -22,7 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         //window?.rootViewController = TabBarController()
         
-        window?.rootViewController = SignInController()
+        window?.rootViewController = ContainerController()
         
         FirebaseApp.configure()
         

@@ -15,12 +15,18 @@ class ContainerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureTabBarController()
+        configSignInController()
     }
     
     // MARK: - Config
+    
+    func configSignInController() {
+        let controller = SignInController()
+        controller.delegate = self
+        showChildViewController(child: controller)
+    }
 
-    func configureTabBarController() {
+    func configTabBarController() {
         let controller = TabBarController()
         showChildViewController(child: controller)
     }
@@ -31,5 +37,11 @@ class ContainerController: UIViewController {
         addChild(child)
         view.addSubview(child.view)
         didMove(toParent: self)
+    }
+}
+
+extension ContainerController: SignInDelegate {
+    func notifyOfSignIn() {
+        configTabBarController()
     }
 }

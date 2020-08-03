@@ -7,10 +7,14 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class SignInController: UIViewController {
     
     // MARK: - Properties
+    
+    var userDBMS: UserDBMS!
+    var delegate: SignInDelegate?
     
     var logoImage: UIImageView = {
         let iv = UIImageView()
@@ -42,6 +46,10 @@ class SignInController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        userDBMS = UserDBMS()
+        userDBMS.delegate = self
+        self.hideKeyboardWhenTappedAround()
+        
         configUI()
         configAutoLayout()
     }
@@ -68,7 +76,7 @@ class SignInController: UIViewController {
     }
     
     func configAutoLayout() {
-        logoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20).isActive = true
+        logoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
         logoImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100).isActive = true
         logoImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
         
@@ -80,7 +88,26 @@ class SignInController: UIViewController {
     // MARK: - Selectors
     
     @objc func signInUpAction() {
-        present(TabBarController(), animated: true)
+        guard let email = emailField.text,
+            let password = passwordField.text,
+            let username = usernameField.text
+            else {return}
+        if signInUpSegment.selectedSegmentIndex == 0 {
+            Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
+                if authResult != nil {
+                    print("succes log in")
+                    self.delegate?.notifyOfSignIn()
+                } else {self.showSignInUpAlert(message: error!.localizedDescription); return }
+            }
+        } else {
+            Auth.auth().createUser(withEmail: email, password: password) { (authResult, error) in
+                if authResult != nil {
+                    self.userDBMS.initUserData(uid: Auth.auth().currentUser!.uid, username: username)
+                    self.delegate?.notifyOfSignIn()
+                } else {self.showSignInUpAlert(message: error!.localizedDescription); return }
+            }
+        }
+
     }
     
     @objc func segmentAction() {
@@ -100,6 +127,20 @@ class SignInController: UIViewController {
                 }
             }
         }
+    }
+    
+    // MARK: - Alerts
+    
+    func showSignInUpAlert(message: String) {
+        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
+        alert.setTitle(font: UIFont(name: fontString, size: 23), color: .lightGray)
+        alert.setMessage(font: UIFont(name: fontStringLight, size: 20), color: .white)
+        alert.setTint(color: CommonUI().csRed)
+        alert.setBackgroundColor(color: CommonUI().blackColor)
+        alert.view.layer.borderColor = CommonUI().blackColorLight.cgColor
+        alert.view.layer.borderWidth = 10
+        alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
+        present(alert, animated: true)
     }
     
     // MARK: - Helper
@@ -146,5 +187,11 @@ class SignInController: UIViewController {
         button.setTitleColor(CommonUI().csRed, for: .normal)
         
         return button
+    }
+}
+
+extension SignInController: UserDBMSDelegate {
+    func sendUser(user: User?) {
+        print(user)
     }
 }

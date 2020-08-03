@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import FirebaseAuth
 
 class HomeController: UIViewController {
+    
+    var currentUser: User!
     
     let testL: UILabel = { // paging controller, like spotify -> should be buttons
         let label = UILabel()
@@ -28,8 +31,19 @@ class HomeController: UIViewController {
     
     let header1Label: UILabel = {
         let label = UILabel()
-        label.text = "Select Piece Visibility and Puzzle Type"
+        let dateString = DateFormatter.localizedString(from: Date(), dateStyle: .long, timeStyle: .none)
+        label.text = "Chess Puzzle Games"
         label.textColor = .white
+        label.textAlignment = .left
+        label.font = UIFont(name: fontString, size: 23)
+        label.backgroundColor = .clear
+        return label
+    }()
+    
+    let subheader1Label: UILabel = {
+        let label = UILabel()
+        label.text = "Select Puzzle Type"
+        label.textColor = .lightGray
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 16)
         label.backgroundColor = .clear
@@ -50,7 +64,7 @@ class HomeController: UIViewController {
         label.text = "Daily Puzzles - \(dateString)"
         label.textColor = .white
         label.textAlignment = .left
-        label.font = UIFont(name: fontString, size: 20)
+        label.font = UIFont(name: fontString, size: 23)
         label.backgroundColor = .clear
         return label
     }()
@@ -62,8 +76,9 @@ class HomeController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configureUI()
-        configureAutoLayout()
+        let userDBMS = UserDBMS()
+        userDBMS.delegate = self
+        userDBMS.getUser(uid: Auth.auth().currentUser!.uid)
     }
     
     // MARK: - Config
@@ -78,16 +93,19 @@ class HomeController: UIViewController {
         trainingButton = configureModeButton(puzzleMode: 0)
         rushButton = configureModeButton(puzzleMode: 1)
         submodeSegment = configureSegment(items: ["Rated", "Learning"])
+        playButton = configurePuzzleTypeButton(title: "Play", tag: 4)
         
         stack1 = configureStackView(arrangedSubViews: [
             //testL,
             header1Label,
+                subheader1Label,
                 CommonUI().configureHStackView(arrangedSubViews: [piecesShownButton, piecesHiddenButton]),
                 CommonUI().configureHStackView(arrangedSubViews: [trainingButton, rushButton]),
                 submodeSegment,
-                configurePuzzleTypeButton(title: "Play", tag: 4),
+                playButton,
             header2Label,
         ])
+        stack1.setCustomSpacing(30, after: playButton)
         view.addSubview(stack1)
         
         let flow = UICollectionViewFlowLayout()
@@ -102,14 +120,14 @@ class HomeController: UIViewController {
     
     func configureAutoLayout() {
         //stack1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
-        stack1.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        stack1.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
         dailyPuzzlesCollection.collectionView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 10).isActive = true
         dailyPuzzlesCollection.collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         dailyPuzzlesCollection.collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        dailyPuzzlesCollection.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        dailyPuzzlesCollection.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
     }
     
@@ -119,7 +137,8 @@ class HomeController: UIViewController {
         navigationController?.navigationBar.tintColor = .lightGray
         let font = UIFont(name: fontString, size: 25)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
-        navigationItem.title = "Puzzles"
+        let username = Auth.auth().currentUser?.displayName
+        navigationItem.title = "Welcome, " + username!
         
         let infoButton = UIButton(type: .infoDark)
         infoButton.addTarget(self, action: #selector(infoAction), for: .touchUpInside)
@@ -237,7 +256,7 @@ class HomeController: UIViewController {
     
     func configureSegment(items: [String]) -> UISegmentedControl {
         let sc = UISegmentedControl(items: items)
-        let font = UIFont(name: fontString, size: 15)
+        let font = UIFont(name: fontString, size: 16)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
         sc.tintColor = .lightGray
@@ -246,8 +265,9 @@ class HomeController: UIViewController {
         sc.selectedSegmentTintColor = CommonUI().blackColor
         sc.layer.cornerRadius = 20
         sc.clipsToBounds = true
+        //sc.translatesAutoresizingMaskIntoConstraints = false
+        //sc.widthAnchor.constraint(equalToConstant: 150).isActive = true
         return sc
-
        }
 }
 
@@ -277,6 +297,17 @@ extension HomeController: DailyPuzzlesCollectionDelegate {
         let controller = DailyPuzzleController(puzzles: [puzzle])
         present(controller, animated: true)
     }
+}
+
+extension HomeController: UserDBMSDelegate {
+    func sendUser(user: User?) {
+        guard let user = user else {return}
+        self.currentUser = user
+        configureUI()
+        configureAutoLayout()
+    }
+    
+    
 }
 
 

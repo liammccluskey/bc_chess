@@ -19,7 +19,6 @@
 		0186FC0E24D748F800726BD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0186FC0D24D748F800726BD8 /* GoogleService-Info.plist */; };
 		0186FC1024D7539700726BD8 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0F24D7539700726BD8 /* SignInController.swift */; };
 		0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC1224D77DA800726BD8 /* UserDMBS.swift */; };
-		0186FC1524D77E2100726BD8 /* User.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC1424D77E2100726BD8 /* User.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
 		2DFB99AA45888FCDD9AF8CC5 /* Pods_BCPtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5AEAABF0359A94E461130B /* Pods_BCPtest.framework */; };
@@ -75,7 +74,6 @@
 		0186FC0D24D748F800726BD8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0186FC0F24D7539700726BD8 /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		0186FC1224D77DA800726BD8 /* UserDMBS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDMBS.swift; sourceTree = "<group>"; };
-		0186FC1424D77E2100726BD8 /* User.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = User.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
 		09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BCPtest_BCPtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -275,7 +273,6 @@
 				0161D74324CE1F1F0043E860 /* puzzlesM1234.json */,
 				7C33CCBC24BAC83800135967 /* PuzzleFromJson.swift */,
 				01D0830524CFA445001F57E6 /* UserDataManager.swift */,
-				0186FC1424D77E2100726BD8 /* User.swift */,
 			);
 			path = Model;
 			sourceTree = "<group>";
@@ -524,7 +521,6 @@
 				7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */,
 				7C33CCBD24BAC83800135967 /* PuzzleFromJson.swift in Sources */,
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
-				0186FC1524D77E2100726BD8 /* User.swift in Sources */,
 				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
@@ -730,7 +726,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20;
+				MARKETING_VERSION = 1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -752,7 +748,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.20;
+				MARKETING_VERSION = 1.21;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;

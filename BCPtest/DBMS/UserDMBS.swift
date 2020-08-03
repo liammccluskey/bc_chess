@@ -7,13 +7,17 @@
 //
 
 import FirebaseFirestore
+import Firebase
+import FirebaseAuth
+import FirebaseFirestoreSwift
+
+let P_COMPLETED_SAMPLE: [String] = ["0,0,0,5", "0,1,1,5", "0,2,0,5", "0,0,0,5", "0,3,1,5"]
 
 class UserDBMS {
     
     // MARK: - Properties
     
     var delegate: UserDBMSDelegate?
-    let usersRef = Firestore.firestore().collection("users")
     
     // MARK: - Init Set/Get
     
@@ -25,50 +29,74 @@ class UserDBMS {
         return true
     }
     
-    func initUserData(uid: String) {
-        usersRef.document(uid).setData([
-            "UID": uid
+    func initUserData(uid: String, username: String) {
+        
+        Firestore.firestore().collection("users").document(uid).setData([
+            "PUZZLES_COMPLETED": P_COMPLETED_SAMPLE,
+            "PRUSH_5": [],
+            "PRUSH_3": [],
+            "ELO": 1000
         ]) { (error) in
             if let error = error {
                 print("user_dbms.initUserData() Error: \(error)")
             }
         }
-        // Set currentUser.displayName to "customer", used to sign in
-        /*
         let changeRequest =  Auth.auth().currentUser?.createProfileChangeRequest()
-        changeRequest?.displayName = "customer"
+        changeRequest?.displayName = username
         changeRequest?.commitChanges { (error) in
             if let error = error {
-                print("CustomerRegisterController.registerAction() Error: couldn't set display name \(error)")
+                print("userdbms.inituserdata() Error: couldn't set display name \(error)")
             }
         }
-        */
     }
     
     func getUser(uid: String) {
-        let docRef = usersRef.document(uid)
+        let docRef = Firestore.firestore().collection("users").document(uid)
         docRef.getDocument { (document, error) in
-            if let document = document {
-                guard let docData = document.data() else {return}
-                let user = User()
-                /*
-                let customer = Customer(
-                    completedJobs: docData["COMPLETED_JOBS"] as! [String]
-                )
-                */
+            guard let document = document else { self.delegate?.sendUser(user: nil); return}
+            do {
+                let user: User? = try document.data(as: User.self) ?? nil
                 self.delegate?.sendUser(user: user)
-            } else {
-                self.delegate?.sendUser(user: nil)
+            } catch {
+                print(error)
             }
         }
     }
     
     // MARK: - User Data Updates
     
-    func addCompletedJob(jobID: String, forCustomerUID uid: String) {
-        let docRef = customersRef.document(uid)
+    func addCompletedPuzzle(completedPuzzle: PUZZLE_COMPLETED, forUID uid: String) {
+        let docRef = Firestore.firestore().collection("users").document(uid)
         docRef.updateData([
-            "COMPLETED_JOBS": FieldValue.arrayUnion([jobID])
+            "PUZZLES_COMPLETED": FieldValue.arrayUnion([completedPuzzle])
         ])
     }
 }
+
+
+struct User: Codable {
+    var PUZZLES_COMPLETED: [String]
+    var PRUSH_5: [Int]
+    var PRUSH_3: [Int]
+    var ELO: Int
+    
+    func getCompletedPuzzles() -> [PUZZLE_COMPLETED] {
+        var puzzles_completed: [PUZZLE_COMPLETED] = []
+        self.PUZZLES_COMPLETED.forEach{ (p) in
+            let elems = p.split(separator: ",")
+            let ints = elems.map{ Int(String($0))}
+            let puzzle_completed = PUZZLE_COMPLETED(TYPE: ints[0]!, INDEX: ints[1]!, CORRECT: ints[2]!, ELO_DELTA: ints[3]!)
+            puzzles_completed.append(puzzle_completed)
+        }
+        return puzzles_completed
+    }
+}
+
+struct PUZZLE_COMPLETED: Codable {
+    var TYPE: Int // 0->m1, 1->m2, ...
+    var INDEX: Int
+    var CORRECT: Int
+    var ELO_DELTA: Int
+}
+
+

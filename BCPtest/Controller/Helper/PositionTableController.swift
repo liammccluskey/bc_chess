@@ -47,7 +47,7 @@ class PositionTableController: UITableViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = isWhite ? "WHITE POSITION" : "BLACK POSITION"
-        label.textColor = .white
+        label.textColor = .lightGray
         label.font = UIFont(name: fontStringLight, size: 16)
         label.backgroundColor = .clear
         label.textAlignment = .center
