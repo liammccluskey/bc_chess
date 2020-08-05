@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <model type="com.apple.IDECoreDataModeler.DataModel" documentVersion="1.0" lastSavedToolsVersion="16119" systemVersion="19F101" minimumToolsVersion="Automatic" sourceLanguage="Swift" userDefinedModelVersionIdentifier="">
-    <entity name="PuzzleAttempt" representedClassName="PuzzleAttempt" syncable="YES" codeGenerationType="category">
+    <entity name="PuzzleAttempt" representedClassName="PuzzleAttempt" syncable="YES">
         <attribute name="newRating" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="piecesHidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="puzzleIndex" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -9,7 +9,7 @@
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="wasCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
     </entity>
-    <entity name="PuzzledUser" representedClassName="PuzzledUser" syncable="YES" codeGenerationType="category">
+    <entity name="PuzzledUser" representedClassName="PuzzledUser" syncable="YES">
         <attribute name="puzzle_Elo" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="puzzleB_Elo" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush3_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -17,14 +17,14 @@
         <attribute name="rush5_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush5B_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
     </entity>
-    <entity name="Rush3Attempt" representedClassName="Rush3Attempt" syncable="YES" codeGenerationType="category">
+    <entity name="Rush3Attempt" representedClassName="Rush3Attempt" syncable="YES">
         <attribute name="didStrikeout" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="didTimeout" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="numCorrect" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="piecesHidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
     </entity>
-    <entity name="Rush5Attempt" representedClassName="Rush5Attempt" syncable="YES" codeGenerationType="category">
+    <entity name="Rush5Attempt" representedClassName="Rush5Attempt" syncable="YES">
         <attribute name="didStrikeout" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="didTimeout" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="numCorrect" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -33,8 +33,8 @@
     </entity>
     <elements>
         <element name="PuzzleAttempt" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="Rush5Attempt" positionX="-54" positionY="45" width="128" height="118"/>
-        <element name="Rush3Attempt" positionX="-36" positionY="72" width="128" height="118"/>
         <element name="PuzzledUser" positionX="-18" positionY="90" width="128" height="133"/>
+        <element name="Rush3Attempt" positionX="-36" positionY="72" width="128" height="118"/>
+        <element name="Rush5Attempt" positionX="-54" positionY="45" width="128" height="118"/>
     </elements>
 </model>

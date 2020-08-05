@@ -191,8 +191,8 @@ class HomeController: UIViewController {
             rushButton.tintColor = CommonUI().csRed
             rushButton.setTitleColor(CommonUI().csRed, for: .normal)
             submodeSegment.removeAllSegments()
-            submodeSegment.insertSegment(withTitle: "3 min", at: 0, animated: false)
-            submodeSegment.insertSegment(withTitle: "5 min", at: 1, animated: false)
+            submodeSegment.insertSegment(withTitle: "3 min ", at: 0, animated: false)
+            submodeSegment.insertSegment(withTitle: "5 min    ", at: 1, animated: false)
             submodeSegment.selectedSegmentIndex = 0
         case 2:
             piecesShownButton.tintColor = CommonUI().csRed

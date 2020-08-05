@@ -1,8 +1,9 @@
 //
 //  Rush3Attempt+CoreDataProperties.swift
-//  
+//  BCPtest
 //
 //  Created by Guest on 8/5/20.
+//  Copyright © 2020 Marty McCluskey. All rights reserved.
 //
 //
 
@@ -16,10 +17,10 @@ extension Rush3Attempt {
         return NSFetchRequest<Rush3Attempt>(entityName: "Rush3Attempt")
     }
 
-    @NSManaged public var didTimeout: Bool
     @NSManaged public var didStrikeout: Bool
+    @NSManaged public var didTimeout: Bool
     @NSManaged public var numCorrect: Int32
-    @NSManaged public var timestamp: Date?
     @NSManaged public var piecesHidden: Bool
+    @NSManaged public var timestamp: Date?
 
 }

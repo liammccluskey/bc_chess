@@ -1,8 +1,9 @@
 //
 //  PuzzledUser+CoreDataProperties.swift
-//  
+//  BCPtest
 //
 //  Created by Guest on 8/5/20.
+//  Copyright © 2020 Marty McCluskey. All rights reserved.
 //
 //
 
@@ -17,9 +18,9 @@ extension PuzzledUser {
     }
 
     @NSManaged public var puzzle_Elo: Int32
-    @NSManaged public var rush3B_HS: Int32
     @NSManaged public var puzzleB_Elo: Int32
     @NSManaged public var rush3_HS: Int32
+    @NSManaged public var rush3B_HS: Int32
     @NSManaged public var rush5_HS: Int32
     @NSManaged public var rush5B_HS: Int32
 

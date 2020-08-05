@@ -21,6 +21,15 @@
 		0186FC1024D7539700726BD8 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0F24D7539700726BD8 /* SignInController.swift */; };
 		0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC1224D77DA800726BD8 /* UserDMBS.swift */; };
 		01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01C2412D24DA7269006741E4 /* BCPTest.xcdatamodeld */; };
+		01C9006324DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005B24DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift */; };
+		01C9006424DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005C24DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift */; };
+		01C9006524DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005D24DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift */; };
+		01C9006624DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005E24DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift */; };
+		01C9006724DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005F24DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift */; };
+		01C9006824DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006024DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift */; };
+		01C9006924DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006124DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift */; };
+		01C9006A24DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006224DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift */; };
+		01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006E24DB2815003293D4 /* ProgressUI.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
 		2DFB99AA45888FCDD9AF8CC5 /* Pods_BCPtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5AEAABF0359A94E461130B /* Pods_BCPtest.framework */; };
@@ -78,6 +87,15 @@
 		0186FC0F24D7539700726BD8 /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		0186FC1224D77DA800726BD8 /* UserDMBS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDMBS.swift; sourceTree = "<group>"; };
 		01C2412E24DA7269006741E4 /* BCPTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BCPTest.xcdatamodel; sourceTree = "<group>"; };
+		01C9005B24DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01C9005C24DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01C9005D24DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01C9005E24DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01C9005F24DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01C9006024DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01C9006124DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01C9006224DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01C9006E24DB2815003293D4 /* ProgressUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressUI.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
 		09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BCPtest_BCPtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -165,6 +183,14 @@
 		01C2417B24DAE0B7006741E4 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
+				01C9005B24DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift */,
+				01C9005C24DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift */,
+				01C9005D24DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift */,
+				01C9005E24DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift */,
+				01C9005F24DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift */,
+				01C9006024DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift */,
+				01C9006124DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift */,
+				01C9006224DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -197,6 +223,7 @@
 			children = (
 				7C33CCC324BB891C00135967 /* CommonUI.swift */,
 				7C33CCC724BBC71300135967 /* PuzzleUI.swift */,
+				01C9006E24DB2815003293D4 /* ProgressUI.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -532,23 +559,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				01C9006324DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift in Sources */,
 				7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */,
 				7C33CCBD24BAC83800135967 /* PuzzleFromJson.swift in Sources */,
+				01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */,
+				01C9006524DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift in Sources */,
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
 				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
+				01C9006924DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
+				01C9006624DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
+				01C9006424DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
 				01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */,
+				01C9006824DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
+				01C9006A24DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift in Sources */,
 				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
 				012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */,
@@ -556,6 +591,7 @@
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
 				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
+				01C9006724DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 				0186FC1024D7539700726BD8 /* SignInController.swift in Sources */,
 			);
