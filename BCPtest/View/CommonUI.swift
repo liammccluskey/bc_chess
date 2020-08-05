@@ -14,10 +14,10 @@ public let fontStringLight = "Avenir-Book"
 class CommonUI {
     
     let csBlue = UIColor(red: 5/255, green: 130/255, blue: 202/255, alpha: 1)
-    //let csRed = UIColor(red: 7/255, green: 160/255, blue: 195/255, alpha: 1)
+    //let csRed = UIColor(red: 7/255, green: 160/255, blue: 195/255, alpha: 1) // good light blue
     //
-    //let csRed = UIColor(red: 14/255, green: 52/255, blue: 160/255, alpha: 1)  // good blue color
-    let csRed = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1) // good green colr
+    let csRed = UIColor(red: 197/255, green: 51/255, blue: 51/255, alpha: 1)
+    //let csRed = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1) // good green colr
 
     let purpleColor = UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
     let blueColor = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
@@ -53,16 +53,16 @@ class CommonUI {
     }
  
     
-    func configureDividerLabel() -> UILabel {
+    func configSpacer() -> UILabel {
     /*
-        Creates blue divider
+        Really shouldn't use this hackish method
     */
         let label = UILabel()
-        label.text = "should extend width of the screen"
+        label.text = "     "
         label.textColor = .clear
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 2)
-        label.backgroundColor = blueColorDark
+        label.font = UIFont(name: fontString, size: 12)
+        label.backgroundColor = .clear
         return label
     }
     

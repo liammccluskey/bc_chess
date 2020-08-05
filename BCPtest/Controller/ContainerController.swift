@@ -7,6 +7,11 @@
 //
 
 import UIKit
+import FirebaseAuth
+import Firebase
+
+// globals
+var puzzlesFromJSON: Puzzles!
 
 class ContainerController: UIViewController {
     
@@ -15,7 +20,13 @@ class ContainerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        configSignInController()
+        puzzlesFromJSON = PuzzlesFromJson().puzzles
+        
+        if Auth.auth().currentUser != nil {
+            configTabBarController()
+        } else {
+            configSignInController()
+        }
     }
     
     // MARK: - Config

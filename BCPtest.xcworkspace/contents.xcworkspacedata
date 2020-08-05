@@ -2,6 +2,30 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:Rush3Attempt+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:Rush3Attempt+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PuzzleAttempt+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PuzzleAttempt+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PuzzledUser+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PuzzledUser+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
+      location = "group:Rush5Attempt+CoreDataClass.swift">
+   </FileRef>
+   <FileRef
+      location = "group:Rush5Attempt+CoreDataProperties.swift">
+   </FileRef>
+   <FileRef
       location = "group:BCPtest.xcodeproj">
    </FileRef>
    <FileRef

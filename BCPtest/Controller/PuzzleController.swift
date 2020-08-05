@@ -52,9 +52,7 @@ class PuzzleController: UIViewController {
     var solutionm2: UIView!
     var solutionm1: UIView!
     var solutionViews: [UIView] = []
-    let divider2a: UILabel = CommonUI().configureDividerLabel()
     var header2Label: UILabel = CommonUI().configureHeaderLabel(title: "STARTING POSITION")
-    let divider2b: UILabel = CommonUI().configureDividerLabel()
     var positionTableW: PositionTableController!
     var positionTableB: PositionTableController!
     

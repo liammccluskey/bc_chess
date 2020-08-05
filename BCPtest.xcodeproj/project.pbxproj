@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
 		0161D74424CE1F1F0043E860 /* puzzlesM1234.json in Resources */ = {isa = PBXBuildFile; fileRef = 0161D74324CE1F1F0043E860 /* puzzlesM1234.json */; };
 		0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFC24D5106E00726BD8 /* TabBarController.swift */; };
 		0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFE24D515C300726BD8 /* SettingsController.swift */; };
@@ -19,6 +20,7 @@
 		0186FC0E24D748F800726BD8 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0186FC0D24D748F800726BD8 /* GoogleService-Info.plist */; };
 		0186FC1024D7539700726BD8 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0F24D7539700726BD8 /* SignInController.swift */; };
 		0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC1224D77DA800726BD8 /* UserDMBS.swift */; };
+		01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01C2412D24DA7269006741E4 /* BCPTest.xcdatamodeld */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
 		2DFB99AA45888FCDD9AF8CC5 /* Pods_BCPtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5AEAABF0359A94E461130B /* Pods_BCPtest.framework */; };
@@ -62,6 +64,7 @@
 
 /* Begin PBXFileReference section */
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
+		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
 		0161D74324CE1F1F0043E860 /* puzzlesM1234.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzlesM1234.json; sourceTree = "<group>"; };
 		0186FBFC24D5106E00726BD8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		0186FBFE24D515C300726BD8 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
@@ -74,6 +77,7 @@
 		0186FC0D24D748F800726BD8 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		0186FC0F24D7539700726BD8 /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		0186FC1224D77DA800726BD8 /* UserDMBS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDMBS.swift; sourceTree = "<group>"; };
+		01C2412E24DA7269006741E4 /* BCPTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BCPTest.xcdatamodel; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
 		09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BCPtest_BCPtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -145,6 +149,7 @@
 				7C33CCC524BB91D800135967 /* PositionTableController.swift */,
 				0186FC0924D5ABCA00726BD8 /* ChessBoardImageController.swift */,
 				0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */,
+				012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -155,6 +160,13 @@
 				0186FC1224D77DA800726BD8 /* UserDMBS.swift */,
 			);
 			path = DBMS;
+			sourceTree = "<group>";
+		};
+		01C2417B24DAE0B7006741E4 /* CoreDataModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = CoreDataModels;
 			sourceTree = "<group>";
 		};
 		120BDD14AA5136088DFF9A32 /* Pods */ = {
@@ -214,6 +226,7 @@
 		7C96CC3E23A03C1C00EE9129 /* BCPtest */ = {
 			isa = PBXGroup;
 			children = (
+				01C2417B24DAE0B7006741E4 /* CoreDataModels */,
 				0186FC0D24D748F800726BD8 /* GoogleService-Info.plist */,
 				7C33CCCB24C3118C00135967 /* Protocols.swift */,
 				0186FC1124D77D9700726BD8 /* DBMS */,
@@ -228,6 +241,7 @@
 				7C96CC6D23A03C7600EE9129 /* puzzleInfo.swift */,
 				7C96CC6F23A03CB600EE9129 /* puzzleVC.swift */,
 				7C96CC7123A03CEB00EE9129 /* homepageVC.swift */,
+				01C2412D24DA7269006741E4 /* BCPTest.xcdatamodeld */,
 			);
 			path = BCPtest;
 			sourceTree = "<group>";
@@ -525,6 +539,7 @@
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
+				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
@@ -536,6 +551,7 @@
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
 				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
+				012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */,
 				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
 				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
@@ -878,6 +894,19 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCVersionGroup section */
+		01C2412D24DA7269006741E4 /* BCPTest.xcdatamodeld */ = {
+			isa = XCVersionGroup;
+			children = (
+				01C2412E24DA7269006741E4 /* BCPTest.xcdatamodel */,
+			);
+			currentVersion = 01C2412E24DA7269006741E4 /* BCPTest.xcdatamodel */;
+			path = BCPTest.xcdatamodeld;
+			sourceTree = "<group>";
+			versionGroupType = wrapper.xcdatamodel;
+		};
+/* End XCVersionGroup section */
 	};
 	rootObject = 7C96CC3423A03C1C00EE9129 /* Project object */;
 }

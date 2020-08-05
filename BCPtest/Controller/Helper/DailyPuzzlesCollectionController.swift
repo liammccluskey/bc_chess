@@ -30,7 +30,7 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
     // MARK: - Config
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 10
+        return 3
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {

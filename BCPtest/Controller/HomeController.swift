@@ -101,7 +101,7 @@ class HomeController: UIViewController {
                 subheader1Label,
                 CommonUI().configureHStackView(arrangedSubViews: [piecesShownButton, piecesHiddenButton]),
                 CommonUI().configureHStackView(arrangedSubViews: [trainingButton, rushButton]),
-                submodeSegment,
+                CommonUI().configureHStackView(arrangedSubViews: [CommonUI().configSpacer(),submodeSegment,CommonUI().configSpacer()]),
                 playButton,
             header2Label,
         ])
