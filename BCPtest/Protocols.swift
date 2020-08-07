@@ -25,9 +25,14 @@ protocol SignInDelegate {
     func notifyOfSignIn()
 }
 
+protocol SignOutDelegate {
+    func notifyOfSignOut()
+}
+
 // Database
 protocol UserDBMSDelegate {
     func sendUser(user: User?)
 }
+
 
 

@@ -21,12 +21,14 @@ class ContainerController: UIViewController {
         super.viewDidLoad()
         
         puzzlesFromJSON = PuzzlesFromJson().puzzles
+        configTabBarController()
         
         if Auth.auth().currentUser != nil {
             configTabBarController()
         } else {
             configSignInController()
         }
+        
     }
     
     // MARK: - Config
@@ -39,6 +41,7 @@ class ContainerController: UIViewController {
 
     func configTabBarController() {
         let controller = TabBarController()
+        controller.signOutDelegate = self
         showChildViewController(child: controller)
     }
     
@@ -49,10 +52,17 @@ class ContainerController: UIViewController {
         view.addSubview(child.view)
         didMove(toParent: self)
     }
+    
+   
 }
 
-extension ContainerController: SignInDelegate {
+extension ContainerController: SignInDelegate, SignOutDelegate {
     func notifyOfSignIn() {
         configTabBarController()
+    }
+    
+    func notifyOfSignOut() {
+        view.subviews.forEach{ (subview) in subview.removeFromSuperview()}
+        configSignInController()
     }
 }

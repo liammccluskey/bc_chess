@@ -12,6 +12,7 @@
     <entity name="PuzzledUser" representedClassName="PuzzledUser" syncable="YES">
         <attribute name="puzzle_Elo" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="puzzleB_Elo" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="registerTimestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="rush3_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush3B_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush5_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -33,7 +34,7 @@
     </entity>
     <elements>
         <element name="PuzzleAttempt" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="PuzzledUser" positionX="-18" positionY="90" width="128" height="133"/>
+        <element name="PuzzledUser" positionX="-18" positionY="90" width="128" height="148"/>
         <element name="Rush3Attempt" positionX="-36" positionY="72" width="128" height="118"/>
         <element name="Rush5Attempt" positionX="-54" positionY="45" width="128" height="118"/>
     </elements>

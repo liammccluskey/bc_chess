@@ -75,18 +75,19 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        /*
         let userDBMS = UserDBMS()
         userDBMS.delegate = self
         userDBMS.getUser(uid: Auth.auth().currentUser!.uid)
+        */
+        configureUI()
+        configureAutoLayout()
     }
     
     // MARK: - Config
     
     func configureUI() {
         configureNavigationBar()
-        
-        //navigationController?.navigationBar.isHidden = true
 
         piecesShownButton = configureModeButton(puzzleMode: 2)
         piecesHiddenButton = configureModeButton(puzzleMode: 3)
@@ -138,7 +139,7 @@ class HomeController: UIViewController {
         let font = UIFont(name: fontString, size: 25)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
         let username = Auth.auth().currentUser?.displayName
-        navigationItem.title = "Welcome, " + username!
+        navigationItem.title = "Welcome, " + "username"
         
         let infoButton = UIButton(type: .infoDark)
         infoButton.addTarget(self, action: #selector(infoAction), for: .touchUpInside)
@@ -166,7 +167,7 @@ class HomeController: UIViewController {
         button.layer.borderColor = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1).cgColor
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
-        button.addTarget(self, action: #selector(mateAction), for: .touchUpInside)
+        button.addTarget(self, action: #selector(playAction), for: .touchUpInside)
         button.setTitleColor(CommonUI().csRed, for: .normal)
         
         return button
@@ -208,27 +209,9 @@ class HomeController: UIViewController {
         }
     }
     
-    @objc func mateAction(_ sender: UIButton) {
-        switch sender.tag {
-        case 1:
-            let controller = PuzzleController(puzzles: puzzles.m1)
-            controller.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(controller, animated: true); break
-        case 2:
-            let controller = PuzzleController(puzzles: puzzles.m2)
-            controller.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(controller, animated: true); break
-        case 3:
-            let controller = PuzzleController(puzzles: puzzles.m3)
-            controller.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(controller, animated: true); break
-        case 4:
-            let controller = PuzzleController(puzzles: puzzles.m4)
-            controller.hidesBottomBarWhenPushed = true
-            navigationController?.pushViewController(controller, animated: true); break
-        default:
-            break
-        }
+    @objc func playAction(_ sender: UIButton) {
+        let controller = PuzzleLearningController()
+        navigationController?.pushViewController(controller, animated: true)
     }
     
     @objc func infoAction() {
@@ -265,8 +248,6 @@ class HomeController: UIViewController {
         sc.selectedSegmentTintColor = CommonUI().blackColor
         sc.layer.cornerRadius = 20
         sc.clipsToBounds = true
-        //sc.translatesAutoresizingMaskIntoConstraints = false
-        //sc.widthAnchor.constraint(equalToConstant: 150).isActive = true
         return sc
        }
 }

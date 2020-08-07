@@ -23,6 +23,7 @@ class ProgressController: UIViewController {
     var scoreBView: UIView!
     var chartTitleLabel: UILabel!
     
+    var puzzledUser: PuzzledUser!
     var puzzleAttempts: [PuzzleAttempt]!
     var puzzleBAttempts: [PuzzleAttempt]!
     var rush3Attempts: [Rush3Attempt]!
@@ -30,10 +31,9 @@ class ProgressController: UIViewController {
     
     var progressTable: ProgressTableController!
     
-
     var lineChart: LineChartView = {
         let chart = LineChartView()
-        chart.translatesAutoresizingMaskIntoConstraints = false
+        //chart.translatesAutoresizingMaskIntoConstraints = false
         chart.backgroundColor = .clear
         return chart.applyStandard()
     }()
@@ -52,28 +52,26 @@ class ProgressController: UIViewController {
     func configUI() {
         configNavigationBar()
         
-        //visibilitySegment = configSegment(items: ["Pieces Shown","Pieces Hidden"])
+        clearPuzzleData()
+        fetchData()
+        setChartData()
+        
         puzzleModeSegment = configSegment(items: ["Rated Puzzles", "Rush 3min", "Rush 5min"])
         scoreView = UIView().configScoreLabel(scoreTitle:  "RATING (Regular)  ", scoreValue: "1400")
         scoreBView = UIView().configScoreLabel(scoreTitle: "RATING (Blindfold)", scoreValue: "1200")
         chartTitleLabel = UILabel().configHeaderLabel(title: "Puzzle Rating vs. Time")
         vstack = CommonUI().configureStackView(arrangedSubViews: [
             puzzleModeSegment,
+            lineChart,
             CommonUI().configureHStackView(arrangedSubViews: [scoreView, scoreBView]),
-            chartTitleLabel
+            UILabel().configHeaderLabel(title: "Recent Rated Puzzles")
         ])
-        vstack.spacing = 15
-        vstack.setCustomSpacing(40, after: scoreView)
+        vstack.spacing = 5
+        vstack.setCustomSpacing(20, after: scoreView)
         view.addSubview(vstack)
         
-        clearPuzzleData()
-        addChartDataItem()
-        fetchData()
-        setChartData()
-        view.addSubview(lineChart)
-        
         progressTable = ProgressTableController()
-        progressTable.attempts = puzzleAttempts
+        progressTable.puzzleAttempts = puzzleAttempts
         progressTable.tableView.reloadData()
         view.addSubview(progressTable.tableView)
         
@@ -82,17 +80,15 @@ class ProgressController: UIViewController {
     
     func configAutoLayout() {
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        vstack.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        vstack.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
+        vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
         
-        lineChart.topAnchor.constraint(equalTo: vstack.bottomAnchor, constant: -5).isActive = true
         lineChart.heightAnchor.constraint(equalToConstant: view.frame.height/4).isActive = true
-        lineChart.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
-        lineChart.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
+        //lineChart.widthAnchor.constraint(equalToConstant: view.frame.height/4).isActive = true
         
-        progressTable.tableView.topAnchor.constraint(equalTo: lineChart.bottomAnchor, constant: 20).isActive = true
-        progressTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        progressTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        progressTable.tableView.topAnchor.constraint(equalTo: vstack.bottomAnchor, constant: 3).isActive = true
+        progressTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
+        progressTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
         progressTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
     }
     
@@ -115,14 +111,20 @@ class ProgressController: UIViewController {
             let requestB = NSFetchRequest<PuzzleAttempt>(entityName: "PuzzleAttempt")
             requestB.predicate = NSPredicate(format: "piecesHidden == TRUE")
             request.sortDescriptors = [NSSortDescriptor(key: "timestamp", ascending: true)]
+            let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
             puzzleAttempts = try context.fetch(request)
             puzzleBAttempts = try context.fetch(requestB)
+            let puzzledUsers = try context.fetch(userRequest)
+            if puzzledUsers.count == 1 { puzzledUser = puzzledUsers[0]}
+            else { print(" error fetching user from coredata with count: \(puzzledUsers.count)")}
         } catch {}
     }
     
     func setChartData() {
         var e1 = [ChartDataEntry]()
         var e2 = [ChartDataEntry]()
+        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1200.0))
+        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1200.0))
         for i in 0..<puzzleAttempts.count {
             let pA = puzzleAttempts[i]
             e1.append(ChartDataEntry(x: Double(pA.timestamp!.timeIntervalSince1970), y: Double(pA.newRating)))
@@ -131,8 +133,11 @@ class ProgressController: UIViewController {
             let pA = puzzleBAttempts[i]
             e2.append(ChartDataEntry(x: Double(pA.timestamp!.timeIntervalSince1970), y: Double(pA.newRating)))
         }
-        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().blueColorDark)
-        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorLight)
+        let date = Date()
+        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:1200.0))
+        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:1200.0))
+        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().redColor)
         lineChart.data = LineChartData(dataSets: [set1, set2])
     }
     
@@ -140,7 +145,7 @@ class ProgressController: UIViewController {
         // add new items
         let date = Date()
         let pA = PuzzleAttempt(context: context)
-        pA.newRating = Int32(1000 + [100,150,-150,300,200].randomElement()!)
+        pA.newRating = Int32(1000 + [10,5,-15,-20,20].randomElement()!)
         pA.piecesHidden = false
         pA.puzzleType = 0
         pA.puzzleIndex = Int32(Int(10))
@@ -148,7 +153,7 @@ class ProgressController: UIViewController {
         pA.timestamp = date
         pA.wasCorrect = [true, false].randomElement()!
         let pB = PuzzleAttempt(context: context)
-        pB.newRating = Int32(1000 + [100,150,-150,300,200].randomElement()! - 600)
+        pB.newRating = Int32(1000 + [10,5,-15,-20,20].randomElement()! - 400)
         pB.piecesHidden = true
         pB.puzzleType = 0
         pB.puzzleIndex = Int32(Int(10))
@@ -182,12 +187,12 @@ class ProgressController: UIViewController {
     @objc func refreshAction() {
         addChartDataItem()
         fetchData()
-        setChartData()
-        
-        progressTable.attempts = puzzleAttempts
+        progressTable.puzzleAttempts = puzzleAttempts
         DispatchQueue.main.async {
+            self.setChartData()
             self.progressTable.tableView.reloadData()
         }
+     
     }
     
     @objc func segmentAction() {
@@ -235,10 +240,12 @@ extension LineChartView {
         self.rightAxis.enabled = false
         self.xAxis.labelPosition = .bottom
         self.xAxis.valueFormatter = DateValueFormatter()
-        //self.xAxis.granularity = 1
-        self.xAxis.setLabelCount(3, force: true)
+        self.xAxis.setLabelCount(4, force: true)
         self.xAxis.avoidFirstLastClippingEnabled = true
         self.legend.enabled = true
+        self.drawGridBackgroundEnabled = false
+        self.pinchZoomEnabled = false
+        self.doubleTapToZoomEnabled = false
         let l = self.legend
         l.form = .circle
         l.font = UIFont(name: fontStringLight, size: 16)!
@@ -256,58 +263,13 @@ public class DateValueFormatter: NSObject, IAxisValueFormatter {
     
     override init() {
         super.init()
-        dateFormatter.dateFormat = "dd MMM HH:mm"
+        //dateFormatter.dateFormat = "dd MMM HH:mm"
+        dateFormatter.dateStyle = .short
     }
     
     public func stringForValue(_ value: Double, axis: AxisBase?) -> String {
         return dateFormatter.string(from: Date(timeIntervalSince1970: value))
     }
-}
-
-class ProgressTableController: UITableViewController {
-    
-    // MARK: - Properties
-    
-    var attempts: [PuzzleAttempt] = []
-    
-    // MARK: - Init
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .clear
-        tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
-        tableView.layer.borderWidth = 4
-    }
-    
-    // MARK: - Config
-    
-    override func numberOfSections(in tableView: UITableView) -> Int {
-        return 1
-    }
-    
-    override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return attempts.count
-    }
-    
-    override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let attempt = attempts[indexPath.row]
-        let cell = UITableViewCell(style: .default, reuseIdentifier: "cell")
-        cell.imageView?.image = attempt.wasCorrect ? #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal) : #imageLiteral(resourceName: "redxwhitefill").withRenderingMode(.alwaysOriginal)
-        cell.textLabel?.text = DateFormatter.localizedString(from: attempt.timestamp!, dateStyle: .long, timeStyle: .none)
-        cell.imageView?.contentMode = .scaleAspectFit
-        cell.imageView?.backgroundColor = .clear
-        cell.textLabel?.textColor = .white
-        cell.textLabel?.font = UIFont(name: fontStringLight, size: 16)
-        cell.backgroundColor = .clear
-        cell.selectionStyle = .none
-        return cell
-    }
-    
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        return UILabel().configHeaderLabel(title: "Recent Rated Puzzles")
-    }
-
 }
 
 

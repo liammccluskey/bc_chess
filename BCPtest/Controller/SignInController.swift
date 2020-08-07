@@ -77,10 +77,11 @@ class SignInController: UIViewController {
     
     func configAutoLayout() {
         logoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        logoImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -100).isActive = true
-        logoImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 100).isActive = true
+        logoImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -80).isActive = true
+        logoImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80).isActive = true
+        logoImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
         
-        vstack.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: -20).isActive = true
+        vstack.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 5).isActive = true
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
     }
@@ -147,6 +148,7 @@ class SignInController: UIViewController {
     
     func configInputField(placeHolder: String, isHidden: Bool = false) -> UITextField {
         let tf = UITextField()
+        tf.autocapitalizationType = .none
         tf.isHidden = isHidden
         tf.attributedPlaceholder = NSAttributedString(string: placeHolder, attributes: [NSAttributedString.Key.foregroundColor: UIColor.lightGray])
         tf.textColor = .white

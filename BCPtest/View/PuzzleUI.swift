@@ -16,7 +16,7 @@ class PuzzleUI {
     let dButtonColor: UIColor!
     let lButtonColor: UIColor!
     
-    init(boardTheme: ColorTheme, buttonTheme: ColorTheme) {
+    init(boardTheme: ColorTheme = ColorTheme(rawValue: 0)!, buttonTheme: ColorTheme = ColorTheme(rawValue: 0)!) {
         self.boardTheme = boardTheme
         self.dsColor = boardTheme.darkSquareColor
         self.lsColor = boardTheme.lightSquareColor
@@ -25,6 +25,26 @@ class PuzzleUI {
     }
 
     // MARK: - Solution Section
+    
+    func configSolutionLabel() -> UILabel {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.textColor = .white
+        label.font = UIFont(name: fontStringLight, size: 18)
+        label.numberOfLines = 0
+        return label
+    }
+    
+    func configSolutionText(solutionMoves: [WBMove], onIndex: Int) -> String {
+        var solutionText = ""
+        for i in 0...onIndex {
+            let move = solutionMoves[i]
+            let response = move.response_san == "complete" ? "Complete" : move.response_san
+            let readableMove = "   \(i + 1). \(move.answer_san) \(response)"
+            solutionText = solutionText + readableMove
+        }
+        return solutionText
+    }
     
     func configureAnswerView(move: WBMove, matePly: Int) -> UIView {
         let answer = UILabel()
@@ -110,19 +130,7 @@ class PuzzleUI {
     
     // MARK: - Misc.
     
-    func configurePiecesShownSegCont() -> UISegmentedControl {
-        /*
-        let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
-        sc.isEnabled = true
-        let font = UIFont(name: fontString, size: 13)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .normal)
-        sc.tintColor = .white
-        sc.selectedSegmentIndex = 0
-        sc.backgroundColor = dButtonColor
-        sc.selectedSegmentTintColor = lButtonColor
-        sc.translatesAutoresizingMaskIntoConstraints = false
-        return sc
-        */
+    func configurePiecesShownSegment() -> UISegmentedControl {
         let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
         let font = UIFont(name: fontString, size: 16)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .selected)
@@ -136,8 +144,16 @@ class PuzzleUI {
         return sc
 
     }
-    
-    
-    
-    
 }
+
+class ButtonWithImage: UIButton {
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        if imageView != nil {
+            imageEdgeInsets = UIEdgeInsets(top: 3, left: (bounds.width - 50), bottom: 3, right: 20)
+            titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: (imageView?.frame.width)!)
+            imageView?.contentMode = .scaleAspectFit
+        }
+    }
+}
+

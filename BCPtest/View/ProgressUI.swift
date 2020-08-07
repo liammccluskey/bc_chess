@@ -17,7 +17,7 @@ extension UIView {
         value.text = scoreValue
         value.textColor = .white
         value.textAlignment = .center
-        value.font = UIFont(name: "AvenirNext-Bold", size: 30)
+        value.font = UIFont(name: "AvenirNext-Bold", size: 25)
         value.backgroundColor = .clear
      
         // label for score title
@@ -41,8 +41,10 @@ extension UIView {
         title.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         title.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
         
-        //self.layer.borderWidth = 3
-        //self.layer.borderColor = CommonUI().blackColorLight.cgColor
+        self.layer.borderWidth = 4
+        self.layer.borderColor = CommonUI().blackColorLight.cgColor
+        self.layer.cornerRadius = 10
+        self.clipsToBounds = true
         self.translatesAutoresizingMaskIntoConstraints = true
         return self
     }
@@ -50,12 +52,22 @@ extension UIView {
 
 extension UILabel {
     func configHeaderLabel(title: String) -> UILabel {
-        self.translatesAutoresizingMaskIntoConstraints = true
+        //self.translatesAutoresizingMaskIntoConstraints = true
         self.text = title
         self.textAlignment = .center
         self.textColor = .white
         self.textAlignment = .center
-        self.font = UIFont(name: fontString, size: 22)
+        self.font = UIFont(name: fontString, size: 25)
+        self.backgroundColor = .clear
+        return self
+    }
+    
+    func configCellLabel(text: String, textColor: UIColor) -> UILabel{
+        self.text = text
+        self.textAlignment = .center
+        self.textColor = textColor
+        self.textAlignment = .center
+        self.font = UIFont(name: fontString, size: 18)
         self.backgroundColor = .clear
         return self
     }

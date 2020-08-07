@@ -12,6 +12,8 @@ class TabBarController: UITabBarController {
     
     // MARK: - Properties
     
+    var signOutDelegate: SignOutDelegate?
+    
     // MARK: - Init
     
     override func viewDidLoad() {
@@ -27,6 +29,7 @@ class TabBarController: UITabBarController {
         let progressController = ProgressController()
         let leaderboardController = LeaderboardController()
         let settingsController = SettingsController()
+        settingsController.delegate = self
         
         let controller1 = UINavigationController(rootViewController: homeController)
         controller1.tabBarItem.image = #imageLiteral(resourceName: "puzzle")
@@ -40,22 +43,21 @@ class TabBarController: UITabBarController {
         let controller4 = UINavigationController(rootViewController: settingsController)
         controller4.tabBarItem.image = #imageLiteral(resourceName: "settings")
         controller4.tabBarItem.title = "Settings"
-        
-        
-        
+    
         viewControllers = [controller1, controller2, controller3, controller4]
-        
-        
-        
-        // black bar with white items
-        //tabBar.barTintColor = .black
-        //tabBar.tintColor = .white
-        
-        // white bar with black items
+ 
         tabBar.barTintColor = .black
         tabBar.tintColor = CommonUI().csRed
         
         tabBar.isTranslucent = false
     }
+}
+
+extension TabBarController: SignOutDelegate {
+    func notifyOfSignOut() {
+        signOutDelegate?.notifyOfSignOut()
+    }
+    
+    
 }
     

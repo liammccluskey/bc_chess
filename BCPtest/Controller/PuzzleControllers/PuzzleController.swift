@@ -59,10 +59,6 @@ class PuzzleController: UIViewController {
     // bottom buttons
     var exitButton: UIButton!
     var themeButton: UIButton!
-    var boardC: UIButton!
-    var buttC: UIButton!
-    var pieceS: UIButton!
-    var colorButton: UIButton!
     var showSolutionButton: UIButton!
     var nextButton: UIButton!
     var buttonStack: UIStackView!
@@ -109,8 +105,7 @@ class PuzzleController: UIViewController {
     func configureUI() {
         configureNavigationBar()
         configureScrollView()
-        piecesShownSegment = puzzleUI.configurePiecesShownSegCont()
-        //piecesShownSegment = configureSegment(items: ["HIDE PIECES", "SHOW PIECES"])
+        piecesShownSegment = puzzleUI.configurePiecesShownSegment()
         configurePageData(isReload: false)
         
         playerToMoveLabel = puzzleUI.configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
@@ -443,18 +438,6 @@ extension PuzzleController: ThemeTableDelegate {
             )
             self.restartPuzzle(isNewPuzzle: false)
             self.configurePageData(isReload: true)
-        }
-    }
-}
-
-class ButtonWithImage: UIButton {
-    
-    override func layoutSubviews() {
-        super.layoutSubviews()
-        if imageView != nil {
-            imageEdgeInsets = UIEdgeInsets(top: 3, left: (bounds.width - 50), bottom: 3, right: 20)
-            titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: (imageView?.frame.width)!)
-            imageView?.contentMode = .scaleAspectFit
         }
     }
 }

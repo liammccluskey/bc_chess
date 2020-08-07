@@ -9,6 +9,18 @@
 /* Begin PBXBuildFile section */
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
 		0161D74424CE1F1F0043E860 /* puzzlesM1234.json in Resources */ = {isa = PBXBuildFile; fileRef = 0161D74324CE1F1F0043E860 /* puzzlesM1234.json */; };
+		0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103924DC8FA600DB87FE /* ProgressTableController.swift */; };
+		0175104324DCE96900DB87FE /* PuzzleAttempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103B24DCE96800DB87FE /* PuzzleAttempt+CoreDataClass.swift */; };
+		0175104424DCE96900DB87FE /* PuzzleAttempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103C24DCE96800DB87FE /* PuzzleAttempt+CoreDataProperties.swift */; };
+		0175104524DCE96900DB87FE /* Rush3Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103D24DCE96800DB87FE /* Rush3Attempt+CoreDataClass.swift */; };
+		0175104624DCE96900DB87FE /* Rush3Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103E24DCE96800DB87FE /* Rush3Attempt+CoreDataProperties.swift */; };
+		0175104724DCE96900DB87FE /* PuzzledUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103F24DCE96800DB87FE /* PuzzledUser+CoreDataClass.swift */; };
+		0175104824DCE96900DB87FE /* PuzzledUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104024DCE96800DB87FE /* PuzzledUser+CoreDataProperties.swift */; };
+		0175104924DCE96900DB87FE /* Rush5Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104124DCE96800DB87FE /* Rush5Attempt+CoreDataClass.swift */; };
+		0175104A24DCE96900DB87FE /* Rush5Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104224DCE96900DB87FE /* Rush5Attempt+CoreDataProperties.swift */; };
+		0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */; };
+		0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */; };
+		0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */; };
 		0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFC24D5106E00726BD8 /* TabBarController.swift */; };
 		0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFE24D515C300726BD8 /* SettingsController.swift */; };
 		0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0124D5191400726BD8 /* LeaderboardController.swift */; };
@@ -21,14 +33,6 @@
 		0186FC1024D7539700726BD8 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0F24D7539700726BD8 /* SignInController.swift */; };
 		0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC1224D77DA800726BD8 /* UserDMBS.swift */; };
 		01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01C2412D24DA7269006741E4 /* BCPTest.xcdatamodeld */; };
-		01C9006324DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005B24DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift */; };
-		01C9006424DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005C24DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift */; };
-		01C9006524DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005D24DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift */; };
-		01C9006624DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005E24DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift */; };
-		01C9006724DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9005F24DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift */; };
-		01C9006824DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006024DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift */; };
-		01C9006924DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006124DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift */; };
-		01C9006A24DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006224DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift */; };
 		01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006E24DB2815003293D4 /* ProgressUI.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
@@ -75,6 +79,18 @@
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
 		0161D74324CE1F1F0043E860 /* puzzlesM1234.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzlesM1234.json; sourceTree = "<group>"; };
+		0175103924DC8FA600DB87FE /* ProgressTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTableController.swift; sourceTree = "<group>"; };
+		0175103B24DCE96800DB87FE /* PuzzleAttempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0175103C24DCE96800DB87FE /* PuzzleAttempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0175103D24DCE96800DB87FE /* Rush3Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0175103E24DCE96800DB87FE /* Rush3Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0175103F24DCE96800DB87FE /* PuzzledUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0175104024DCE96800DB87FE /* PuzzledUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0175104124DCE96800DB87FE /* Rush5Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		0175104224DCE96900DB87FE /* Rush5Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushController.swift; sourceTree = "<group>"; };
+		0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRatedController.swift; sourceTree = "<group>"; };
+		0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleLearningController.swift; sourceTree = "<group>"; };
 		0186FBFC24D5106E00726BD8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		0186FBFE24D515C300726BD8 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		0186FC0124D5191400726BD8 /* LeaderboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardController.swift; sourceTree = "<group>"; };
@@ -87,14 +103,6 @@
 		0186FC0F24D7539700726BD8 /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		0186FC1224D77DA800726BD8 /* UserDMBS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDMBS.swift; sourceTree = "<group>"; };
 		01C2412E24DA7269006741E4 /* BCPTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BCPTest.xcdatamodel; sourceTree = "<group>"; };
-		01C9005B24DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		01C9005C24DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		01C9005D24DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		01C9005E24DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		01C9005F24DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		01C9006024DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		01C9006124DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		01C9006224DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		01C9006E24DB2815003293D4 /* ProgressUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressUI.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
@@ -159,6 +167,18 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0175105124DCF72500DB87FE /* PuzzleControllers */ = {
+			isa = PBXGroup;
+			children = (
+				7C33C51824BAC4E200135967 /* PuzzleController.swift */,
+				0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */,
+				0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */,
+				0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */,
+				0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */,
+			);
+			path = PuzzleControllers;
+			sourceTree = "<group>";
+		};
 		0186FC0024D518BF00726BD8 /* Helper */ = {
 			isa = PBXGroup;
 			children = (
@@ -168,6 +188,7 @@
 				0186FC0924D5ABCA00726BD8 /* ChessBoardImageController.swift */,
 				0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */,
 				012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */,
+				0175103924DC8FA600DB87FE /* ProgressTableController.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -183,14 +204,14 @@
 		01C2417B24DAE0B7006741E4 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
-				01C9005B24DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift */,
-				01C9005C24DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift */,
-				01C9005D24DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift */,
-				01C9005E24DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift */,
-				01C9005F24DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift */,
-				01C9006024DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift */,
-				01C9006124DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift */,
-				01C9006224DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift */,
+				0175103B24DCE96800DB87FE /* PuzzleAttempt+CoreDataClass.swift */,
+				0175103C24DCE96800DB87FE /* PuzzleAttempt+CoreDataProperties.swift */,
+				0175103D24DCE96800DB87FE /* Rush3Attempt+CoreDataClass.swift */,
+				0175103E24DCE96800DB87FE /* Rush3Attempt+CoreDataProperties.swift */,
+				0175103F24DCE96800DB87FE /* PuzzledUser+CoreDataClass.swift */,
+				0175104024DCE96800DB87FE /* PuzzledUser+CoreDataProperties.swift */,
+				0175104124DCE96800DB87FE /* Rush5Attempt+CoreDataClass.swift */,
+				0175104224DCE96900DB87FE /* Rush5Attempt+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -294,12 +315,11 @@
 		7CE941E7245B6B0D00B9A2A0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0175105124DCF72500DB87FE /* PuzzleControllers */,
 				0186FC0F24D7539700726BD8 /* SignInController.swift */,
-				0186FC0724D53C9600726BD8 /* DailyPuzzleController.swift */,
 				0186FC0524D51C8000726BD8 /* ContainerController.swift */,
 				0186FBFC24D5106E00726BD8 /* TabBarController.swift */,
 				7CE941E9245B6B2900B9A2A0 /* HomeController.swift */,
-				7C33C51824BAC4E200135967 /* PuzzleController.swift */,
 				0186FBFE24D515C300726BD8 /* SettingsController.swift */,
 				0186FC0124D5191400726BD8 /* LeaderboardController.swift */,
 				0186FC0324D5193700726BD8 /* ProgressController.swift */,
@@ -559,39 +579,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				01C9006324DAF46F003293D4 /* PuzzleAttempt+CoreDataClass.swift in Sources */,
+				0175104524DCE96900DB87FE /* Rush3Attempt+CoreDataClass.swift in Sources */,
+				0175104A24DCE96900DB87FE /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */,
 				7C33CCBD24BAC83800135967 /* PuzzleFromJson.swift in Sources */,
 				01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */,
-				01C9006524DAF46F003293D4 /* Rush3Attempt+CoreDataClass.swift in Sources */,
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
 				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
-				01C9006924DAF46F003293D4 /* PuzzledUser+CoreDataClass.swift in Sources */,
+				0175104724DCE96900DB87FE /* PuzzledUser+CoreDataClass.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
+				0175104924DCE96900DB87FE /* Rush5Attempt+CoreDataClass.swift in Sources */,
+				0175104424DCE96900DB87FE /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
-				01C9006624DAF46F003293D4 /* Rush3Attempt+CoreDataProperties.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
+				0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */,
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
-				01C9006424DAF46F003293D4 /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
+				0175104624DCE96900DB87FE /* Rush3Attempt+CoreDataProperties.swift in Sources */,
+				0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */,
+				0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */,
 				01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */,
-				01C9006824DAF46F003293D4 /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
-				01C9006A24DAF46F003293D4 /* PuzzledUser+CoreDataProperties.swift in Sources */,
+				0175104824DCE96900DB87FE /* PuzzledUser+CoreDataProperties.swift in Sources */,
 				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
 				012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */,
 				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
+				0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */,
 				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
-				01C9006724DAF46F003293D4 /* Rush5Attempt+CoreDataClass.swift in Sources */,
+				0175104324DCE96900DB87FE /* PuzzleAttempt+CoreDataClass.swift in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 				0186FC1024D7539700726BD8 /* SignInController.swift in Sources */,
 			);
@@ -778,7 +802,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.21;
+				MARKETING_VERSION = 1.22;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
@@ -800,7 +824,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.21;
+				MARKETING_VERSION = 1.22;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 4.2;
