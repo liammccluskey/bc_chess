@@ -22,15 +22,17 @@ class UserDataManager {
     }
     
     struct stateKeys {
-        static let didSetBoardColor = "didSetBoardColor"
-        static let didSetButtonColor = "didSetButtonColor"
+        static let appHasLaunched = "appHasLaunched"
     }
     
     // MARK: - Init
     
-    init() {
-        self.didSetBoardColor = UserDefaults.standard.bool(forKey: stateKeys.didSetBoardColor)
-        self.didSetButtonColor = UserDefaults.standard.bool(forKey: stateKeys.didSetButtonColor)
+    func isFirstLaunch() -> Bool {
+        return !defaults.bool(forKey: stateKeys.appHasLaunched)
+    }
+    
+    func setDidLaunch() {
+        defaults.set(true, forKey: stateKeys.appHasLaunched)
     }
     
     // MARK: - Interface
@@ -43,10 +45,6 @@ class UserDataManager {
     }
     
     func getBoardColor() -> ColorTheme? {
-        if !didSetBoardColor {
-            defaults.set(true, forKey: stateKeys.didSetBoardColor)
-            return ColorTheme(rawValue: 2)
-        }
         let rawValue = defaults.integer(forKey: themeKeys.boardColor)
         return ColorTheme(rawValue: rawValue)
     }
@@ -59,10 +57,6 @@ class UserDataManager {
     }
     
     func getButtonColor() -> ColorTheme? {
-        if !didSetButtonColor {
-            defaults.set(true, forKey: stateKeys.didSetButtonColor)
-            return ColorTheme(rawValue: 2)
-        }
         let rawValue = defaults.integer(forKey: themeKeys.buttonColor)
         return ColorTheme(rawValue: rawValue)
     }

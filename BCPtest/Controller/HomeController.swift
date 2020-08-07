@@ -55,6 +55,8 @@ class HomeController: UIViewController {
     var rushButton: UIButton!
     var submodeSegment: UISegmentedControl!
     var playButton: UIButton!
+    var isBlindfoldMode: Bool = false
+    var isTrainingMode: Bool = true
     
     var dailyPuzzlesCollection: DailyPuzzlesCollectionController!
     
@@ -186,6 +188,7 @@ class HomeController: UIViewController {
             submodeSegment.insertSegment(withTitle: "Rated", at: 0, animated: false)
             submodeSegment.insertSegment(withTitle: "Learning", at: 1, animated: false)
             submodeSegment.selectedSegmentIndex = 0
+            isTrainingMode = true
         case 1:
             trainingButton.tintColor = .lightGray
             trainingButton.setTitleColor(.lightGray, for: .normal)
@@ -195,22 +198,36 @@ class HomeController: UIViewController {
             submodeSegment.insertSegment(withTitle: "3 min ", at: 0, animated: false)
             submodeSegment.insertSegment(withTitle: "5 min    ", at: 1, animated: false)
             submodeSegment.selectedSegmentIndex = 0
+            isTrainingMode = false
         case 2:
             piecesShownButton.tintColor = CommonUI().csRed
             piecesShownButton.setTitleColor(CommonUI().csRed, for: .normal)
             piecesHiddenButton.tintColor = .lightGray
             piecesHiddenButton.setTitleColor(.lightGray, for: .normal)
+            isBlindfoldMode = false
         case 3:
             piecesShownButton.tintColor = .lightGray
             piecesShownButton.setTitleColor(.lightGray, for: .normal)
             piecesHiddenButton.tintColor = CommonUI().csRed
             piecesHiddenButton.setTitleColor(CommonUI().csRed, for: .normal)
+            isBlindfoldMode = true
         default: return
         }
     }
     
     @objc func playAction(_ sender: UIButton) {
-        let controller = PuzzleLearningController()
+        let submode = submodeSegment.selectedSegmentIndex
+        var controller: UIViewController!
+        if isTrainingMode && submode == 0 { // rated puzzles
+            controller = PuzzleRatedController()
+        } else if isTrainingMode && submode == 1 { // learning puzzles
+            controller = PuzzleLearningController(piecesHidden: isBlindfoldMode)
+        } else if !isTrainingMode && submode == 0 { // 3 min rush
+            
+        } else if !isTrainingMode && submode == 1 { // 5 min rush
+            
+        }
+        controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)
     }
     

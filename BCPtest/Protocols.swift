@@ -17,6 +17,10 @@ protocol ThemeTableDelegate {
     func didSubmitChangeAt(indexPath: IndexPath)
 }
 
+protocol ProgressTableDelegate {
+    func didSelectPuzzle(type: Int, index: Int)
+}
+
 protocol DailyPuzzlesCollectionDelegate {
     func didSelectPuzzle(puzzle: Puzzle)
 }

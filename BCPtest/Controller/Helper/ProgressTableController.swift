@@ -16,9 +16,12 @@ class ProgressTableController: UITableViewController {
     
     // MARK: - Properties
     
+    var delegate: ProgressTableDelegate?
     var puzzleAttempts: [PuzzleAttempt] = []
-    var rush5attempts: [Rush5Attempt] = []
     var rush3attempts: [Rush3Attempt] = []
+    var rush5attempts: [Rush5Attempt] = []
+    var attemptType: Int = 0// 0: puzzleAttempt, 1: rush3attempt, 2: rush5attempt
+    
     
     // MARK: - Init
     
@@ -41,7 +44,12 @@ class ProgressTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return puzzleAttempts.count
+        switch attemptType {
+        case 0: return puzzleAttempts.count
+        case 1: return rush3attempts.count
+        case 2: return rush5attempts.count
+        default: return 0
+        }
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -49,10 +57,29 @@ class ProgressTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let attempt = puzzleAttempts[indexPath.row]
         let cell = tableView.dequeueReusableCell(withIdentifier: puzzleAttemptCellID, for: indexPath) as! PuzzleAttemptCell
-        cell.puzzleAttempt = attempt
-        return cell
+        switch attemptType {
+        case 0:
+            let attempt = puzzleAttempts[indexPath.row]
+            cell.puzzleAttempt = attempt
+            return cell
+        case 1:
+            let attempt = rush3attempts[indexPath.row]
+            cell.rush3Attempt = attempt
+            return cell
+        case 2:
+            let attempt = rush5attempts[indexPath.row]
+            cell.rush5Attempt = attempt
+            return cell
+        default:
+            return cell
+        }
+      
+    }
+    
+    override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        let attempt = puzzleAttempts[indexPath.row]
+        delegate?.didSelectPuzzle(type: Int(attempt.puzzleType), index: Int(attempt.puzzleIndex))
     }
 }
 
@@ -63,15 +90,65 @@ class PuzzleAttemptCell: UITableViewCell {
     
     var puzzleAttempt: PuzzleAttempt! {
         didSet {
-            configUI()
-            configAutoLayout()
+            let puzzleID = String(repeating: "0", count: 7 - String(puzzleAttempt.puzzleIndex).count)
+                + String(puzzleAttempt.puzzleIndex) + String(puzzleAttempt.puzzleType)
+            let deltaColor = puzzleAttempt.wasCorrect ? CommonUI().greenColor : CommonUI().redColor
+            let delta = puzzleAttempt.wasCorrect ? "+ " : "  "
+            let visibility = puzzleAttempt.piecesHidden ? "Blindfold" : "Regular  "
+            print(visibility)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            let date = formatter.string(from: puzzleAttempt.timestamp!)
+            l1.text = "#\(puzzleID)"
+            l2.textColor = deltaColor
+            l2.text = "\(delta)\(puzzleAttempt.ratingDelta)"
+            l3.text = visibility
+            l4.text = date
         }
     }
+    var rush3Attempt: Rush3Attempt! {
+        didSet {
+            let lossType = rush3Attempt.didTimeout ? "Timeout " : "Strikeout"
+            let visibility = rush3Attempt.piecesHidden ? "Blindfold" : "Regular  "
+            print(visibility)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            let date = formatter.string(from: puzzleAttempt.timestamp!)
+            l1.text = "Score: \(rush3Attempt.numCorrect)"
+            l2.textColor = .lightGray
+            l2.text = lossType
+            l3.text = visibility
+            l4.text = date
+        }
+    }
+    var rush5Attempt: Rush5Attempt! {
+        didSet {
+            let puzzleID = String(repeating: "0", count: 7 - String(puzzleAttempt.puzzleIndex).count)
+                + String(puzzleAttempt.puzzleIndex) + String(puzzleAttempt.puzzleType)
+            let deltaColor = puzzleAttempt.wasCorrect ? CommonUI().greenColor : CommonUI().redColor
+            let delta = puzzleAttempt.wasCorrect ? "+ " : "  "
+            let visibility = puzzleAttempt.piecesHidden ? "Blindfold" : "Regular  "
+            print(visibility)
+            let formatter = DateFormatter()
+            formatter.dateStyle = .short
+            let date = formatter.string(from: puzzleAttempt.timestamp!)
+            l1.text = "#\(puzzleID)"
+            l2.textColor = deltaColor
+            l2.text = "\(delta)\(puzzleAttempt.ratingDelta)"
+            l3.text = visibility
+            l4.text = date
+        }
+    }
+    var l1: UILabel!
+    var l2: UILabel!
+    var l3: UILabel!
+    var l4: UILabel!
     var hstack: UIStackView!
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
+        configUI()
+        configAutoLayout()
     }
     
     required init?(coder: NSCoder) {
@@ -81,20 +158,12 @@ class PuzzleAttemptCell: UITableViewCell {
     // MARK: Config
     
     func configUI() {
-        let puzzleID = String(repeating: "0", count: 7 - String(puzzleAttempt.puzzleIndex).count)
-            + String(puzzleAttempt.puzzleIndex) + String(puzzleAttempt.puzzleType)
-        let deltaColor = puzzleAttempt.wasCorrect ? CommonUI().greenColor : CommonUI().redColor
-        let delta = puzzleAttempt.wasCorrect ? "+ " : " - "
-        let visibility = puzzleAttempt.piecesHidden ? "Regular  " : "Blindfold"
-        let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        let date = formatter.string(from: puzzleAttempt.timestamp!)
-        hstack = CommonUI().configureHStackView(arrangedSubViews: [
-            UILabel().configCellLabel(text: "#\(puzzleID)", textColor: .lightGray),
-            UILabel().configCellLabel(text: "\(delta)\(puzzleAttempt.ratingDelta)", textColor: deltaColor),
-            UILabel().configCellLabel(text: visibility, textColor: .lightGray),
-            UILabel().configCellLabel(text: date, textColor: .white)
-        ])
+        l1 =  UILabel().configCellLabel(text: "", textColor: .lightGray)
+        l2 = UILabel().configCellLabel(text: "", textColor: .clear)
+        l3 = UILabel().configCellLabel(text: "", textColor: .lightGray)
+        l4 = UILabel().configCellLabel(text: "", textColor: .white)
+        hstack = CommonUI().configureHStackView(arrangedSubViews: [l1, l2, l3, l4])
+        hstack.distribution = .fillEqually
         addSubview(hstack)
         
         backgroundColor = .clear
@@ -102,7 +171,7 @@ class PuzzleAttemptCell: UITableViewCell {
     
     func configAutoLayout() {
         hstack.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        hstack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        hstack.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
         hstack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         hstack.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
     }

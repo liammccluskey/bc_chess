@@ -1,5 +1,5 @@
 //
-//  Rush3Attempt+CoreDataClass.swift
+//  PuzzleReference+CoreDataClass.swift
 //  BCPtest
 //
 //  Created by Guest on 8/7/20.
@@ -10,7 +10,7 @@
 import Foundation
 import CoreData
 
-@objc(Rush3Attempt)
-public class Rush3Attempt: NSManagedObject {
+@objc(PuzzleReference)
+public class PuzzleReference: NSManagedObject {
 
 }

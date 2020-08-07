@@ -7,10 +7,16 @@
 //
 
 import UIKit
+import CoreData
 
 class PuzzleLearningController: UIViewController {
     
     // MARK: - Properties
+    var piecesHidden: Bool!
+    var puzzleType: Int!
+    var puzzleIndex: Int!
+    var senderIsProgressController: Bool!
+    
     var currentPuzzle: Puzzle!
     var onSolutionMoveIndex: Int = 0
     var stateIsIncorrect = false
@@ -49,11 +55,40 @@ class PuzzleLearningController: UIViewController {
     
     // MARK: - Init
     
+    init(piecesHidden: Bool, puzzleType: Int = 0, puzzleIndex: Int = 0, senderIsProgressController: Bool = false) {
+        super.init(nibName: nil, bundle: nil)
+        if senderIsProgressController { // pick random puzzle otherwise
+            switch puzzleType {
+            case 0: self.currentPuzzle = puzzlesFromJSON.m1[puzzleIndex]; break
+            case 1: self.currentPuzzle = puzzlesFromJSON.m2[puzzleIndex]; break
+            case 2: self.currentPuzzle = puzzlesFromJSON.m3[puzzleIndex]; break
+            case 3: self.currentPuzzle = puzzlesFromJSON.m4[puzzleIndex]; break
+            default: break
+            }
+        }
+        self.senderIsProgressController = senderIsProgressController
+        self.piecesHidden = piecesHidden
+        self.puzzleIndex = puzzleIndex
+        self.puzzleType = puzzleType
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         pieceStyle = UserDataManager().getPieceStyle()
-        pid = Int.random(in: 0..<puzzlesFromJSON.m2.count)
-        currentPuzzle = puzzlesFromJSON.m2[pid]
+        if !senderIsProgressController {
+            puzzleType = Int.random(in: 0..<4)
+            switch puzzleType {
+            case 0: currentPuzzle = puzzlesFromJSON.m1[puzzleIndex]; break
+            case 1: currentPuzzle = puzzlesFromJSON.m2[puzzleIndex]; break
+            case 2: currentPuzzle = puzzlesFromJSON.m3[puzzleIndex]; break
+            case 3: currentPuzzle = puzzlesFromJSON.m4[puzzleIndex]; break
+            default: break
+            }
+        }
         configureUI()
         setUpAutoLayout(isInitLoad: true)
     }
@@ -66,14 +101,17 @@ class PuzzleLearningController: UIViewController {
     
     func configureUI() {
         configureNavigationBar()
+        solutionLabel = PuzzleUI().configSolutionLabel()
+        let selectedIndex = piecesHidden ? 0 : 1
+        piecesShownSegment = PuzzleUI().configurePiecesShownSegment(selectedSegmentIndex: selectedIndex)
         configurePageData(isReload: false)
         
         // stack
         playerToMoveLabel = PuzzleUI().configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
         view.insertSubview(playerToMoveLabel, at: 0)
-        piecesShownSegment = PuzzleUI().configurePiecesShownSegment()
+        
         piecesShownSegment.addTarget(self, action: #selector(piecesShownAction), for: .valueChanged)
-        solutionLabel = PuzzleUI().configSolutionLabel()
+        
         stack1 = CommonUI().configureStackView(arrangedSubViews: [
             chessBoardController.view, piecesShownSegment, solutionLabel
         ])
@@ -147,9 +185,9 @@ class PuzzleLearningController: UIViewController {
             positionTableW.tableView.reloadData()
             positionTableB.tableView.reloadData()
         }
-        solutionLabel.text = ""
         
         // Done for reloads and initial loads
+        solutionLabel.text = ""
         let showPieces = piecesShownSegment.selectedSegmentIndex == 1 ? true : false
         chessBoardController = ChessBoardController(
             position: currentPuzzle.position,
@@ -179,6 +217,7 @@ class PuzzleLearningController: UIViewController {
             if isNewPuzzle { self.retryButton.alpha = 0 }
             else {
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.solutionLabel.text = ""
                     self.retryButton.alpha = 0
                     self.view.layoutIfNeeded()
                 })
@@ -229,6 +268,8 @@ class PuzzleLearningController: UIViewController {
             if isShowingSolution {
                 self.retryButton.backgroundColor = CommonUI().greenColor
                 UIView.animate(withDuration: 0.2, animations: {
+                    self.solutionLabel.text =
+                        PuzzleUI().configSolutionText(solutionMoves: self.currentPuzzle.solution_moves, onIndex: self.currentPuzzle.solution_moves.count)
                     self.retryButton.alpha = 1
                     self.view.layoutIfNeeded()
                 })
@@ -268,6 +309,7 @@ extension PuzzleLearningController: ChessBoardDelegate {
             onSolutionMoveIndex = onSolutionMoveIndex + 1
             if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
                 configPageForSolutionState(isShowingSolution: true, stateIsPartialCorrect: false)
+                print("solved puzzle and saved solution")
                 return
             }
             solutionLabel.text = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)

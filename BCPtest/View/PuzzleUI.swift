@@ -37,10 +37,10 @@ class PuzzleUI {
     
     func configSolutionText(solutionMoves: [WBMove], onIndex: Int) -> String {
         var solutionText = ""
-        for i in 0...onIndex {
+        for i in 0..<onIndex {
             let move = solutionMoves[i]
             let response = move.response_san == "complete" ? "Complete" : move.response_san
-            let readableMove = "   \(i + 1). \(move.answer_san) \(response)"
+            let readableMove = "        \(i + 1).  \(move.answer_san)  \(response)"
             solutionText = solutionText + readableMove
         }
         return solutionText
@@ -130,13 +130,13 @@ class PuzzleUI {
     
     // MARK: - Misc.
     
-    func configurePiecesShownSegment() -> UISegmentedControl {
+    func configurePiecesShownSegment(selectedSegmentIndex: Int = 0) -> UISegmentedControl {
         let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
         let font = UIFont(name: fontString, size: 16)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .selected)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
         sc.tintColor = .lightGray
-        sc.selectedSegmentIndex = 0
+        sc.selectedSegmentIndex = selectedSegmentIndex
         sc.backgroundColor = .clear
         sc.selectedSegmentTintColor = CommonUI().blackColor
         sc.layer.cornerRadius = 20

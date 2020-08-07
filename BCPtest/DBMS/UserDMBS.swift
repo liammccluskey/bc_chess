@@ -16,6 +16,7 @@ class UserDBMS {
     
     // MARK: - Properties
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var delegate: UserDBMSDelegate?
     
     // MARK: - Init Set/Get
@@ -29,13 +30,10 @@ class UserDBMS {
     }
     
     func initUserData(uid: String, username: String) {
-        let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
-        if let result = try? context.fetch(NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")) {
-            for pa in result {
-                context.delete(pa)
-            }
-        }
+        // create PuzzledUser
         let puzzledUser = PuzzledUser(context: context)
+        puzzledUser.numPuzzleAttempts = 0
+        puzzledUser.numPuzzleBAttempts = 0
         puzzledUser.puzzle_Elo = 1200
         puzzledUser.puzzleB_Elo = 1200
         puzzledUser.rush3_HS = 0
@@ -45,6 +43,11 @@ class UserDBMS {
         puzzledUser.registerTimestamp = Date()
         do { try context.save() }
         catch { print("couldnt init puzzledUser coredata obj") }
+        
+        // create PuzzleReferences
+        if UserDBMS().isFirstLaunch() {
+            
+        }
         
         Firestore.firestore().collection("users").document(uid).setData([
             "PRUSH5_HS": 0,
@@ -80,16 +83,32 @@ class UserDBMS {
         }
     }
     
-    // MARK: - User Data Updates
+    // MARK: - Core Data
     
-    /*
-    func addCompletedPuzzle(completedPuzzle: PUZZLE_COMPLETED, forUID uid: String) {
-        let docRef = Firestore.firestore().collection("users").document(uid)
-        docRef.updateData([
-            "PUZZLES_COMPLETED": FieldValue.arrayUnion([completedPuzzle])
-        ])
+    func getPuzzledUser() -> PuzzledUser? {
+        let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
+        do {
+            let puzzledUsers = try context.fetch(userRequest)
+            if puzzledUsers.count == 1 { return puzzledUsers[0]}
+            else { print("Incorrect # of users: \(puzzledUsers.count)"); return nil}
+        } catch { print("CoreData Error: couldn't fetch puzzledUsers"); return nil}
     }
-    */
+    
+    func updatePuzzleElo(withRating: Int32, isBlindfold: Bool) {
+        let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
+        do {
+            let puzzledUsers = try context.fetch(userRequest)
+            if puzzledUsers.count == 1 {
+                let key = isBlindfold ? "puzzleB_Elo" : "puzzle_Elo"
+                puzzledUsers[0].setValue(withRating, forKey: key)
+                do { try context.save() }
+                catch { print(error) }
+            }
+            else { print("Incorrect # of users: \(puzzledUsers.count)")}
+        } catch { print("CoreData Error: couldn't fetch puzzledUsers")}
+    }
+    
+    
 }
 
 

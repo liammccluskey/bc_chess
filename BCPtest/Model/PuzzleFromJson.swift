@@ -7,11 +7,13 @@
 //
 
 import UIKit
+import CoreData
 
 class PuzzlesFromJson {
     
     // MARK: - Properties
     
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var puzzles: Puzzles?
     
     // MARK: - Init
@@ -27,19 +29,26 @@ class PuzzlesFromJson {
     
     // MARK: - Interface
     
-    func getPuzzle(matePly: Int) -> Puzzle? {
-        switch matePly {
-        case 1:
-            return puzzles!.m1.randomElement()
-        case 2:
-            return puzzles!.m2.randomElement()
-        case 3:
-            return puzzles!.m3.randomElement()
-        case 4:
-            return puzzles!.m4.randomElement()
-        default:
-            return nil
+    func savePuzzles() {
+        savePuzzleReferences(puzzleType: 0, puzzles: puzzles!.m1)
+        savePuzzleReferences(puzzleType: 1, puzzles: puzzles!.m2)
+        savePuzzleReferences(puzzleType: 2, puzzles: puzzles!.m3)
+        savePuzzleReferences(puzzleType: 3, puzzles: puzzles!.m4)
+    }
+    
+    fileprivate func savePuzzleReferences(puzzleType: Int, puzzles: [Puzzle]) -> [PuzzleReference] {
+        var puzzleRefs = [PuzzleReference]()
+        for i in 0..<puzzles.count {
+            let puzzleRef = PuzzleReference(context: context)
+            puzzleRef.eloRegular = Int32(500*(puzzleType + 1) + Int.random(in: -250...250))
+            puzzleRef.eloBlindfold = Int32(100*puzzle.piece_count + 200*(puzzleType + 1) + Int.random(in: -100...100))
+            puzzleRef.puzzleType = puzzleType
+            puzzleRef.puzzleIndex = i
+            puzzleRefs.append(puzzleRef)
         }
+        print("Puzzle count type (\(puzzleType)): \(puzzleRefs.count)")
+        do { try context.save() }
+        catch { print("Error saving puzzles references of type: \(puzzleType)")}
     }
     
     
