@@ -32,7 +32,8 @@ class CommonUI {
     //let blackColor = UIColor(red: 39/255, green: 41/255, blue: 43/255, alpha: 1)
     
     let blackColorLight = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1)
-    let blackColor = UIColor(red: 19/255, green: 21/255, blue: 23/255, alpha: 1)
+    //let blackColor = UIColor(red: 19/255, green: 21/255, blue: 23/255, alpha: 1)
+    let blackColor = UIColor.black
     let whiteColor = UIColor(red: 237/255, green: 227/255, blue: 214/255, alpha: 1)
     
     // MARK: - User Data
@@ -122,17 +123,17 @@ class CommonUI {
 // testing this below
 
 enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
+    case darkBlue
     case gray
     case green
-    case darkBlue
     case tan
     case purple
     case lightBlue
     var darkSquareColor: UIColor {
         switch self {
+        case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
         case .gray: return UIColor(red: 136/255, green: 136/255, blue: 136/255, alpha: 1)
         case .green: return UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
-        case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
         case .tan: return UIColor(red: 181/255, green: 136/255, blue: 99/255, alpha: 1)
         case .purple: return UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
         case .lightBlue: return UIColor(red: 140/255, green: 162/255, blue: 173/255, alpha: 1)
@@ -140,9 +141,9 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
     }
     var lightSquareColor: UIColor {
         switch self {
+            case .darkBlue: return UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
             case .gray: return UIColor(red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
             case .green: return UIColor(red: 238/255, green: 238/255, blue: 210/255, alpha: 1)
-            case .darkBlue: return UIColor(red: 70/255, green: 130/255, blue: 180/255, alpha: 1)
             case .tan: return UIColor(red: 240/255, green: 217/255, blue: 181/255, alpha: 1)
             case .purple: return UIColor(red: 155/255, green: 125/255, blue: 202/255, alpha: 1)
             case .lightBlue: return UIColor(red: 216/255, green: 221/255, blue: 219/255, alpha: 1)
@@ -150,9 +151,9 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
     }
     var description: String {
         switch self {
+        case .darkBlue: return "Dark Blue"
         case .gray: return "Gray"
         case .green: return "Green"
-        case .darkBlue: return "Dark Blue"
         case .tan: return "Tan"
         case .purple: return "Purple"
         case .lightBlue: return "Light Blue"

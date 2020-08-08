@@ -29,21 +29,48 @@ class PuzzlesFromJson {
     
     // MARK: - Interface
     
-    func savePuzzles() {
+    func getPuzzleReferenceInRange(plusOrMinus: Int32, isBlindfold: Bool, forUser user: PuzzledUser) -> PuzzleReference? {
+        let lower = isBlindfold ? user.puzzleB_Elo - plusOrMinus : user.puzzle_Elo - plusOrMinus
+        let upper = isBlindfold ? user.puzzleB_Elo + plusOrMinus : user.puzzle_Elo + plusOrMinus
+        let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
+        let predicateRegular = NSPredicate(format:"eloRegular BETWEEN { \(lower) , \(upper) }")
+        let predicateBlindfold = NSPredicate(format:"eloBlindfold BETWEEN { \(lower), \(upper)}")
+        request.predicate = isBlindfold ? predicateBlindfold : predicateRegular
+        do {
+            let puzzlesInRange = try context.fetch(request)
+            return puzzlesInRange.randomElement()
+        } catch { print("Error: no puzzles in range \(lower) - \(upper)")}
+        return nil
+    }
+    
+    func getPuzzle(fromPuzzleReference puzzleReference: PuzzleReference) -> Puzzle? {
+        let type = Int(puzzleReference.puzzleType)
+        let index = Int(puzzleReference.puzzleIndex)
+        switch type {
+        case 0: return puzzles!.m1[index]
+        case 1: return puzzles!.m2[index]
+        case 2: return puzzles!.m3[index]
+        case 3: return puzzles!.m4[index]
+        default: return nil
+        }
+    }
+    
+    func savePuzzlesToCoreData() {
         savePuzzleReferences(puzzleType: 0, puzzles: puzzles!.m1)
         savePuzzleReferences(puzzleType: 1, puzzles: puzzles!.m2)
         savePuzzleReferences(puzzleType: 2, puzzles: puzzles!.m3)
         savePuzzleReferences(puzzleType: 3, puzzles: puzzles!.m4)
     }
     
-    fileprivate func savePuzzleReferences(puzzleType: Int, puzzles: [Puzzle]) -> [PuzzleReference] {
+    fileprivate func savePuzzleReferences(puzzleType: Int, puzzles: [Puzzle]) {
         var puzzleRefs = [PuzzleReference]()
         for i in 0..<puzzles.count {
+            let puzzle = puzzles[i]
             let puzzleRef = PuzzleReference(context: context)
             puzzleRef.eloRegular = Int32(500*(puzzleType + 1) + Int.random(in: -250...250))
             puzzleRef.eloBlindfold = Int32(100*puzzle.piece_count + 200*(puzzleType + 1) + Int.random(in: -100...100))
-            puzzleRef.puzzleType = puzzleType
-            puzzleRef.puzzleIndex = i
+            puzzleRef.puzzleType = Int32(puzzleType)
+            puzzleRef.puzzleIndex = Int32(i)
             puzzleRefs.append(puzzleRef)
         }
         print("Puzzle count type (\(puzzleType)): \(puzzleRefs.count)")

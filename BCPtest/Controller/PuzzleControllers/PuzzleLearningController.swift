@@ -13,9 +13,8 @@ class PuzzleLearningController: UIViewController {
     
     // MARK: - Properties
     var piecesHidden: Bool!
-    var puzzleType: Int!
-    var puzzleIndex: Int!
     var senderIsProgressController: Bool!
+    var puzzledUser = UserDBMS().getPuzzledUser()
     
     var currentPuzzle: Puzzle!
     var onSolutionMoveIndex: Int = 0
@@ -55,21 +54,16 @@ class PuzzleLearningController: UIViewController {
     
     // MARK: - Init
     
-    init(piecesHidden: Bool, puzzleType: Int = 0, puzzleIndex: Int = 0, senderIsProgressController: Bool = false) {
+    init(piecesHidden: Bool, puzzleReference: PuzzleReference? = nil, senderIsProgressController: Bool = false) {
         super.init(nibName: nil, bundle: nil)
         if senderIsProgressController { // pick random puzzle otherwise
-            switch puzzleType {
-            case 0: self.currentPuzzle = puzzlesFromJSON.m1[puzzleIndex]; break
-            case 1: self.currentPuzzle = puzzlesFromJSON.m2[puzzleIndex]; break
-            case 2: self.currentPuzzle = puzzlesFromJSON.m3[puzzleIndex]; break
-            case 3: self.currentPuzzle = puzzlesFromJSON.m4[puzzleIndex]; break
-            default: break
-            }
+            self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: puzzleReference!)
+        } else {
+            let pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(300), isBlindfold: piecesHidden , forUser: puzzledUser!)
+            self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: pRef!)
         }
         self.senderIsProgressController = senderIsProgressController
         self.piecesHidden = piecesHidden
-        self.puzzleIndex = puzzleIndex
-        self.puzzleType = puzzleType
     }
     
     required init?(coder: NSCoder) {
@@ -78,17 +72,7 @@ class PuzzleLearningController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        pieceStyle = UserDataManager().getPieceStyle()
-        if !senderIsProgressController {
-            puzzleType = Int.random(in: 0..<4)
-            switch puzzleType {
-            case 0: currentPuzzle = puzzlesFromJSON.m1[puzzleIndex]; break
-            case 1: currentPuzzle = puzzlesFromJSON.m2[puzzleIndex]; break
-            case 2: currentPuzzle = puzzlesFromJSON.m3[puzzleIndex]; break
-            case 3: currentPuzzle = puzzlesFromJSON.m4[puzzleIndex]; break
-            default: break
-            }
-        }
+        
         configureUI()
         setUpAutoLayout(isInitLoad: true)
     }

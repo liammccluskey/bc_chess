@@ -30,7 +30,7 @@ class ProgressTableController: UITableViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
         tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
-        tableView.layer.borderWidth = 4
+        tableView.layer.borderWidth = 3.5
         tableView.layer.cornerRadius = 10
         tableView.clipsToBounds = true
         
@@ -60,15 +60,18 @@ class ProgressTableController: UITableViewController {
         let cell = tableView.dequeueReusableCell(withIdentifier: puzzleAttemptCellID, for: indexPath) as! PuzzleAttemptCell
         switch attemptType {
         case 0:
-            let attempt = puzzleAttempts[indexPath.row]
+            let index = puzzleAttempts.count - indexPath.row - 1
+            let attempt = puzzleAttempts[index]
             cell.puzzleAttempt = attempt
             return cell
         case 1:
-            let attempt = rush3attempts[indexPath.row]
+            let index = rush3attempts.count - indexPath.row - 1
+            let attempt = rush3attempts[index]
             cell.rush3Attempt = attempt
             return cell
         case 2:
-            let attempt = rush5attempts[indexPath.row]
+            let index = rush5attempts.count - indexPath.row - 1
+            let attempt = rush5attempts[index]
             cell.rush5Attempt = attempt
             return cell
         default:
@@ -78,7 +81,8 @@ class ProgressTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let attempt = puzzleAttempts[indexPath.row]
+        let index = puzzleAttempts.count - indexPath.row - 1
+        let attempt = puzzleAttempts[index]
         delegate?.didSelectPuzzle(type: Int(attempt.puzzleType), index: Int(attempt.puzzleIndex))
     }
 }

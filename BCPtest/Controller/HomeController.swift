@@ -27,12 +27,10 @@ class HomeController: UIViewController {
     
     // MARK: - Properties
     
-    var puzzles: Puzzles! = PuzzlesFromJson().puzzles
-    
     let header1Label: UILabel = {
         let label = UILabel()
         let dateString = DateFormatter.localizedString(from: Date(), dateStyle: .long, timeStyle: .none)
-        label.text = "Chess Puzzle Games"
+        label.text = " Chess Puzzle Games"
         label.textColor = .white
         label.textAlignment = .left
         label.font = UIFont(name: fontString, size: 23)
@@ -63,7 +61,7 @@ class HomeController: UIViewController {
     let header2Label: UILabel = {
         let label = UILabel()
         let dateString = DateFormatter.localizedString(from: Date(), dateStyle: .long, timeStyle: .none)
-        label.text = "Daily Puzzles - \(dateString)"
+        label.text = " Daily Puzzles - \(dateString)"
         label.textColor = .white
         label.textAlignment = .left
         label.font = UIFont(name: fontString, size: 23)
@@ -101,7 +99,7 @@ class HomeController: UIViewController {
         stack1 = configureStackView(arrangedSubViews: [
             //testL,
             header1Label,
-                subheader1Label,
+                //subheader1Label,
                 CommonUI().configureHStackView(arrangedSubViews: [piecesShownButton, piecesHiddenButton]),
                 CommonUI().configureHStackView(arrangedSubViews: [trainingButton, rushButton]),
                 CommonUI().configureHStackView(arrangedSubViews: [CommonUI().configSpacer(),submodeSegment,CommonUI().configSpacer()]),
@@ -114,7 +112,7 @@ class HomeController: UIViewController {
         let flow = UICollectionViewFlowLayout()
         dailyPuzzlesCollection = DailyPuzzlesCollectionController(collectionViewLayout: flow)
         dailyPuzzlesCollection.delegate = self
-        dailyPuzzlesCollection.puzzles = puzzles.m4
+        dailyPuzzlesCollection.puzzles = PFJ.puzzles!.m4
         dailyPuzzlesCollection.collectionView.reloadData()
         view.addSubview(dailyPuzzlesCollection.collectionView)
 
@@ -141,7 +139,7 @@ class HomeController: UIViewController {
         let font = UIFont(name: fontString, size: 25)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
         let username = Auth.auth().currentUser?.displayName
-        navigationItem.title = "Welcome, " + "username"
+        navigationItem.title = "Welcome, " + username!
         
         let infoButton = UIButton(type: .infoDark)
         infoButton.addTarget(self, action: #selector(infoAction), for: .touchUpInside)
@@ -182,16 +180,16 @@ class HomeController: UIViewController {
         case 0:
             trainingButton.tintColor = CommonUI().csRed
             trainingButton.setTitleColor(CommonUI().csRed, for: .normal)
-            rushButton.tintColor = .lightGray
-            rushButton.setTitleColor(.lightGray, for: .normal)
+            rushButton.tintColor = .darkGray
+            rushButton.setTitleColor(.darkGray, for: .normal)
             submodeSegment.removeAllSegments()
             submodeSegment.insertSegment(withTitle: "Rated", at: 0, animated: false)
             submodeSegment.insertSegment(withTitle: "Learning", at: 1, animated: false)
             submodeSegment.selectedSegmentIndex = 0
             isTrainingMode = true
         case 1:
-            trainingButton.tintColor = .lightGray
-            trainingButton.setTitleColor(.lightGray, for: .normal)
+            trainingButton.tintColor = .darkGray
+            trainingButton.setTitleColor(.darkGray, for: .normal)
             rushButton.tintColor = CommonUI().csRed
             rushButton.setTitleColor(CommonUI().csRed, for: .normal)
             submodeSegment.removeAllSegments()
@@ -202,12 +200,12 @@ class HomeController: UIViewController {
         case 2:
             piecesShownButton.tintColor = CommonUI().csRed
             piecesShownButton.setTitleColor(CommonUI().csRed, for: .normal)
-            piecesHiddenButton.tintColor = .lightGray
-            piecesHiddenButton.setTitleColor(.lightGray, for: .normal)
+            piecesHiddenButton.tintColor = .darkGray
+            piecesHiddenButton.setTitleColor(.darkGray, for: .normal)
             isBlindfoldMode = false
         case 3:
-            piecesShownButton.tintColor = .lightGray
-            piecesShownButton.setTitleColor(.lightGray, for: .normal)
+            piecesShownButton.tintColor = .darkGray
+            piecesShownButton.setTitleColor(.darkGray, for: .normal)
             piecesHiddenButton.tintColor = CommonUI().csRed
             piecesHiddenButton.setTitleColor(CommonUI().csRed, for: .normal)
             isBlindfoldMode = true
@@ -219,7 +217,7 @@ class HomeController: UIViewController {
         let submode = submodeSegment.selectedSegmentIndex
         var controller: UIViewController!
         if isTrainingMode && submode == 0 { // rated puzzles
-            controller = PuzzleRatedController()
+            controller = PuzzleRatedController(piecesHidden: isBlindfoldMode)
         } else if isTrainingMode && submode == 1 { // learning puzzles
             controller = PuzzleLearningController(piecesHidden: isBlindfoldMode)
         } else if !isTrainingMode && submode == 0 { // 3 min rush
@@ -232,7 +230,7 @@ class HomeController: UIViewController {
     }
     
     @objc func infoAction() {
-        let puzzle = puzzles.m4.randomElement()!
+        let puzzle = PFJ.puzzles!.m4.randomElement()!
         let controller = DailyPuzzleController(puzzles: [puzzle])
         present(controller, animated: true)
     }
@@ -246,9 +244,10 @@ class HomeController: UIViewController {
         button.setTitle(PuzzleMode(rawValue: puzzleMode)?.description, for: .normal)
         button.setImage(PuzzleMode(rawValue: puzzleMode)?.image, for: .normal)
         button.titleEdgeInsets = UIEdgeInsets(
+            //top: 0, left: 0, bottom: (button.imageView?.frame.height)! - 100, right: 0)
             top: 0, left: (button.imageView?.frame.width)! + 10, bottom: 0, right: 0)
         button.addTarget(self, action: #selector(modeAction), for: .touchUpInside)
-        let tintColor = puzzleMode%2 == 0 ? CommonUI().csRed : .lightGray
+        let tintColor = puzzleMode%2 == 0 ? CommonUI().csRed : .darkGray
         button.tintColor = tintColor
         button.setTitleColor(tintColor, for: .normal)
         return button
@@ -258,8 +257,8 @@ class HomeController: UIViewController {
         let sc = UISegmentedControl(items: items)
         let font = UIFont(name: fontString, size: 16)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
-        sc.tintColor = .lightGray
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
+        //sc.tintColor = .darkGray
         sc.selectedSegmentIndex = 0
         sc.backgroundColor = .clear
         sc.selectedSegmentTintColor = CommonUI().blackColor

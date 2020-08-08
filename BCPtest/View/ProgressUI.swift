@@ -26,7 +26,7 @@ class ScoreLabel: UIView {
     }
     
     func setLabelValues(forPuzzledUser puzzledUser: PuzzledUser, forAttemptType attemptType: Int, isBlindfold: Bool) {
-        let visibility = isBlindfold ? "(Blindfold)" : "(Regular)  "
+        let visibility = isBlindfold ? "(Blindfold)" : "(Regular)"
         switch attemptType {
         case 0: // rated puzzles
             scoreTitle = "Rating  " + visibility
@@ -74,8 +74,8 @@ class ScoreLabel: UIView {
         title.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
         title.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
 
-        self.layer.borderWidth = 4
-        self.layer.borderColor = CommonUI().blackColorLight.cgColor
+        //self.layer.borderWidth = 3.5
+        //self.layer.borderColor = CommonUI().blackColorLight.cgColor
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
         self.translatesAutoresizingMaskIntoConstraints = true
@@ -131,7 +131,7 @@ extension UILabel {
         self.textAlignment = .center
         self.textColor = .white
         self.textAlignment = .center
-        self.font = UIFont(name: fontString, size: 25)
+        self.font = UIFont(name: fontString, size: 22)
         self.backgroundColor = .clear
         return self
     }
@@ -141,7 +141,7 @@ extension UILabel {
         self.textAlignment = .center
         self.textColor = textColor
         self.textAlignment = .center
-        self.font = UIFont(name: fontString, size: 18)
+        self.font = UIFont(name: fontString, size: 17)
         self.backgroundColor = .clear
         return self
     }

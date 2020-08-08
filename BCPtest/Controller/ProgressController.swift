@@ -50,6 +50,8 @@ class ProgressController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        puzzledUser = UserDBMS().getPuzzledUser()
 
         configUI()
         configAutoLayout()
@@ -60,7 +62,6 @@ class ProgressController: UIViewController {
     func configUI() {
         configNavigationBar()
         
-        clearPuzzleData()
         fetchData()
         setChartData()
         
@@ -68,10 +69,12 @@ class ProgressController: UIViewController {
         scoreView = ScoreLabel(puzzledUser: puzzledUser, attemptType: 0, isBlindfold: false)
         scoreBView = ScoreLabel(puzzledUser: puzzledUser, attemptType: 0, isBlindfold: true)
         chartTitleLabel = UILabel().configHeaderLabel(title: "Puzzle Rating vs. Time")
+        let hstack = CommonUI().configureHStackView(arrangedSubViews: [scoreView, scoreBView])
+        hstack.distribution = .fillEqually
         vstack = CommonUI().configureStackView(arrangedSubViews: [
             puzzleModeSegment,
             lineChart,
-            CommonUI().configureHStackView(arrangedSubViews: [scoreView, scoreBView]),
+            hstack,
             UILabel().configHeaderLabel(title: "Recent Rated Puzzles")
         ])
         vstack.spacing = 5
@@ -93,7 +96,7 @@ class ProgressController: UIViewController {
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
         
-        lineChart.heightAnchor.constraint(equalToConstant: view.frame.height/4).isActive = true
+        lineChart.heightAnchor.constraint(equalToConstant: view.frame.height/3.2).isActive = true
         
         progressTable.tableView.topAnchor.constraint(equalTo: vstack.bottomAnchor, constant: 3).isActive = true
         progressTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
@@ -155,14 +158,14 @@ class ProgressController: UIViewController {
             e2.append(ChartDataEntry(x: Double(pA.timestamp!.timeIntervalSince1970), y: Double(pA.newRating)))
         }
         let date = Date()
-        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:1200.0))
-        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:1200.0))
+        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.puzzle_Elo)))
+        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.puzzleB_Elo)))
         let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
-        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().purpleColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
         lineChart.data = LineChartData(dataSets: [set1, set2])
         
-        //lineChart.leftAxis.axisMinimum = lineChart.data?.yMin ?? 1000 - 200
-        //lineChart.leftAxis.axisMaximum = lineChart.data?.yMax ?? 2000 + 200
+        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 200
+        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 200
     }
     
     func clearPuzzleData() {
@@ -192,8 +195,8 @@ class ProgressController: UIViewController {
         progressTable.rush5attempts = rush5Attempts
         DispatchQueue.main.async {
             self.setChartData()
-            self.progressTable.tableView.reloadData()
         }
+        puzzleModeSegment.sendActions(for: .valueChanged)
      
     }
     
@@ -203,17 +206,19 @@ class ProgressController: UIViewController {
             progressTable.attemptType = 0
             scoreView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 0, isBlindfold: false)
             scoreBView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 0, isBlindfold: true)
+            chartTitleLabel.text = "Recent Puzzle Attempts"
             break
         case 1: // rush 3 min
             progressTable.attemptType = 1
             scoreView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 1, isBlindfold: false)
             scoreBView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 1, isBlindfold: true)
-            print("updated score label for rush 3 min")
+            chartTitleLabel.text = "Recent 3min Puzzle Rush"
             break
         case 2: // rush 5 min
             progressTable.attemptType = 2
             scoreView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 2, isBlindfold: false)
             scoreBView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 2, isBlindfold: true)
+            chartTitleLabel.text = "Recent 5min Puzzle Rush"
             break
         default: break
         }
@@ -242,9 +247,16 @@ class ProgressController: UIViewController {
 
 extension ProgressController: ProgressTableDelegate {
     func didSelectPuzzle(type: Int, index: Int) {
-        let controller = PuzzleLearningController(piecesHidden: false, puzzleType: type, puzzleIndex: index, senderIsProgressController: true)
-        controller.hidesBottomBarWhenPushed = true
-        navigationController?.pushViewController(controller, animated: true)
+        let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
+        request.predicate = NSPredicate(format:"puzzleType == \(type) AND puzzleIndex == \(index)")
+        do {
+            let pRef = try context.fetch(request)
+            let controller = PuzzleLearningController(piecesHidden: false, puzzleReference: pRef[0], senderIsProgressController: true)
+            controller.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(controller, animated: true)
+        } catch {
+            print("Error fetching PuzzleReference and presenting learning controller")
+        }
     }
 }
 
@@ -255,7 +267,7 @@ extension LineChartDataSet {
         self.drawCirclesEnabled = true
         self.drawValuesEnabled  = false
         self.drawCircleHoleEnabled = false
-        self.circleRadius = 3
+        self.circleRadius = 2
         self.circleColors = [lineColor]
         self.lineWidth = 3
         self.fillAlpha = 1

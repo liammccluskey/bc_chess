@@ -10,21 +10,16 @@
 import UIKit
 import CoreData
 
-// need
-// save puzzle
-// update user rating
-//
-// get puzzle in user's rating range
-
 class PuzzleRatedController: UIViewController {
     
     // MARK: - Properties
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var puzzledUser: PuzzledUser!
+    var piecesHidden: Bool!
+    var pRef: PuzzleReference!
     var currentPuzzle: Puzzle!
     var onSolutionMoveIndex: Int = 0
     var stateIsIncorrect = false
-    var pid: Int!
     
     lazy var retryButton: ButtonWithImage = {
         let button = ButtonWithImage(type: .system)
@@ -40,7 +35,6 @@ class PuzzleRatedController: UIViewController {
     }()
     
     var playerToMoveLabel: UILabel!
-    var piecesShownSegment: UISegmentedControl!
     
     // stack 1
     var stack1: UIStackView!
@@ -59,13 +53,20 @@ class PuzzleRatedController: UIViewController {
     
     // MARK: - Init
     
+    init(piecesHidden: Bool) {
+        super.init(nibName: nil, bundle: nil)
+        self.piecesHidden = piecesHidden
+        self.puzzledUser = UserDBMS().getPuzzledUser()
+        self.pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
+        self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-        pieceStyle = UserDataManager().getPieceStyle()
-        pid = Int.random(in: 0..<puzzlesFromJSON.m2.count)
-        currentPuzzle = puzzlesFromJSON.m2[pid]
-        
-        puzzledUser = UserDBMS().getPuzzledUser()
         
         configureUI()
         setUpAutoLayout(isInitLoad: true)
@@ -80,17 +81,14 @@ class PuzzleRatedController: UIViewController {
     func configureUI() {
         configureNavigationBar()
         solutionLabel = PuzzleUI().configSolutionLabel()
-        piecesShownSegment = PuzzleUI().configurePiecesShownSegment()
         configurePageData(isReload: false)
         
         // stack
         playerToMoveLabel = PuzzleUI().configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
         view.insertSubview(playerToMoveLabel, at: 0)
         
-        piecesShownSegment.addTarget(self, action: #selector(piecesShownAction), for: .valueChanged)
-        
         stack1 = CommonUI().configureStackView(arrangedSubViews: [
-            chessBoardController.view, piecesShownSegment, solutionLabel
+            chessBoardController.view, solutionLabel
         ])
         stack1.setCustomSpacing(0, after: chessBoardController.view)
         view.addSubview(stack1)
@@ -165,10 +163,9 @@ class PuzzleRatedController: UIViewController {
         
         // Done for reloads and initial loads
         solutionLabel.text = ""
-        let showPieces = piecesShownSegment.selectedSegmentIndex == 1 ? true : false
         chessBoardController = ChessBoardController(
             position: currentPuzzle.position,
-            showPiecesInitially: showPieces,
+            showPiecesInitially: !piecesHidden,
             boardTheme: PuzzleUI().boardTheme
         )
         chessBoardController.delegate = self
@@ -176,7 +173,7 @@ class PuzzleRatedController: UIViewController {
         // move this
         if isReload {
             stack1.removeFromSuperview()
-            stack1 = CommonUI().configureStackView(arrangedSubViews: [chessBoardController.view, piecesShownSegment, solutionLabel])
+            stack1 = CommonUI().configureStackView(arrangedSubViews: [chessBoardController.view, solutionLabel])
             stack1.setCustomSpacing(0, after: chessBoardController.view)
             view.addSubview(stack1)
             setUpAutoLayout(isInitLoad: false)
@@ -184,6 +181,7 @@ class PuzzleRatedController: UIViewController {
     }
     
     func restartPuzzle(isNewPuzzle: Bool) {
+        puzzledUser = UserDBMS().getPuzzledUser() // fetch user with updated rating
         onSolutionMoveIndex = 0
         stateIsIncorrect = false
         chessBoardController.configureStartingPosition()
@@ -217,19 +215,11 @@ class PuzzleRatedController: UIViewController {
     
     @objc func nextAction() {
         restartPuzzle(isNewPuzzle: true)
-        pid = Int.random(in: 0..<puzzlesFromJSON.m2.count)
-        currentPuzzle = puzzlesFromJSON.m2[pid]
+        pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
+        currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
         configurePageData(isReload: true)
     }
-    
-    @objc func piecesShownAction() {
-        let selectedIndex = piecesShownSegment.selectedSegmentIndex
-        if selectedIndex == 1 {
-            chessBoardController.showPieces()
-        } else {
-            chessBoardController.hidePieces()
-        }
-    }
+
     
     @objc func retryAction() {
         restartPuzzle(isNewPuzzle: false)
@@ -254,8 +244,7 @@ class PuzzleRatedController: UIViewController {
             if stateIsIncorrect {self.chessBoardController.configureStartingPosition()}
             if stateIsIncorrect || stateIsPartialCorrect {
                 self.retryButton.isEnabled = false
-                self.piecesShownSegment.selectedSegmentIndex = 1
-                self.piecesShownSegment.sendActions(for: .valueChanged)
+                self.chessBoardController.showPieces()
             }
         }
         if isShowingSolution && stateIsIncorrect {
@@ -286,7 +275,8 @@ extension PuzzleRatedController: ChessBoardDelegate {
             onSolutionMoveIndex = onSolutionMoveIndex + 1
             if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
                 configPageForSolutionState(isShowingSolution: true, stateIsPartialCorrect: false)
-                savePuzzleAttempt(wasCorrect: true, piecesHidden: true, puzzleType: 2, puzzleIndex: pid)
+                let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: true)
+                savePuzzleAttempt(wasCorrect: true, ratingDelta: ratingDelta, pRef: pRef)
                 print("solved puzzle and saved solution")
                 return
             }
@@ -297,7 +287,8 @@ extension PuzzleRatedController: ChessBoardDelegate {
             chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
             chessBoardController.setButtonInteraction(isEnabled: false)
             stateIsIncorrect = true
-            savePuzzleAttempt(wasCorrect: false, piecesHidden: true, puzzleType: 2, puzzleIndex: pid)
+            let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: false)
+            savePuzzleAttempt(wasCorrect: false, ratingDelta: ratingDelta, pRef: pRef)
             DispatchQueue.main.async {
                 self.retryButton.backgroundColor = CommonUI().redColor
                 UIView.animate(withDuration: 0.3, animations: {
@@ -310,18 +301,27 @@ extension PuzzleRatedController: ChessBoardDelegate {
 }
 
 extension PuzzleRatedController {
-    func savePuzzleAttempt(wasCorrect: Bool, piecesHidden: Bool, puzzleType: Int, puzzleIndex: Int ) {
+    func savePuzzleAttempt(wasCorrect: Bool, ratingDelta: Int32, pRef: PuzzleReference) {
+        puzzledUser = UserDBMS().getPuzzledUser()
+        let newRating = piecesHidden ? puzzledUser.puzzleB_Elo : puzzledUser.puzzle_Elo
         let puzzleAttempt = PuzzleAttempt(context: context)
-        let ratingDelta = Int32(wasCorrect ? 20 : -20)
         puzzleAttempt.wasCorrect = wasCorrect
         puzzleAttempt.timestamp = Date()
-        puzzleAttempt.puzzleType = Int32(puzzleType)
-        puzzleAttempt.puzzleIndex = Int32(puzzleIndex)
-        puzzleAttempt.piecesHidden = [true, false].randomElement()!
+        puzzleAttempt.puzzleType = pRef.puzzleType
+        puzzleAttempt.puzzleIndex = pRef.puzzleIndex
+        puzzleAttempt.piecesHidden = piecesHidden
         puzzleAttempt.ratingDelta = ratingDelta
-        puzzleAttempt.newRating = puzzledUser.puzzle_Elo + ratingDelta
+        puzzleAttempt.newRating = newRating
         do { try context.save() }
         catch { print("error saving puzzle attempt") }
+    }
+    
+    func updateUserRating(forPuzzleReference pRef: PuzzleReference, wasCorrect: Bool) -> Int32 {
+        let pElo = piecesHidden ? pRef.eloBlindfold : pRef.eloRegular
+        let oldRating = piecesHidden ? puzzledUser.puzzleB_Elo : puzzledUser.puzzle_Elo
+        let updatedUser = UserDBMS().updateUserPuzzleElo(forUser: puzzledUser, puzzleRating: pElo, wasCorrect: wasCorrect, isBlindfold: piecesHidden)
+        let newRating = piecesHidden ? updatedUser.puzzleB_Elo : updatedUser.puzzle_Elo
+        return newRating - oldRating
     }
 }
 

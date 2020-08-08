@@ -45,8 +45,9 @@ class UserDBMS {
         catch { print("couldnt init puzzledUser coredata obj") }
         
         // create PuzzleReferences
-        if UserDBMS().isFirstLaunch() {
-            
+        if UserDataManager().isFirstLaunch() {
+            let PFJ = PuzzlesFromJson()
+            PFJ.savePuzzlesToCoreData()
         }
         
         Firestore.firestore().collection("users").document(uid).setData([
@@ -94,21 +95,19 @@ class UserDBMS {
         } catch { print("CoreData Error: couldn't fetch puzzledUsers"); return nil}
     }
     
-    func updatePuzzleElo(withRating: Int32, isBlindfold: Bool) {
-        let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
-        do {
-            let puzzledUsers = try context.fetch(userRequest)
-            if puzzledUsers.count == 1 {
-                let key = isBlindfold ? "puzzleB_Elo" : "puzzle_Elo"
-                puzzledUsers[0].setValue(withRating, forKey: key)
-                do { try context.save() }
-                catch { print(error) }
-            }
-            else { print("Incorrect # of users: \(puzzledUsers.count)")}
-        } catch { print("CoreData Error: couldn't fetch puzzledUsers")}
+    func updateUserPuzzleElo(forUser user: PuzzledUser, puzzleRating: Int32, wasCorrect: Bool, isBlindfold: Bool) -> PuzzledUser {
+        let key = isBlindfold ? "puzzleB_Elo" : "puzzle_Elo"
+        let sA = wasCorrect ? 1.0 : -1.0
+        let oldRating = Double(isBlindfold ? user.puzzleB_Elo : user.puzzle_Elo)
+        let qA = pow(10.0, Double(oldRating)/400.0)
+        let qB = pow(10.0, Double(puzzleRating)/400.0)
+        let eA = qA/(qA + qB)
+        let newRating = Int32(oldRating + 32.0*(sA - eA))
+        user.setValue(newRating, forKey: key)
+        do { try context.save() }
+        catch { print("Error saving PuzzledUser with updated Rating")}
+        return user
     }
-    
-    
 }
 
 

@@ -13,8 +13,6 @@ class UserDataManager {
     // MARK: - Properties
     
     let defaults = UserDefaults.standard
-    let didSetBoardColor: Bool!
-    let didSetButtonColor: Bool!
     struct themeKeys {
         static let boardColor = "boardColor"
         static let buttonColor = "buttonColor"

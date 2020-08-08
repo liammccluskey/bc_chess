@@ -12,7 +12,7 @@ import Firebase
 
 // globals
 var puzzlesFromJSON: Puzzles!
-
+var PFJ = PuzzlesFromJson()
 class ContainerController: UIViewController {
     
     // MARK: - Init
@@ -20,7 +20,9 @@ class ContainerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        puzzlesFromJSON = PuzzlesFromJson().puzzles
+        PFJ = PuzzlesFromJson()
+        
+        //puzzlesFromJSON = PuzzlesFromJson().puzzles
         configTabBarController()
         
         if Auth.auth().currentUser != nil {

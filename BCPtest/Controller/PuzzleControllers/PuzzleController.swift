@@ -16,9 +16,7 @@ class PuzzleController: UIViewController {
     var onSolutionMoveIndex: Int = 0
     var stateIsIncorrect = false
     var pid: Int
-    var puzzleUI = PuzzleUI(
-        boardTheme: UserDataManager().getBoardColor()!,
-        buttonTheme: UserDataManager().getButtonColor()!)
+    var puzzleUI = PuzzleUI()
     
     var scrollView: UIScrollView!
     let containerView: UIView = {
