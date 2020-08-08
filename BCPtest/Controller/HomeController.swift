@@ -136,10 +136,9 @@ class HomeController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
         navigationController?.navigationBar.tintColor = .lightGray
-        let font = UIFont(name: fontString, size: 25)
+        let font = UIFont(name: fontString, size: 23)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
-        let username = Auth.auth().currentUser?.displayName
-        navigationItem.title = "Welcome, " + username!
+        navigationItem.title = "Puzzled"
         
         let infoButton = UIButton(type: .infoDark)
         infoButton.addTarget(self, action: #selector(infoAction), for: .touchUpInside)

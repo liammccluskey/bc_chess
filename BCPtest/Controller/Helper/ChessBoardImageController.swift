@@ -27,8 +27,8 @@ class ChessBoardImageController: UIViewController {
         self.currentPosition = position
         let theme = UserDataManager().getBoardColor()
         pieceStyle = UserDataManager().getPieceStyle()
-        self.dsColor = UserDataManager().getBoardColor()!.darkSquareColor
-        self.lsColor = UserDataManager().getBoardColor()!.lightSquareColor
+        self.dsColor = theme?.darkSquareColor
+        self.lsColor = theme?.lightSquareColor
         super.init(nibName: nil, bundle: nil)
     }
     

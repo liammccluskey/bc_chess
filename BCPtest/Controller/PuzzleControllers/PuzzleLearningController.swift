@@ -59,7 +59,7 @@ class PuzzleLearningController: UIViewController {
         if senderIsProgressController { // pick random puzzle otherwise
             self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: puzzleReference!)
         } else {
-            let pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(300), isBlindfold: piecesHidden , forUser: puzzledUser!)
+            let pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden , forUser: puzzledUser!)
             self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: pRef!)
         }
         self.senderIsProgressController = senderIsProgressController
@@ -108,18 +108,18 @@ class PuzzleLearningController: UIViewController {
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "   EXIT   ", titleColor: .white, borderColor: .white)
+        exitButton = PuzzleUI().configureButton(title: "  EXIT  ", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "SOLUTION", titleColor: .white, borderColor: .white)
+        showSolutionButton = PuzzleUI().configureButton(title: "  SOLUTION  ", imageName: "questionmark.square")
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = PuzzleUI().configureButton(title: "   NEXT   ", titleColor: .white, borderColor: .white)
+        nextButton = PuzzleUI().configureButton(title: "  NEXT  ", imageName: "chevron.right.square")
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         
         buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,showSolutionButton,nextButton])
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
       
-        view.backgroundColor = CommonUI().blackColor
+        view.backgroundColor = CommonUI().blackColorLight
     }
     
     func setUpAutoLayout(isInitLoad: Bool) {
@@ -164,6 +164,8 @@ class PuzzleLearningController: UIViewController {
     func configurePageData(isReload: Bool) {
         if isReload {
             playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
+            playerToMoveLabel.backgroundColor = currentPuzzle.player_to_move == "white" ? .lightGray : .black //CommonUI().blackColorLight
+            playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .black : .lightGray
             positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
             positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
             positionTableW.tableView.reloadData()
@@ -224,8 +226,9 @@ class PuzzleLearningController: UIViewController {
     
     @objc func nextAction() {
         restartPuzzle(isNewPuzzle: true)
-        pid = Int.random(in: 0..<puzzlesFromJSON.m2.count)
-        currentPuzzle = puzzlesFromJSON.m2[pid]
+        let pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden , forUser: puzzledUser!)
+        print(pRef!.eloRegular)
+        self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: pRef!)
         configurePageData(isReload: true)
     }
     

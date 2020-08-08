@@ -120,7 +120,6 @@ class puzzleVC: UIViewController {
         
         return img
     }
-    
-    
-    
 }
+
+

@@ -36,9 +36,6 @@ class UserDataManager {
     // MARK: - Interface
     
     func setBoardColor(boardColor: ColorTheme) {
-    /*
-         boardColor in BoardColor.cases
-    */
         defaults.set(boardColor.rawValue, forKey: themeKeys.boardColor)
     }
     

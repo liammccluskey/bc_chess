@@ -122,17 +122,15 @@ class PuzzleController: UIViewController {
         containerView.addSubview(stack1)
         
         // buttons
-        exitButton = puzzleUI.configureButton(title: "   EXIT   ", titleColor: .white, borderColor: .white)
+        exitButton = PuzzleUI().configureButton(title: "  EXIT  ", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        themeButton = puzzleUI.configureButton(title: "BOARD THEME", titleColor: .white, borderColor: .white)
-        themeButton.addTarget(self, action: #selector(themeAction), for: .touchUpInside)
-        showSolutionButton = puzzleUI.configureButton(title: "SOLUTION", titleColor: .white, borderColor: .white)
+        showSolutionButton = PuzzleUI().configureButton(title: "  SOLUTION  ", imageName: "questionmark.square")
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = puzzleUI.configureButton(title: "   NEXT   ", titleColor: .white, borderColor: .white)
+        nextButton = PuzzleUI().configureButton(title: "  NEXT  ", imageName: "chevron.right.square")
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         
         buttonStack = puzzleUI.configureButtonHStack(arrangedSubViews: [
-            exitButton,themeButton,
+            exitButton,
             showSolutionButton,nextButton
         ])
         view.addSubview(buttonStack)

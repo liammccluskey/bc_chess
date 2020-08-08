@@ -138,7 +138,6 @@ extension UILabel {
     
     func configCellLabel(text: String, textColor: UIColor) -> UILabel{
         self.text = text
-        self.textAlignment = .center
         self.textColor = textColor
         self.textAlignment = .center
         self.font = UIFont(name: fontString, size: 17)

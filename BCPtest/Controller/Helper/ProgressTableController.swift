@@ -30,7 +30,7 @@ class ProgressTableController: UITableViewController {
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = .clear
         tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
-        tableView.layer.borderWidth = 3.5
+        tableView.layer.borderWidth = 2.5
         tableView.layer.cornerRadius = 10
         tableView.clipsToBounds = true
         

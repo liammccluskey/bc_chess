@@ -26,6 +26,21 @@ class PuzzleUI {
 
     // MARK: - Solution Section
     
+    func configRatingHStack(rating: Int32, delta: Int32) -> UIStackView {
+        let rating = UILabel()
+        rating.backgroundColor = .clear
+        rating.textColor = .white
+        rating.font = UIFont(name: fontString, size: 20)
+        rating.text = "\(rating)"
+        let delta = UILabel()
+        delta.backgroundColor = .clear
+        delta.textColor = CommonUI().redColor
+        delta.font = UIFont(name: fontStringLight, size: 20)
+        delta.text = "\(delta)"
+        let hstack = CommonUI().configureHStackView(arrangedSubViews: [rating, delta])
+        return hstack
+    }
+    
     func configSolutionLabel() -> UILabel {
         let label = UILabel()
         label.backgroundColor = .clear
@@ -42,7 +57,7 @@ class PuzzleUI {
             let response = move.response_san == "complete" ? "Complete" : move.response_san
             let readableMove = "        \(i + 1).  \(move.answer_san)  \(response)"
             solutionText = solutionText + readableMove
-            if i%2 == 0 { solutionText = solutionText + "\n        "}
+            if i%2 != 0 { solutionText = solutionText + "\n"}
         }
         return solutionText
     }
@@ -83,13 +98,15 @@ class PuzzleUI {
     
     // MARK: - Buttons
     
-    func configureButton(title: String, titleColor: UIColor, borderColor: UIColor) -> UIButton {
+    func configureButton(title: String, imageName: String) -> UIButton {
         let button = UIButton(type: .system)
+        button.setImage(UIImage(systemName: imageName)?.withRenderingMode(.alwaysOriginal).withTintColor(.lightGray), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontStringLight, size: 16)
         button.backgroundColor = .black
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.lightGray.cgColor
+        button.layer.borderColor = UIColor.black.cgColor
         button.setTitleColor(.lightGray, for: .normal)
         return button
     }
@@ -109,19 +126,9 @@ class PuzzleUI {
     // MARK: - Labels
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
-        /*
         let label = UILabel()
-        label.backgroundColor = dButtonColor
-        label.textColor = playerToMove == "white" ? .white : .black
-        label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 19)
-        label.text = "\(playerToMove.uppercased()) TO MOVE"
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-        */
-        let label = UILabel()
-        label.backgroundColor = CommonUI().blackColorLight
-        label.textColor = .lightGray
+        label.backgroundColor = playerToMove == "white" ? .lightGray : .black //CommonUI().blackColorLight
+        label.textColor = playerToMove == "white" ? .black : .lightGray
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 19)
         label.text = "\(playerToMove.uppercased()) TO MOVE"
@@ -139,7 +146,7 @@ class PuzzleUI {
         sc.tintColor = .lightGray
         sc.selectedSegmentIndex = selectedSegmentIndex
         sc.backgroundColor = .clear
-        sc.selectedSegmentTintColor = CommonUI().blackColor
+        sc.selectedSegmentTintColor = CommonUI().blackColorLight
         sc.layer.cornerRadius = 20
         sc.clipsToBounds = true
         return sc

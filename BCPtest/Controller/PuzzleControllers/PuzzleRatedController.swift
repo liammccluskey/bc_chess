@@ -35,6 +35,7 @@ class PuzzleRatedController: UIViewController {
     }()
     
     var playerToMoveLabel: UILabel!
+    var ratingLabel: UILabel!
     
     // stack 1
     var stack1: UIStackView!
@@ -87,10 +88,11 @@ class PuzzleRatedController: UIViewController {
         playerToMoveLabel = PuzzleUI().configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
         view.insertSubview(playerToMoveLabel, at: 0)
         
+        ratingLabel =
         stack1 = CommonUI().configureStackView(arrangedSubViews: [
-            chessBoardController.view, solutionLabel
+            PuzzleUI().configRatingHStack(rating: Int32(1240), delta: Int32(20)), chessBoardController.view, solutionLabel
         ])
-        stack1.setCustomSpacing(0, after: chessBoardController.view)
+        stack1.setCustomSpacing(15, after: chessBoardController.view)
         view.addSubview(stack1)
         
         positionTableW = PositionTableController(puzzle: currentPuzzle, isWhite: true)
@@ -99,18 +101,18 @@ class PuzzleRatedController: UIViewController {
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "   EXIT   ", titleColor: .white, borderColor: .white)
+        exitButton = PuzzleUI().configureButton(title: "  EXIT  ", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "SOLUTION", titleColor: .white, borderColor: .white)
+        showSolutionButton = PuzzleUI().configureButton(title: "  SOLUTION  ", imageName: "questionmark.square")
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = PuzzleUI().configureButton(title: "   NEXT   ", titleColor: .white, borderColor: .white)
+        nextButton = PuzzleUI().configureButton(title: "  NEXT  ", imageName: "chevron.right.square")
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         
         buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,showSolutionButton,nextButton])
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
       
-        view.backgroundColor = CommonUI().blackColor
+        view.backgroundColor = CommonUI().blackColorLight
     }
     
     func setUpAutoLayout(isInitLoad: Bool) {
@@ -119,7 +121,7 @@ class PuzzleRatedController: UIViewController {
             buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3).isActive = true
             buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
             buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 68).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: 75).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -141,7 +143,7 @@ class PuzzleRatedController: UIViewController {
         positionTableW.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
         
         positionTableB.tableView.leftAnchor.constraint(equalTo:  view.centerXAnchor, constant: 0).isActive = true
-        positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -3).isActive = true
+        positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
         positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
         positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.bottomAnchor).isActive = true
     }
@@ -155,6 +157,8 @@ class PuzzleRatedController: UIViewController {
     func configurePageData(isReload: Bool) {
         if isReload {
             playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
+            playerToMoveLabel.backgroundColor = currentPuzzle.player_to_move == "white" ? .lightGray : .black //CommonUI().blackColorLight
+            playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .black : .lightGray
             positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
             positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
             positionTableW.tableView.reloadData()
@@ -174,7 +178,7 @@ class PuzzleRatedController: UIViewController {
         if isReload {
             stack1.removeFromSuperview()
             stack1 = CommonUI().configureStackView(arrangedSubViews: [chessBoardController.view, solutionLabel])
-            stack1.setCustomSpacing(0, after: chessBoardController.view)
+            stack1.setCustomSpacing(15, after: chessBoardController.view)
             view.addSubview(stack1)
             setUpAutoLayout(isInitLoad: false)
         }
@@ -185,6 +189,7 @@ class PuzzleRatedController: UIViewController {
         onSolutionMoveIndex = 0
         stateIsIncorrect = false
         chessBoardController.configureStartingPosition()
+        if piecesHidden {chessBoardController.hidePieces()}
         chessBoardController.clearSelections()
         chessBoardController.setButtonInteraction(isEnabled: true)
         showSolutionButton.isEnabled = true

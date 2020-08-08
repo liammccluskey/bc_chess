@@ -44,14 +44,14 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     
     
     override func numberOfSections(in tableView: UITableView) -> Int {
-        return 3
+        return 2
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         switch section {
         case 0: return ColorTheme.allCases.count
         case 1: return PieceStyleTheme.allCases.count
-        case 2: return ColorTheme.allCases.count
+        //case 2: return ColorTheme.allCases.count
         default: return 0
         }
     }
@@ -60,7 +60,7 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
         switch section {
         case 0: return "Select Board Color Theme"
         case 1: return "Select Piece Style"
-        case 2: return "Select Button Color Theme"
+        //case 2: return "Select Button Color Theme"
         default: return ""
         }
     }
@@ -85,6 +85,11 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        delegate?.didSubmitChangeAt(indexPath: indexPath)
+        switch indexPath.section {
+        case 0: UserDataManager().setBoardColor(boardColor: ColorTheme(rawValue: indexPath.row)!); break
+        case 1: UserDataManager().setPieceStyle(pieceStyle: indexPath.row); break
+        default: break
+        }
+        //delegate?.didSubmitChangeAt(indexPath: indexPath)
     }
 }

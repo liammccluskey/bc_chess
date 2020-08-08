@@ -109,7 +109,7 @@ class ProgressController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 25)
+        let font = UIFont(name: fontString, size: 23)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
         navigationItem.title = "Your Progress"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
@@ -147,8 +147,8 @@ class ProgressController: UIViewController {
     func setChartData() {
         var e1 = [ChartDataEntry]()
         var e2 = [ChartDataEntry]()
-        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1200.0))
-        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1200.0))
+        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1000.0))
+        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1000.0))
         for i in 0..<puzzleRegularAttempts.count {
             let pA = puzzleRegularAttempts[i]
             e1.append(ChartDataEntry(x: Double(pA.timestamp!.timeIntervalSince1970), y: Double(pA.newRating)))
@@ -164,8 +164,8 @@ class ProgressController: UIViewController {
         let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
         lineChart.data = LineChartData(dataSets: [set1, set2])
         
-        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 200
-        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 200
+        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 150
+        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 150
     }
     
     func clearPuzzleData() {

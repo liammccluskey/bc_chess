@@ -20,12 +20,11 @@ class ContainerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        PFJ = PuzzlesFromJson()
+        view.backgroundColor = .black 
         
-        //puzzlesFromJSON = PuzzlesFromJson().puzzles
-        configTabBarController()
-        
-        if Auth.auth().currentUser != nil {
+        if UserDataManager().isFirstLaunch() {
+            configSignInController()
+        } else if let _ = Auth.auth().currentUser {
             configTabBarController()
         } else {
             configSignInController()

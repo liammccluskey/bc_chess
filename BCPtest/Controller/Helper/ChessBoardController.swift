@@ -37,8 +37,9 @@ class ChessBoardController: UIViewController {
     init(position: Position, showPiecesInitially: Bool, boardTheme: ColorTheme) {
         self.currentPosition = position
         self.showPiecesInitially = showPiecesInitially
-        self.dsColor = boardTheme.darkSquareColor
-        self.lsColor = boardTheme.lightSquareColor
+        let theme = UserDataManager().getBoardColor()
+        self.dsColor = theme!.darkSquareColor
+        self.lsColor = theme!.lightSquareColor
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -34,8 +34,8 @@ class UserDBMS {
         let puzzledUser = PuzzledUser(context: context)
         puzzledUser.numPuzzleAttempts = 0
         puzzledUser.numPuzzleBAttempts = 0
-        puzzledUser.puzzle_Elo = 1200
-        puzzledUser.puzzleB_Elo = 1200
+        puzzledUser.puzzle_Elo = 1000
+        puzzledUser.puzzleB_Elo = 1000
         puzzledUser.rush3_HS = 0
         puzzledUser.rush3B_HS = 0
         puzzledUser.rush5_HS = 0
@@ -46,8 +46,8 @@ class UserDBMS {
         
         // create PuzzleReferences
         if UserDataManager().isFirstLaunch() {
-            let PFJ = PuzzlesFromJson()
             PFJ.savePuzzlesToCoreData()
+            UserDataManager().setDidLaunch()
         }
         
         Firestore.firestore().collection("users").document(uid).setData([

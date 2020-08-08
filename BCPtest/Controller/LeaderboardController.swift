@@ -37,7 +37,7 @@ class LeaderboardController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 25)
+        let font = UIFont(name: fontString, size: 23)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
         navigationItem.title = "Leaderboard"
     }

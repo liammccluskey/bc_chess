@@ -30,7 +30,7 @@ class PositionTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.backgroundColor = CommonUI().blackColor
+        tableView.backgroundColor = .clear
         tableView.separatorStyle = .singleLine
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 10
