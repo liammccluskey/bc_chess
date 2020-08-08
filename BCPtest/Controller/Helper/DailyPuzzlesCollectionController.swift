@@ -93,7 +93,7 @@ class PuzzleCell: UICollectionViewCell {
     }
     
     func configUI(forPuzzle puzzle: Puzzle) {
-        let bc1 = ChessBoardImageController(position: puzzle.position, boardTheme: .darkBlue)
+        let bc1 = ChessBoardImageController(position: puzzle.position)
         bc1.view.translatesAutoresizingMaskIntoConstraints = false
         bc1.view.backgroundColor = .clear
         addSubview(bc1.view)
@@ -124,3 +124,136 @@ class PuzzleCell: UICollectionViewCell {
     
     
 }
+/*
+class DailyPuzzlesCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+    
+    // MARK: - Properties
+    
+    let cellID = "cell"
+    var puzzles: [Puzzle]?
+    var delegate: DailyPuzzlesCollectionDelegate?
+    var boardImageController: ChessBoardImageController!
+    
+    // MARK: - Init
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
+        
+        collectionView.register(PuzzleCell.self, forCellWithReuseIdentifier: cellID)
+        collectionView.backgroundColor = .clear
+    }
+    
+    // MARK: - Config
+    
+    override func numberOfSections(in collectionView: UICollectionView) -> Int {
+        return 10
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return 2
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        return CGSize(width: view.frame.width*0.46, height: view.frame.width*0.51)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! PuzzleCell
+        guard let puzzles = puzzles else {return cell}
+        let puzzle = puzzles[indexPath.section*2 + indexPath.row]
+        if indexPath.row == 0 && indexPath.section == 0 {
+            boardImageController = ChessBoardImageController(position: puzzle.position)
+        } else {
+            boardImageController.setNewPosition(position: puzzle.position)
+        }
+        cell.boardController = boardImageController
+        cell.difficultyLabel.text = "Difficulty:  " + String(puzzle.solution_moves.count*400 + Int.random(in: 3...200))
+        cell.backgroundColor = .clear
+        return cell
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
+       return UIEdgeInsets(top: 5, left: 5, bottom: 20, right: 5)
+    }
+    
+    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        guard let puzzles = puzzles else {return}
+        delegate?.didSelectPuzzle(puzzle: puzzles[indexPath.section*2 + indexPath.row])
+    }
+    
+}
+
+class PuzzleCell: UICollectionViewCell {
+    
+    // MARK: - Properties
+    
+    let difficultyLabel: UILabel = {
+        let label = UILabel()
+        label.backgroundColor = .clear
+        label.textAlignment = .left
+        label.textColor = .white
+        label.font = UIFont(name: fontStringLight, size: 13)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    let completedImage: UIImageView = {
+        let imView = UIImageView()
+        imView.translatesAutoresizingMaskIntoConstraints = false
+        imView.contentMode = .scaleAspectFit
+        imView.image = #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal)
+        return imView
+    }()
+    
+    let boardContainer: UIView = {
+        let v = UIView()
+        v.translatesAutoresizingMaskIntoConstraints = false
+        v.backgroundColor = .clear
+        return v
+    }()
+    
+    var boardController: ChessBoardImageController! {
+        didSet {
+            boardController.view.translatesAutoresizingMaskIntoConstraints = false
+            boardController.view.layer.cornerRadius = 10
+            boardController.view.clipsToBounds = true
+            
+            boardContainer.addSubview(boardController.view)
+            
+            boardController.view.rightAnchor.constraint(equalTo: boardContainer.rightAnchor).isActive = true
+            boardController.view.leftAnchor.constraint(equalTo: boardContainer.leftAnchor).isActive = true
+            boardController.view.topAnchor.constraint(equalTo: boardContainer.topAnchor).isActive = true
+        }
+    }
+    
+    override init(frame: CGRect) {
+        super.init(frame: frame)
+        
+        self.configUI()
+        self.configAutoLayout()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    func configUI() {
+        addSubview(boardContainer)
+        addSubview(difficultyLabel)
+        addSubview(completedImage)
+    }
+    
+    func configAutoLayout() {
+        boardContainer.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        boardContainer.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        boardContainer.topAnchor.constraint(equalTo: topAnchor).isActive = true
+        difficultyLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        difficultyLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        difficultyLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        completedImage.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
+        completedImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+    }
+}
+*/

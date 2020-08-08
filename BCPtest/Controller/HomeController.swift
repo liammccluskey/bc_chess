@@ -75,11 +75,7 @@ class HomeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        /*
-        let userDBMS = UserDBMS()
-        userDBMS.delegate = self
-        userDBMS.getUser(uid: Auth.auth().currentUser!.uid)
-        */
+        
         configureUI()
         configureAutoLayout()
     }

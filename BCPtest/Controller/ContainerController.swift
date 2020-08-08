@@ -11,8 +11,7 @@ import FirebaseAuth
 import Firebase
 
 // globals
-var puzzlesFromJSON: Puzzles!
-var PFJ = PuzzlesFromJson()
+var PFJ: PuzzlesFromJson!
 class ContainerController: UIViewController {
     
     // MARK: - Init
@@ -20,7 +19,7 @@ class ContainerController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .black 
+        view.backgroundColor = .black
         
         if UserDataManager().isFirstLaunch() {
             configSignInController()
@@ -29,6 +28,9 @@ class ContainerController: UIViewController {
         } else {
             configSignInController()
         }
+        
+        PFJ = PuzzlesFromJson()
+
         
     }
     

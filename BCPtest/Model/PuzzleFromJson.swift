@@ -67,7 +67,8 @@ class PuzzlesFromJson {
         for i in 0..<puzzles.count {
             let puzzle = puzzles[i]
             let puzzleRef = PuzzleReference(context: context)
-            puzzleRef.eloRegular = Int32(500*(puzzleType + 1) + Int.random(in: -250...250))
+            let m1buffer = puzzleType == 0 ? Int.random(in: -50...100) : 0
+            puzzleRef.eloRegular = Int32(400*(puzzleType + 1) + m1buffer + puzzleType*Int.random(in: 0...150))
             puzzleRef.eloBlindfold = Int32(100*puzzle.piece_count + 200*(puzzleType + 1) + Int.random(in: -100...100))
             puzzleRef.puzzleType = Int32(puzzleType)
             puzzleRef.puzzleIndex = Int32(i)

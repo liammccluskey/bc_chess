@@ -97,7 +97,7 @@ class UserDBMS {
     
     func updateUserPuzzleElo(forUser user: PuzzledUser, puzzleRating: Int32, wasCorrect: Bool, isBlindfold: Bool) -> PuzzledUser {
         let key = isBlindfold ? "puzzleB_Elo" : "puzzle_Elo"
-        let sA = wasCorrect ? 1.0 : -1.0
+        let sA = wasCorrect ? 1.0 : 0.0
         let oldRating = Double(isBlindfold ? user.puzzleB_Elo : user.puzzle_Elo)
         let qA = pow(10.0, Double(oldRating)/400.0)
         let qB = pow(10.0, Double(puzzleRating)/400.0)

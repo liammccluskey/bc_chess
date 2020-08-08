@@ -26,19 +26,22 @@ class PuzzleUI {
 
     // MARK: - Solution Section
     
-    func configRatingHStack(rating: Int32, delta: Int32) -> UIStackView {
-        let rating = UILabel()
-        rating.backgroundColor = .clear
-        rating.textColor = .white
-        rating.font = UIFont(name: fontString, size: 20)
-        rating.text = "\(rating)"
-        let delta = UILabel()
-        delta.backgroundColor = .clear
-        delta.textColor = CommonUI().redColor
-        delta.font = UIFont(name: fontStringLight, size: 20)
-        delta.text = "\(delta)"
-        let hstack = CommonUI().configureHStackView(arrangedSubViews: [rating, delta])
-        return hstack
+    func configRatingLabel() -> UILabel {
+        let l = UILabel()
+        l.backgroundColor = .clear
+        l.textColor = .white
+        l.font = UIFont(name: fontString, size: 26)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
+    }
+    
+    func configDeltaLabel() -> UILabel {
+        let l = UILabel()
+        l.backgroundColor = .clear
+        l.textColor = CommonUI().redColor
+        l.font = UIFont(name: fontString, size: 21)
+        l.translatesAutoresizingMaskIntoConstraints = false
+        return l
     }
     
     func configSolutionLabel() -> UILabel {
@@ -162,6 +165,28 @@ class ButtonWithImage: UIButton {
             titleEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: (imageView?.frame.width)!)
             imageView?.contentMode = .scaleAspectFit
         }
+    }
+}
+
+extension UILabel {
+    
+    func setDelta(delta: Int32) {
+        let sign = delta >= 0 ? "+" : ""
+        let color = delta >= 0 ? CommonUI().greenColor : CommonUI().redColor
+        self.text = "\(sign) \(delta)"
+        self.textColor = color
+    }
+    
+    func setRating(forPuzzledUser user: PuzzledUser, isBlindfold: Bool) {
+        let rating = isBlindfold ? user.puzzleB_Elo : user.puzzle_Elo
+        self.text = "ELO:  \(rating)"
+    }
+    
+    func setPuzzleRating(forPuzzleReference pRef: PuzzleReference, isBlindfold: Bool) {
+        let rating = isBlindfold ? pRef.eloBlindfold : pRef.eloRegular
+        self.text = "DIFFICULTY:  \(rating)"
+        self.textColor = .lightGray
+        self.font = UIFont(name: fontStringLight, size: 18)
     }
 }
 

@@ -13,6 +13,8 @@ class SignInController: UIViewController {
     
     // MARK: - Properties
     
+    let commonUI = CommonUI()
+    
     var userDBMS: UserDBMS!
     var delegate: SignInDelegate?
     
@@ -66,13 +68,13 @@ class SignInController: UIViewController {
         
         passwordField = configInputField(placeHolder: "  Password")
         signInUpButton = configButton(title: "SIGN IN")
-        vstack = CommonUI().configureStackView(arrangedSubViews: [
+        vstack = commonUI.configureStackView(arrangedSubViews: [
             titleLabel, signInUpSegment, emailField, usernameField, passwordField, signInUpButton])
         vstack.spacing = 20
         vstack.setCustomSpacing(60, after: titleLabel)
         view.addSubview(vstack)
         
-        view.backgroundColor = CommonUI().blackColor
+        view.backgroundColor = commonUI.blackColor
     }
     
     func configAutoLayout() {
@@ -136,9 +138,9 @@ class SignInController: UIViewController {
         let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
         alert.setTitle(font: UIFont(name: fontString, size: 23), color: .lightGray)
         alert.setMessage(font: UIFont(name: fontStringLight, size: 20), color: .white)
-        alert.setTint(color: CommonUI().csRed)
-        alert.setBackgroundColor(color: CommonUI().blackColor)
-        alert.view.layer.borderColor = CommonUI().blackColorLight.cgColor
+        alert.setTint(color: commonUI.csRed)
+        alert.setBackgroundColor(color: commonUI.blackColor)
+        alert.view.layer.borderColor = commonUI.blackColorLight.cgColor
         alert.view.layer.borderWidth = 10
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)
@@ -155,7 +157,7 @@ class SignInController: UIViewController {
         tf.font = UIFont(name: fontStringLight, size: 23)
         tf.placeholder = placeHolder
         tf.textAlignment = .left
-        tf.backgroundColor = CommonUI().blackColorLight
+        tf.backgroundColor = commonUI.blackColorLight
         tf.layer.cornerRadius = 10
         tf.clipsToBounds = true
         return tf
@@ -165,12 +167,12 @@ class SignInController: UIViewController {
         let sc = UISegmentedControl(items: items)
         sc.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
         let font = UIFont(name: fontString, size: 23)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: commonUI.csRed], for: .selected)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
         sc.tintColor = .lightGray
         sc.selectedSegmentIndex = 0
         sc.backgroundColor = .clear
-        sc.selectedSegmentTintColor = CommonUI().blackColor
+        sc.selectedSegmentTintColor = commonUI.blackColor
         sc.layer.cornerRadius = 20
         sc.clipsToBounds = true
         return sc
@@ -180,13 +182,13 @@ class SignInController: UIViewController {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontString, size: 25)
-        button.backgroundColor = CommonUI().blackColor
+        button.backgroundColor = commonUI.blackColor
         button.layer.borderWidth = 3.5
         button.layer.borderColor = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1).cgColor
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(signInUpAction), for: .touchUpInside)
-        button.setTitleColor(CommonUI().csRed, for: .normal)
+        button.setTitleColor(commonUI.csRed, for: .normal)
         
         return button
     }

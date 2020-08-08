@@ -23,7 +23,7 @@ class ChessBoardImageController: UIViewController {
     
     // MARK: - Init
     
-    init(position: Position, boardTheme: ColorTheme) {
+    init(position: Position) {
         self.currentPosition = position
         let theme = UserDataManager().getBoardColor()
         pieceStyle = UserDataManager().getPieceStyle()
@@ -97,6 +97,12 @@ class ChessBoardImageController: UIViewController {
                 self.squareImages[index].image = PieceType(rawValue: i)?.image.withRenderingMode(.alwaysOriginal)
             }
         }
+    }
+    
+    func setNewPosition(position: Position) {
+        squareImages.forEach{ (imView) in imView.image = #imageLiteral(resourceName: "clear_square")}
+        self.currentPosition = position
+        configureStartingPosition()
     }
     
     
