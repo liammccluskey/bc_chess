@@ -18,13 +18,14 @@ class PuzzleRushController: UIViewController {
     var onSolutionMoveIndex: Int = 0
     var stateIsIncorrect = false
     var timer: Timer!
+    var puzzledUser: PuzzledUser!
     
     var numCorrect: Int = 0
     var numIncorrect: Int = 0
     var secondsRemaining: Int!
     var lowerBoundFetch: Int!
     var upperBoundFetch: Int!
-    var pRef: PuzzleReference!
+    var pRef: PuzzleReference?
     var currentPuzzle: Puzzle!
     
     var playerToMoveLabel: UILabel!
@@ -50,11 +51,9 @@ class PuzzleRushController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.piecesHidden = piecesHidden
         self.startMinutes = minutes // either 3 or 5
-        self.lowerBoundFetch = 500 + (numCorrect/2)*100 - 50
-        self.upperBoundFetch = 500 + (numCorrect/2)*100 + 50
-        self.pRef = PFJ.getPuzzleReferenceInRange(lowerBound: lowerBoundFetch, upperBound: upperBoundFetch, isBlindfold: piecesHidden)
-        self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
+        self.fetchNextPuzzle()
         self.secondsRemaining = startMinutes*60
+        self.puzzledUser = UserDBMS().getPuzzledUser()
     }
     
     required init?(coder: NSCoder) {
@@ -94,7 +93,7 @@ class PuzzleRushController: UIViewController {
         incorrectMarksView = IncorrectMarksView()
         incorrectMarksView.numIncorrect = 0
         puzzleRatingLabel = pUI.configRatingLabel()
-        puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef, isBlindfold: piecesHidden)
+        puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef!, isBlindfold: piecesHidden)
         
         view.addSubview(numCorrectLabel)
         view.addSubview(correctnessLabel)
@@ -184,7 +183,7 @@ class PuzzleRushController: UIViewController {
         positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
         positionTableW.tableView.reloadData()
         positionTableB.tableView.reloadData()
-        puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef, isBlindfold: piecesHidden)
+        puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef!, isBlindfold: piecesHidden)
         chessBoardController.setNewPosition(position: currentPuzzle.position, piecesHidden: piecesHidden)
     }
     
@@ -195,10 +194,15 @@ class PuzzleRushController: UIViewController {
     }
     
     func fetchNextPuzzle() {
-        lowerBoundFetch = 500 + (numCorrect/2)*100 - 50
-        upperBoundFetch = 500 + (numCorrect/2)*100 + 50
-        self.pRef = PFJ.getPuzzleReferenceInRange(lowerBound: lowerBoundFetch, upperBound: upperBoundFetch, isBlindfold: piecesHidden)
-        self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
+        lowerBoundFetch = 500 + (numCorrect/3)*100 - 50
+        upperBoundFetch = 500 + (numCorrect/3)*100 + 50
+        var foundPuzzle = false
+        while foundPuzzle == false {
+            pRef = PFJ.getPuzzleReferenceInRange(lowerBound: lowerBoundFetch, upperBound: upperBoundFetch, isBlindfold: piecesHidden)
+            if pRef != nil { foundPuzzle = true; break }
+            else { upperBoundFetch += 100 }
+        }
+        currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: pRef!)
     }
     
     // MARK: - Selectors
@@ -290,6 +294,7 @@ extension PuzzleRushController {
         } else {
             print("Error: startMinutes must be either 3 or 5")
         }
+        UserDBMS().tryUpdateUserRushHS(forUser: puzzledUser, withScore: numCorrect, rushMinutes: startMinutes, piecesHidden: piecesHidden)
         timer.invalidate()
     }
 }

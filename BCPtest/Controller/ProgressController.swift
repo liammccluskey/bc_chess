@@ -182,8 +182,8 @@ class ProgressController: UIViewController {
             e2.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
         let date = Date()
-        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush3_HS)))
-        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush3B_HS)))
+        //e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush3_HS)))
+        //e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush3B_HS)))
         let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
         let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
         lineChart.data = LineChartData(dataSets: [set1, set2])
@@ -206,8 +206,8 @@ class ProgressController: UIViewController {
             e2.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
         let date = Date()
-        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush5_HS)))
-        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush5B_HS)))
+       // e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush5_HS)))
+       // e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush5B_HS)))
         let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
         let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
         lineChart.data = LineChartData(dataSets: [set1, set2])

@@ -108,6 +108,21 @@ class UserDBMS {
         catch { print("Error saving PuzzledUser with updated Rating")}
         return user
     }
+    
+    func tryUpdateUserRushHS(forUser user: PuzzledUser, withScore score: Int, rushMinutes: Int, piecesHidden: Bool){
+        let scoreNew = Int32(score)
+        if rushMinutes == 3 && piecesHidden == false {
+            if scoreNew > user.rush3_HS { user.rush3_HS = scoreNew }
+        } else if rushMinutes == 3 && piecesHidden == true {
+            if scoreNew > user.rush3B_HS { user.rush3B_HS = scoreNew }
+        } else if rushMinutes == 5 && piecesHidden == false {
+            if scoreNew > user.rush5_HS { user.rush5_HS = scoreNew }
+        } else if rushMinutes == 5 && piecesHidden == true {
+            if scoreNew > user.rush5B_HS { user.rush5B_HS = scoreNew }
+        }
+        do {try context.save() }
+        catch {print("error saving user's new highscore")}
+    }
 }
 
 

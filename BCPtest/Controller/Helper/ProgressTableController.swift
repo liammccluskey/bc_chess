@@ -119,8 +119,9 @@ class PuzzleAttemptCell: UITableViewCell {
             formatter.dateStyle = .short
             let date = formatter.string(from: rush3Attempt.timestamp!)
             l1.text = "Score: \(rush3Attempt.numCorrect)"
-            l2.textColor = .white
+            l1.textColor = .white
             l2.text = lossType
+            l2.textColor = CommonUI().redColor
             l3.text = visibility
             l4.text = date
         }
@@ -134,7 +135,8 @@ class PuzzleAttemptCell: UITableViewCell {
             formatter.dateStyle = .short
             let date = formatter.string(from: rush5Attempt.timestamp!)
             l1.text = "Score: \(rush5Attempt.numCorrect)"
-            l2.textColor = .white
+            l1.textColor = .white
+            l2.textColor = CommonUI().redColor
             l2.text = lossType
             l3.text = visibility
             l4.text = date
