@@ -216,9 +216,9 @@ class HomeController: UIViewController {
         } else if isTrainingMode && submode == 1 { // learning puzzles
             controller = PuzzleLearningController(piecesHidden: isBlindfoldMode)
         } else if !isTrainingMode && submode == 0 { // 3 min rush
-            
+            controller = PuzzleRushController(piecesHidden: isBlindfoldMode, minutes: 3)
         } else if !isTrainingMode && submode == 1 { // 5 min rush
-            
+            controller = PuzzleRushController(piecesHidden: isBlindfoldMode, minutes: 5)
         }
         controller.hidesBottomBarWhenPushed = true
         navigationController?.pushViewController(controller, animated: true)

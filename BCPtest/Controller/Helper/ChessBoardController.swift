@@ -32,9 +32,9 @@ class ChessBoardController: UIViewController {
     var vstackBlank: UIStackView! // repeat above but squares don't show pieces
     
     
-    // MARK: - Init
+    // MARK: - Init/Interface
     
-    init(position: Position, showPiecesInitially: Bool, boardTheme: ColorTheme) {
+    init(position: Position, showPiecesInitially: Bool, boardTheme: ColorTheme = ColorTheme(rawValue: 0)!) {
         self.currentPosition = position
         self.showPiecesInitially = showPiecesInitially
         let theme = UserDataManager().getBoardColor()
@@ -52,7 +52,14 @@ class ChessBoardController: UIViewController {
         
         configureUI()
         setUpAutoLayout()
-        
+    }
+    
+    func setNewPosition(position: Position, piecesHidden: Bool) {
+        clearSelections()
+        squareButtons.forEach{ (button) in button.setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)}
+        self.currentPosition = position
+        configureStartingPosition()
+        if piecesHidden {hidePieces()}
     }
     
     // MARK: - Config

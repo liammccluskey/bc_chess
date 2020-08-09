@@ -43,6 +43,18 @@ class PuzzlesFromJson {
         return nil
     }
     
+    func getPuzzleReferenceInRange(lowerBound: Int, upperBound: Int, isBlindfold: Bool) -> PuzzleReference? {
+        let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
+        let predicateRegular = NSPredicate(format:"eloRegular BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound)) }")
+        let predicateBlindfold = NSPredicate(format:"eloBlindfold BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound))}")
+        request.predicate = isBlindfold ? predicateBlindfold : predicateRegular
+        do {
+            let puzzlesInRange = try context.fetch(request)
+            return puzzlesInRange.randomElement()
+        } catch { print("Error: no puzzles in range \(lowerBound) - \(upperBound)")}
+        return nil
+    }
+    
     func getPuzzle(fromPuzzleReference puzzleReference: PuzzleReference) -> Puzzle? {
         let type = Int(puzzleReference.puzzleType)
         let index = Int(puzzleReference.puzzleIndex)
@@ -68,7 +80,7 @@ class PuzzlesFromJson {
             let puzzle = puzzles[i]
             let puzzleRef = PuzzleReference(context: context)
             let m1buffer = puzzleType == 0 ? Int.random(in: -50...100) : 0
-            puzzleRef.eloRegular = Int32(400*(puzzleType + 1) + m1buffer + puzzleType*Int.random(in: 0...150))
+            puzzleRef.eloRegular = Int32(500*(puzzleType + 1) + m1buffer + puzzleType*Int.random(in: 0...150))
             puzzleRef.eloBlindfold = Int32(100*puzzle.piece_count + 200*(puzzleType + 1) + Int.random(in: -100...100))
             puzzleRef.puzzleType = Int32(puzzleType)
             puzzleRef.puzzleIndex = Int32(i)

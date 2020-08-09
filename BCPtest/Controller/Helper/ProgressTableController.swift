@@ -117,9 +117,9 @@ class PuzzleAttemptCell: UITableViewCell {
             print(visibility)
             let formatter = DateFormatter()
             formatter.dateStyle = .short
-            let date = formatter.string(from: puzzleAttempt.timestamp!)
+            let date = formatter.string(from: rush3Attempt.timestamp!)
             l1.text = "Score: \(rush3Attempt.numCorrect)"
-            l2.textColor = .lightGray
+            l2.textColor = .white
             l2.text = lossType
             l3.text = visibility
             l4.text = date
@@ -127,18 +127,15 @@ class PuzzleAttemptCell: UITableViewCell {
     }
     var rush5Attempt: Rush5Attempt! {
         didSet {
-            let puzzleID = String(repeating: "0", count: 7 - String(puzzleAttempt.puzzleIndex).count)
-                + String(puzzleAttempt.puzzleIndex) + String(puzzleAttempt.puzzleType)
-            let deltaColor = puzzleAttempt.wasCorrect ? CommonUI().greenColor : CommonUI().redColor
-            let delta = puzzleAttempt.wasCorrect ? "+ " : "  "
-            let visibility = puzzleAttempt.piecesHidden ? "Blindfold" : "Regular  "
+            let lossType = rush5Attempt.didTimeout ? "Timeout " : "Strikeout"
+            let visibility = rush5Attempt.piecesHidden ? "Blindfold" : "Regular  "
             print(visibility)
             let formatter = DateFormatter()
             formatter.dateStyle = .short
-            let date = formatter.string(from: puzzleAttempt.timestamp!)
-            l1.text = "#\(puzzleID)"
-            l2.textColor = deltaColor
-            l2.text = "\(delta)\(puzzleAttempt.ratingDelta)"
+            let date = formatter.string(from: rush5Attempt.timestamp!)
+            l1.text = "Score: \(rush5Attempt.numCorrect)"
+            l2.textColor = .white
+            l2.text = lossType
             l3.text = visibility
             l4.text = date
         }

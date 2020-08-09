@@ -23,6 +23,7 @@
 		0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */; };
 		0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */; };
 		0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */; };
+		0175322524DF81670051F71F /* PuzzleRushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175322424DF81660051F71F /* PuzzleRushUI.swift */; };
 		0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFC24D5106E00726BD8 /* TabBarController.swift */; };
 		0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFE24D515C300726BD8 /* SettingsController.swift */; };
 		0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0124D5191400726BD8 /* LeaderboardController.swift */; };
@@ -95,6 +96,7 @@
 		0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushController.swift; sourceTree = "<group>"; };
 		0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRatedController.swift; sourceTree = "<group>"; };
 		0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleLearningController.swift; sourceTree = "<group>"; };
+		0175322424DF81660051F71F /* PuzzleRushUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushUI.swift; sourceTree = "<group>"; };
 		0186FBFC24D5106E00726BD8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		0186FBFE24D515C300726BD8 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		0186FC0124D5191400726BD8 /* LeaderboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardController.swift; sourceTree = "<group>"; };
@@ -251,6 +253,7 @@
 				7C33CCC324BB891C00135967 /* CommonUI.swift */,
 				7C33CCC724BBC71300135967 /* PuzzleUI.swift */,
 				01C9006E24DB2815003293D4 /* ProgressUI.swift */,
+				0175322424DF81660051F71F /* PuzzleRushUI.swift */,
 			);
 			path = View;
 			sourceTree = "<group>";
@@ -598,6 +601,7 @@
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
 				010DAAC424DDE35F003FEB6A /* PuzzleAttempt+CoreDataClass.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
+				0175322524DF81670051F71F /* PuzzleRushUI.swift in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
 				010DAAC224DDE35F003FEB6A /* PuzzledUser+CoreDataClass.swift in Sources */,

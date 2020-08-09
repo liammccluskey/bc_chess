@@ -21,7 +21,6 @@ class ProgressController: UIViewController {
     var visibilitySegment: UISegmentedControl!
     var scoreView: ScoreLabel!
     var scoreBView: ScoreLabel!
-    var chartTitleLabel: UILabel!
     
     var puzzledUser: PuzzledUser!
     
@@ -37,6 +36,7 @@ class ProgressController: UIViewController {
     var rush5RegularAttempts: [Rush5Attempt]!
     var rush5BlindfoldAttempts: [Rush5Attempt]!
     
+    var tableTitleLabel: UILabel!
     var progressTable: ProgressTableController!
     
     var lineChart: LineChartView = {
@@ -63,19 +63,19 @@ class ProgressController: UIViewController {
         configNavigationBar()
         
         fetchData()
-        setChartData()
+        setPuzzleAttemptChartData()
         
         puzzleModeSegment = configSegment(items: ["Rated Puzzles", "Rush 3min", "Rush 5min"])
         scoreView = ScoreLabel(puzzledUser: puzzledUser, attemptType: 0, isBlindfold: false)
         scoreBView = ScoreLabel(puzzledUser: puzzledUser, attemptType: 0, isBlindfold: true)
-        chartTitleLabel = UILabel().configHeaderLabel(title: "Puzzle Rating vs. Time")
+        tableTitleLabel = UILabel().configHeaderLabel(title: "Recent Rated Puzzles")
         let hstack = CommonUI().configureHStackView(arrangedSubViews: [scoreView, scoreBView])
         hstack.distribution = .fillEqually
         vstack = CommonUI().configureStackView(arrangedSubViews: [
             puzzleModeSegment,
             lineChart,
             hstack,
-            UILabel().configHeaderLabel(title: "Recent Rated Puzzles")
+            tableTitleLabel
         ])
         vstack.spacing = 5
         vstack.setCustomSpacing(20, after: scoreView)
@@ -144,7 +144,7 @@ class ProgressController: UIViewController {
         } catch {}
     }
     
-    func setChartData() {
+    func setPuzzleAttemptChartData() {
         var e1 = [ChartDataEntry]()
         var e2 = [ChartDataEntry]()
         e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1000.0))
@@ -168,22 +168,52 @@ class ProgressController: UIViewController {
         lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 150
     }
     
-    func clearPuzzleData() {
-        if let result = try? context.fetch(NSFetchRequest<PuzzleAttempt>(entityName: "PuzzleAttempt")) {
-            for pa in result {
-                context.delete(pa)
-            }
+    func setRush3AttemptChartData() {
+        var e1 = [ChartDataEntry]()
+        var e2 = [ChartDataEntry]()
+        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:0.0))
+        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:0.0))
+        for i in 0..<rush3RegularAttempts.count {
+            let rA = rush3RegularAttempts[i]
+            e1.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
-        if let result = try? context.fetch(NSFetchRequest<Rush3Attempt>(entityName: "Rush3Attempt")) {
-            for pa in result {
-                context.delete(pa)
-            }
+        for i in 0..<rush3BlindfoldAttempts.count {
+            let rA = rush3BlindfoldAttempts[i]
+            e2.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
-        if let result = try? context.fetch(NSFetchRequest<Rush5Attempt>(entityName: "Rush5Attempt")) {
-            for pa in result {
-                context.delete(pa)
-            }
+        let date = Date()
+        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush3_HS)))
+        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush3B_HS)))
+        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
+        lineChart.data = LineChartData(dataSets: [set1, set2])
+        
+        lineChart.leftAxis.axisMinimum = -1
+        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 10) + 5
+    }
+    
+    func setRush5AttemptChartData() {
+        var e1 = [ChartDataEntry]()
+        var e2 = [ChartDataEntry]()
+        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:0.0))
+        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:0.0))
+        for i in 0..<rush5RegularAttempts.count {
+            let rA = rush5RegularAttempts[i]
+            e1.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
+        for i in 0..<rush5BlindfoldAttempts.count {
+            let rA = rush5BlindfoldAttempts[i]
+            e2.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
+        }
+        let date = Date()
+        e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush5_HS)))
+        e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush5B_HS)))
+        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
+        lineChart.data = LineChartData(dataSets: [set1, set2])
+        
+        lineChart.leftAxis.axisMinimum = -1
+        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 10) + 10
     }
     
     // MARK: - Selectors
@@ -193,9 +223,6 @@ class ProgressController: UIViewController {
         progressTable.puzzleAttempts = puzzleAttempts
         progressTable.rush3attempts = rush3Attempts
         progressTable.rush5attempts = rush5Attempts
-        DispatchQueue.main.async {
-            self.setChartData()
-        }
         puzzleModeSegment.sendActions(for: .valueChanged)
      
     }
@@ -206,19 +233,22 @@ class ProgressController: UIViewController {
             progressTable.attemptType = 0
             scoreView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 0, isBlindfold: false)
             scoreBView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 0, isBlindfold: true)
-            chartTitleLabel.text = "Recent Puzzle Attempts"
+            tableTitleLabel.text = "Recent Puzzle Attempts"
+            setPuzzleAttemptChartData()
             break
         case 1: // rush 3 min
             progressTable.attemptType = 1
             scoreView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 1, isBlindfold: false)
             scoreBView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 1, isBlindfold: true)
-            chartTitleLabel.text = "Recent 3min Puzzle Rush"
+            tableTitleLabel.text = "Recent 3min Puzzle Rush"
+            setRush3AttemptChartData()
             break
         case 2: // rush 5 min
             progressTable.attemptType = 2
             scoreView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 2, isBlindfold: false)
             scoreBView.setLabelValues(forPuzzledUser: puzzledUser, forAttemptType: 2, isBlindfold: true)
-            chartTitleLabel.text = "Recent 5min Puzzle Rush"
+            tableTitleLabel.text = "Recent 5min Puzzle Rush"
+            setRush5AttemptChartData()
             break
         default: break
         }

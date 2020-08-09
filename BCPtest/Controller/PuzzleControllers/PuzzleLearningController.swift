@@ -152,7 +152,7 @@ class PuzzleLearningController: UIViewController {
         positionTableB.tableView.leftAnchor.constraint(equalTo:  view.centerXAnchor, constant: 0).isActive = true
         positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -3).isActive = true
         positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
-        positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.bottomAnchor).isActive = true
+        positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
     }
     
     func configureNavigationBar() {
