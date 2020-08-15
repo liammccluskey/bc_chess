@@ -66,7 +66,7 @@ class SignInController: UIViewController {
         emailField = configInputField(placeHolder: "  Email")
         usernameField = configInputField(placeHolder: "  Username", isHidden: true)
         
-        passwordField = configInputField(placeHolder: "  Password")
+        passwordField = configInputField(placeHolder: "  Password", isSecure: true)
         signInUpButton = configButton(title: "SIGN IN")
         vstack = commonUI.configureStackView(arrangedSubViews: [
             titleLabel, signInUpSegment, emailField, usernameField, passwordField, signInUpButton])
@@ -148,7 +148,7 @@ class SignInController: UIViewController {
     
     // MARK: - Helper
     
-    func configInputField(placeHolder: String, isHidden: Bool = false) -> UITextField {
+    func configInputField(placeHolder: String, isHidden: Bool = false, isSecure: Bool = false) -> UITextField {
         let tf = UITextField()
         tf.autocapitalizationType = .none
         tf.isHidden = isHidden
@@ -160,6 +160,8 @@ class SignInController: UIViewController {
         tf.backgroundColor = commonUI.blackColorLight
         tf.layer.cornerRadius = 10
         tf.clipsToBounds = true
+        tf.autocorrectionType = .no
+        tf.isSecureTextEntry = isSecure
         return tf
     }
     

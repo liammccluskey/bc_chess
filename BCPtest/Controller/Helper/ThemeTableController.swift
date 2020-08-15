@@ -14,7 +14,7 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     
     var delegate: ThemeTableDelegate?
     
-    var headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO APPLY CHANGES", backC: CommonUI().blackColor, textC: .white)
+    var headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO APPLY CHANGES", backC: CommonUI().blackColorLight, textC: .white)
     
     // MARK: - Init
     
@@ -36,7 +36,8 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     func autoLayout() {
         headerView.centerXAnchor.constraint(equalTo: self.tableView.centerXAnchor).isActive = true
         headerView.widthAnchor.constraint(equalTo: self.tableView.widthAnchor).isActive = true
-        headerView.topAnchor.constraint(equalTo: self.tableView.topAnchor, constant: 10).isActive = true
+        headerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        headerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         headerView.layoutIfNeeded()
     }
     
@@ -87,7 +88,10 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         switch indexPath.section {
         case 0: UserDataManager().setBoardColor(boardColor: ColorTheme(rawValue: indexPath.row)!); break
-        case 1: UserDataManager().setPieceStyle(pieceStyle: indexPath.row); break
+        case 1:
+            UserDataManager().setPieceStyle(pieceStyle: indexPath.row)
+            pieceStyle = indexPath.row
+            break
         default: break
         }
         //delegate?.didSubmitChangeAt(indexPath: indexPath)

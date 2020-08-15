@@ -30,7 +30,7 @@ class PuzzleUI {
         let l = UILabel()
         l.backgroundColor = .clear
         l.textColor = .white
-        l.font = UIFont(name: fontString, size: 26)
+        l.font = UIFont(name: fontString, size: 19)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }
@@ -39,7 +39,7 @@ class PuzzleUI {
         let l = UILabel()
         l.backgroundColor = .clear
         l.textColor = CommonUI().redColor
-        l.font = UIFont(name: fontString, size: 21)
+        l.font = UIFont(name: fontString, size: 18)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }

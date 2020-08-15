@@ -14,7 +14,7 @@ class PuzzleRushUI {
         let l = UILabel()
         l.backgroundColor = .clear
         l.textColor = .white
-        l.font = UIFont(name: fontString, size: 26)
+        l.font = UIFont(name: fontString, size: 18)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }
@@ -23,7 +23,7 @@ class PuzzleRushUI {
         let l = UILabel()
         l.backgroundColor = .clear
         l.textColor = .white
-        l.font = UIFont(name: fontString, size: 26)
+        l.font = UIFont(name: fontString, size: 18)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
     }
@@ -61,6 +61,7 @@ extension UILabel {
 class IncorrectMarksView: UIView {
     
     var numIncorrect = 0 {
+        /*
         didSet {
             switch numIncorrect {
             case 0: m1.isHidden = true; m2.isHidden = true; m3.isHidden = true; layoutIfNeeded(); break
@@ -70,13 +71,23 @@ class IncorrectMarksView: UIView {
             default: break
             }
         }
+        */
+        didSet {
+            switch numIncorrect {
+            case 0: m1.alpha = 0; m2.alpha = 0; m3.alpha = 0; break
+            case 1: m1.alpha = 1; break
+            case 2: m2.alpha = 1; break
+            case 3: m3.alpha = 1; break
+            default: break
+            }
+        }
     }
     let m1: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .clear
         iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redColor)
         iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
+        //iv.clipsToBounds = true
         return iv
     }()
     let m2: UIImageView = {
@@ -84,7 +95,7 @@ class IncorrectMarksView: UIView {
         iv.backgroundColor = .clear
         iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redColor)
         iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
+        //iv.clipsToBounds = true
         return iv
     }()
     let m3: UIImageView = {
@@ -92,7 +103,7 @@ class IncorrectMarksView: UIView {
         iv.backgroundColor = .clear
         iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redColor)
         iv.contentMode = .scaleAspectFill
-        iv.clipsToBounds = true
+        //iv.clipsToBounds = true
         return iv
     }()
     init() {
@@ -107,12 +118,16 @@ class IncorrectMarksView: UIView {
     func configView() {
         let hstack = CommonUI().configureHStackView(arrangedSubViews: [m1, m2, m3])
         hstack.distribution = .fillEqually
+        hstack.contentMode = .scaleAspectFill
+        
         hstack.translatesAutoresizingMaskIntoConstraints = false
         addSubview(hstack)
+        
         hstack.translatesAutoresizingMaskIntoConstraints = false
         hstack.topAnchor.constraint(equalTo: topAnchor).isActive = true
         hstack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         hstack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         hstack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        
     }
 }

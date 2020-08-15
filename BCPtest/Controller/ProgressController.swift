@@ -118,21 +118,26 @@ class ProgressController: UIViewController {
     func fetchData() {
         do {
             let sortAscendingDate = NSSortDescriptor(key: "timestamp", ascending: true)
+            guard let thisUser = Auth.auth().currentUser else {return}
+            let predicate = NSPredicate(format: "puzzledUser.uid == %@", thisUser.uid)
             
             let requestPA = NSFetchRequest<PuzzleAttempt>(entityName: "PuzzleAttempt")
             requestPA.sortDescriptors = [sortAscendingDate]
+            requestPA.predicate = predicate
             puzzleAttempts = try context.fetch(requestPA)
             puzzleRegularAttempts = puzzleAttempts.filter{$0.piecesHidden == false}
             puzzleBlindfoldAttempts = puzzleAttempts.filter{$0.piecesHidden == true}
             
             let requestR3A = NSFetchRequest<Rush3Attempt>(entityName: "Rush3Attempt")
             requestR3A.sortDescriptors = [sortAscendingDate]
+            requestR3A.predicate = predicate
             rush3Attempts = try context.fetch(requestR3A)
             rush3RegularAttempts = rush3Attempts.filter{$0.piecesHidden == false}
             rush3BlindfoldAttempts = rush3Attempts.filter{$0.piecesHidden == true}
             
             let requestR5A = NSFetchRequest<Rush5Attempt>(entityName: "Rush5Attempt")
             requestR5A.sortDescriptors = [sortAscendingDate]
+            requestR5A.predicate = predicate
             rush5Attempts = try context.fetch(requestR5A)
             rush5RegularAttempts = rush5Attempts.filter{$0.piecesHidden == false}
             rush5BlindfoldAttempts = rush5Attempts.filter{$0.piecesHidden == true}
@@ -147,8 +152,8 @@ class ProgressController: UIViewController {
     func setPuzzleAttemptChartData() {
         var e1 = [ChartDataEntry]()
         var e2 = [ChartDataEntry]()
-        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1000.0))
-        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1000.0))
+        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:800))
+        e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:800))
         for i in 0..<puzzleRegularAttempts.count {
             let pA = puzzleRegularAttempts[i]
             e1.append(ChartDataEntry(x: Double(pA.timestamp!.timeIntervalSince1970), y: Double(pA.newRating)))
@@ -264,7 +269,7 @@ class ProgressController: UIViewController {
         sc.addTarget(self, action: #selector(modeSegmentAction), for: .valueChanged)
         let font = UIFont(name: fontString, size: 16)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
         sc.tintColor = .lightGray
         sc.selectedSegmentIndex = 0
         sc.backgroundColor = .clear

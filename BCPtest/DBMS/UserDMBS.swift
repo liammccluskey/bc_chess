@@ -19,28 +19,21 @@ class UserDBMS {
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var delegate: UserDBMSDelegate?
     
-    // MARK: - Init Set/Get
-    
-    func isValidRegistration(email: String, password: String, confirmPassword: String) -> Bool {
-        // email: verify is rutgers email
-        // dorm: verify dorm exists
-        // dormRoom: verify dormRoom in dorm
-        // password: verify == confirmPassword and >= 6 characters
-        return true
-    }
+    // MARK: - Firestore
     
     func initUserData(uid: String, username: String) {
         // create PuzzledUser
         let puzzledUser = PuzzledUser(context: context)
         puzzledUser.numPuzzleAttempts = 0
         puzzledUser.numPuzzleBAttempts = 0
-        puzzledUser.puzzle_Elo = 1000
-        puzzledUser.puzzleB_Elo = 1000
+        puzzledUser.puzzle_Elo = 800
+        puzzledUser.puzzleB_Elo = 800
         puzzledUser.rush3_HS = 0
         puzzledUser.rush3B_HS = 0
         puzzledUser.rush5_HS = 0
         puzzledUser.rush5B_HS = 0
         puzzledUser.registerTimestamp = Date()
+        puzzledUser.uid = uid
         do { try context.save() }
         catch { print("couldnt init puzzledUser coredata obj") }
         
@@ -51,10 +44,10 @@ class UserDBMS {
         }
         
         Firestore.firestore().collection("users").document(uid).setData([
-            "PRUSH5_HS": 0,
-            "PRUSH3_HS": 0,
-            "PRUSH5B_HS": 0,
-            "PRUSH3B_HS": 0,
+            "RUSH5_HS": 0,
+            "RUSH3_HS": 0,
+            "RUSH5B_HS": 0,
+            "RUSH3B_HS": 0,
             "USERNAME": username,
             "UID": uid
         ]) { (error) in
@@ -84,10 +77,22 @@ class UserDBMS {
         }
     }
     
+    func updateRushHighscore(withScore score: Int, rushMinutes: Int, isBlindfold: Bool) {
+        let timeTag = String(rushMinutes)
+        let blindfoldTag = isBlindfold ? "B" : ""
+        let fieldName = "RUSH\(timeTag)\(blindfoldTag)_HS"
+        guard let currentUser = Auth.auth().currentUser else {print("Error: can't update highscore while offlline"); return}
+        Firestore.firestore().collection("users").document(currentUser.uid).updateData(
+            [fieldName : score])
+        PublicDBMS().tryUpdateRankedUsers(withScore: score, rushMinutes: rushMinutes, isBlindfold: isBlindfold)
+    }
+    
     // MARK: - Core Data
     
     func getPuzzledUser() -> PuzzledUser? {
+        guard let thisUser = Auth.auth().currentUser else {return nil}
         let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
+        userRequest.predicate = NSPredicate(format: "uid == %@", thisUser.uid)
         do {
             let puzzledUsers = try context.fetch(userRequest)
             if puzzledUsers.count == 1 { return puzzledUsers[0]}
@@ -110,15 +115,30 @@ class UserDBMS {
     }
     
     func tryUpdateUserRushHS(forUser user: PuzzledUser, withScore score: Int, rushMinutes: Int, piecesHidden: Bool){
+    /*
+         Set new puzzle rush highscore if given score is greater than current highscore
+    */
         let scoreNew = Int32(score)
         if rushMinutes == 3 && piecesHidden == false {
-            if scoreNew > user.rush3_HS { user.rush3_HS = scoreNew }
+            if scoreNew > user.rush3_HS {
+                user.rush3_HS = scoreNew
+                updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
+            }
         } else if rushMinutes == 3 && piecesHidden == true {
-            if scoreNew > user.rush3B_HS { user.rush3B_HS = scoreNew }
+            if scoreNew > user.rush3B_HS {
+                user.rush3B_HS = scoreNew
+                updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
+            }
         } else if rushMinutes == 5 && piecesHidden == false {
-            if scoreNew > user.rush5_HS { user.rush5_HS = scoreNew }
+            if scoreNew > user.rush5_HS {
+                user.rush5_HS = scoreNew
+                updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
+            }
         } else if rushMinutes == 5 && piecesHidden == true {
-            if scoreNew > user.rush5B_HS { user.rush5B_HS = scoreNew }
+            if scoreNew > user.rush5B_HS {
+                user.rush5B_HS = scoreNew
+                updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
+            }
         }
         do {try context.save() }
         catch {print("error saving user's new highscore")}
@@ -127,10 +147,10 @@ class UserDBMS {
 
 
 struct User: Codable {
-    var PRUSH5_HS: Int
-    var PRUSH3_HS: Int
-    var PRUSH5B_HS: Int
-    var PRUSH3B_HS: Int
+    var RUSH5_HS: Int
+    var RUSH3_HS: Int
+    var RUSH5B_HS: Int
+    var RUSH3B_HS: Int
     var USERNAME: String
     var UID: String
 }

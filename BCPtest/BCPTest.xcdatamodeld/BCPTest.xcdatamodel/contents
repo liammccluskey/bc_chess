@@ -8,6 +8,7 @@
         <attribute name="ratingDelta" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
         <attribute name="wasCorrect" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
+        <relationship name="puzzledUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PuzzledUser" inverseName="puzzleAttempts" inverseEntity="PuzzledUser"/>
     </entity>
     <entity name="PuzzledUser" representedClassName="PuzzledUser" syncable="YES">
         <attribute name="numPuzzleAttempts" optional="YES" attributeType="Double" defaultValueString="0.0" usesScalarValueType="YES"/>
@@ -19,6 +20,10 @@
         <attribute name="rush3B_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush5_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush5B_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
+        <attribute name="uid" optional="YES" attributeType="String"/>
+        <relationship name="puzzleAttempts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PuzzleAttempt" inverseName="puzzledUser" inverseEntity="PuzzleAttempt"/>
+        <relationship name="rush3Attempts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rush3Attempt" inverseName="puzzledUser" inverseEntity="Rush3Attempt"/>
+        <relationship name="rush5Attempts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rush5Attempt" inverseName="puzzledUser" inverseEntity="Rush5Attempt"/>
     </entity>
     <entity name="PuzzleReference" representedClassName="PuzzleReference" syncable="YES">
         <attribute name="eloBlindfold" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
@@ -32,6 +37,7 @@
         <attribute name="numCorrect" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="piecesHidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="puzzledUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PuzzledUser" inverseName="rush3Attempts" inverseEntity="PuzzledUser"/>
     </entity>
     <entity name="Rush5Attempt" representedClassName="Rush5Attempt" syncable="YES">
         <attribute name="didStrikeout" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
@@ -39,12 +45,13 @@
         <attribute name="numCorrect" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="piecesHidden" optional="YES" attributeType="Boolean" usesScalarValueType="YES"/>
         <attribute name="timestamp" optional="YES" attributeType="Date" usesScalarValueType="NO"/>
+        <relationship name="puzzledUser" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PuzzledUser" inverseName="rush5Attempts" inverseEntity="PuzzledUser"/>
     </entity>
     <elements>
-        <element name="PuzzleAttempt" positionX="-63" positionY="-18" width="128" height="148"/>
-        <element name="PuzzledUser" positionX="-18" positionY="90" width="128" height="178"/>
+        <element name="PuzzleAttempt" positionX="-63" positionY="-18" width="128" height="163"/>
+        <element name="PuzzledUser" positionX="-18" positionY="90" width="128" height="238"/>
         <element name="PuzzleReference" positionX="-36" positionY="108" width="128" height="103"/>
-        <element name="Rush3Attempt" positionX="-36" positionY="72" width="128" height="118"/>
-        <element name="Rush5Attempt" positionX="-54" positionY="45" width="128" height="118"/>
+        <element name="Rush3Attempt" positionX="-36" positionY="72" width="128" height="133"/>
+        <element name="Rush5Attempt" positionX="-54" positionY="45" width="128" height="133"/>
     </elements>
 </model>

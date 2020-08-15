@@ -80,6 +80,9 @@ class HomeController: UIViewController {
         configureAutoLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        dailyPuzzlesCollection.collectionView.reloadData()    }
+    
     // MARK: - Config
     
     func configureUI() {
@@ -122,8 +125,8 @@ class HomeController: UIViewController {
         stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
         dailyPuzzlesCollection.collectionView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 10).isActive = true
-        dailyPuzzlesCollection.collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        dailyPuzzlesCollection.collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        dailyPuzzlesCollection.collectionView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
+        dailyPuzzlesCollection.collectionView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
         dailyPuzzlesCollection.collectionView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         
     }

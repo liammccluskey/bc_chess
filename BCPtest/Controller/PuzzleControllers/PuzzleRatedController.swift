@@ -134,7 +134,7 @@ class PuzzleRatedController: UIViewController {
             buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3).isActive = true
             buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
             buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 75).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: 70).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -152,18 +152,19 @@ class PuzzleRatedController: UIViewController {
             puzzleRatingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         }
         
+        let sidePadding: CGFloat = piecesHidden ? 20 : 0
         stack1.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: upperPadding).isActive = true
-        stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
+        stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: sidePadding).isActive = true
+        stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -sidePadding).isActive = true
         
         positionTableW.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
         positionTableW.tableView.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
+        positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 0).isActive = true
         positionTableW.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
         
         positionTableB.tableView.leftAnchor.constraint(equalTo:  view.centerXAnchor, constant: 0).isActive = true
         positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-        positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 5).isActive = true
+        positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 0).isActive = true
         positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
     }
     
@@ -340,6 +341,7 @@ extension PuzzleRatedController {
         puzzleAttempt.piecesHidden = piecesHidden
         puzzleAttempt.ratingDelta = ratingDelta
         puzzleAttempt.newRating = newRating
+        puzzleAttempt.puzzledUser = puzzledUser
         do { try context.save() }
         catch { print("error saving puzzle attempt") }
     }

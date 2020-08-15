@@ -2,7 +2,7 @@
 //  Rush3Attempt+CoreDataClass.swift
 //  BCPtest
 //
-//  Created by Guest on 8/7/20.
+//  Created by Liam Mccluskey on 8/15/20.
 //  Copyright © 2020 Marty McCluskey. All rights reserved.
 //
 //

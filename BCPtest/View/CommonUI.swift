@@ -31,6 +31,10 @@ class CommonUI {
     let greenColor = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
     //let blackColor = UIColor(red: 39/255, green: 41/255, blue: 43/255, alpha: 1)
     
+    let goldColor = UIColor(red: 201/255, green: 176/255, blue: 55/255, alpha: 1)
+    let silverColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1)
+    let bronzeColor = UIColor(red: 173/255, green: 138/255, blue: 86/255, alpha: 1)
+    
     let blackColorLight = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1)
     //let blackColor = UIColor(red: 19/255, green: 21/255, blue: 23/255, alpha: 1)
     let blackColor = UIColor.black
@@ -162,7 +166,7 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
 }
 
 //public var pieceStyle = "lichess"
-public var pieceStyle = 0
+public var pieceStyle = UserDataManager().getPieceStyle()
 enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
     case lichess
     case simple

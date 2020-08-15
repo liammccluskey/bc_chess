@@ -7,16 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		010DAAC224DDE35F003FEB6A /* PuzzledUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAAB824DDE35F003FEB6A /* PuzzledUser+CoreDataClass.swift */; };
-		010DAAC324DDE35F003FEB6A /* PuzzledUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAAB924DDE35F003FEB6A /* PuzzledUser+CoreDataProperties.swift */; };
-		010DAAC424DDE35F003FEB6A /* PuzzleAttempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAABA24DDE35F003FEB6A /* PuzzleAttempt+CoreDataClass.swift */; };
-		010DAAC524DDE35F003FEB6A /* PuzzleAttempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAABB24DDE35F003FEB6A /* PuzzleAttempt+CoreDataProperties.swift */; };
-		010DAAC624DDE35F003FEB6A /* PuzzleReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAABC24DDE35F003FEB6A /* PuzzleReference+CoreDataClass.swift */; };
-		010DAAC724DDE35F003FEB6A /* PuzzleReference+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAABD24DDE35F003FEB6A /* PuzzleReference+CoreDataProperties.swift */; };
-		010DAAC824DDE35F003FEB6A /* Rush3Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAABE24DDE35F003FEB6A /* Rush3Attempt+CoreDataClass.swift */; };
-		010DAAC924DDE35F003FEB6A /* Rush3Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAABF24DDE35F003FEB6A /* Rush3Attempt+CoreDataProperties.swift */; };
-		010DAACA24DDE35F003FEB6A /* Rush5Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAAC024DDE35F003FEB6A /* Rush5Attempt+CoreDataClass.swift */; };
-		010DAACB24DDE35F003FEB6A /* Rush5Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010DAAC124DDE35F003FEB6A /* Rush5Attempt+CoreDataProperties.swift */; };
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
 		0161D74424CE1F1F0043E860 /* puzzlesM1234.json in Resources */ = {isa = PBXBuildFile; fileRef = 0161D74324CE1F1F0043E860 /* puzzlesM1234.json */; };
 		0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103924DC8FA600DB87FE /* ProgressTableController.swift */; };
@@ -39,6 +29,18 @@
 		01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006E24DB2815003293D4 /* ProgressUI.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
+		01E7BABC24E71E060052B2DD /* PostRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BABB24E71E060052B2DD /* PostRushController.swift */; };
+		01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BABD24E773A70052B2DD /* PublicDBMS.swift */; };
+		01E7BAC924E7C37F0052B2DD /* Rush3Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BABF24E7C37F0052B2DD /* Rush3Attempt+CoreDataClass.swift */; };
+		01E7BACA24E7C37F0052B2DD /* Rush3Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC024E7C37F0052B2DD /* Rush3Attempt+CoreDataProperties.swift */; };
+		01E7BACB24E7C37F0052B2DD /* PuzzleAttempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC124E7C37F0052B2DD /* PuzzleAttempt+CoreDataClass.swift */; };
+		01E7BACC24E7C37F0052B2DD /* PuzzleAttempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC224E7C37F0052B2DD /* PuzzleAttempt+CoreDataProperties.swift */; };
+		01E7BACD24E7C37F0052B2DD /* PuzzledUser+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC324E7C37F0052B2DD /* PuzzledUser+CoreDataClass.swift */; };
+		01E7BACE24E7C37F0052B2DD /* PuzzledUser+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC424E7C37F0052B2DD /* PuzzledUser+CoreDataProperties.swift */; };
+		01E7BACF24E7C37F0052B2DD /* Rush5Attempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC524E7C37F0052B2DD /* Rush5Attempt+CoreDataClass.swift */; };
+		01E7BAD024E7C37F0052B2DD /* Rush5Attempt+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC624E7C37F0052B2DD /* Rush5Attempt+CoreDataProperties.swift */; };
+		01E7BAD124E7C37F0052B2DD /* PuzzleReference+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC724E7C37F0052B2DD /* PuzzleReference+CoreDataClass.swift */; };
+		01E7BAD224E7C37F0052B2DD /* PuzzleReference+CoreDataProperties.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAC824E7C37F0052B2DD /* PuzzleReference+CoreDataProperties.swift */; };
 		2DFB99AA45888FCDD9AF8CC5 /* Pods_BCPtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5AEAABF0359A94E461130B /* Pods_BCPtest.framework */; };
 		4DFE7AABCD66C3CB703C7F16 /* Pods_BCPtestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D09C3B701BDD9651A4BE227 /* Pods_BCPtestTests.framework */; };
 		7B8BBFA5F96EE6050E8519E1 /* Pods_BCPtest_BCPtestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */; };
@@ -80,16 +82,6 @@
 
 /* Begin PBXFileReference section */
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
-		010DAAB824DDE35F003FEB6A /* PuzzledUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		010DAAB924DDE35F003FEB6A /* PuzzledUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		010DAABA24DDE35F003FEB6A /* PuzzleAttempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		010DAABB24DDE35F003FEB6A /* PuzzleAttempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		010DAABC24DDE35F003FEB6A /* PuzzleReference+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleReference+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		010DAABD24DDE35F003FEB6A /* PuzzleReference+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleReference+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		010DAABE24DDE35F003FEB6A /* Rush3Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		010DAABF24DDE35F003FEB6A /* Rush3Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
-		010DAAC024DDE35F003FEB6A /* Rush5Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
-		010DAAC124DDE35F003FEB6A /* Rush5Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
 		0161D74324CE1F1F0043E860 /* puzzlesM1234.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzlesM1234.json; sourceTree = "<group>"; };
 		0175103924DC8FA600DB87FE /* ProgressTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTableController.swift; sourceTree = "<group>"; };
@@ -112,6 +104,18 @@
 		01C9006E24DB2815003293D4 /* ProgressUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressUI.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
+		01E7BABB24E71E060052B2DD /* PostRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRushController.swift; sourceTree = "<group>"; };
+		01E7BABD24E773A70052B2DD /* PublicDBMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicDBMS.swift; sourceTree = "<group>"; };
+		01E7BABF24E7C37F0052B2DD /* Rush3Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC024E7C37F0052B2DD /* Rush3Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush3Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC124E7C37F0052B2DD /* PuzzleAttempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC224E7C37F0052B2DD /* PuzzleAttempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC324E7C37F0052B2DD /* PuzzledUser+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC424E7C37F0052B2DD /* PuzzledUser+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzledUser+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC524E7C37F0052B2DD /* Rush5Attempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC624E7C37F0052B2DD /* Rush5Attempt+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Rush5Attempt+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC724E7C37F0052B2DD /* PuzzleReference+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleReference+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
+		01E7BAC824E7C37F0052B2DD /* PuzzleReference+CoreDataProperties.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleReference+CoreDataProperties.swift"; sourceTree = SOURCE_ROOT; };
 		09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BCPtest_BCPtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EBBB4FFBC6285CCB9A0C970 /* Pods-BCPtest-BCPtestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest-BCPtestUITests.debug.xcconfig"; path = "Target Support Files/Pods-BCPtest-BCPtestUITests/Pods-BCPtest-BCPtestUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		462C4FF45114BF0815A592C2 /* Pods-BCPtest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.debug.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -181,6 +185,7 @@
 				0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */,
 				0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */,
 				0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */,
+				01E7BABB24E71E060052B2DD /* PostRushController.swift */,
 			);
 			path = PuzzleControllers;
 			sourceTree = "<group>";
@@ -203,6 +208,7 @@
 			isa = PBXGroup;
 			children = (
 				0186FC1224D77DA800726BD8 /* UserDMBS.swift */,
+				01E7BABD24E773A70052B2DD /* PublicDBMS.swift */,
 			);
 			path = DBMS;
 			sourceTree = "<group>";
@@ -210,16 +216,16 @@
 		01C2417B24DAE0B7006741E4 /* CoreDataModels */ = {
 			isa = PBXGroup;
 			children = (
-				010DAAB824DDE35F003FEB6A /* PuzzledUser+CoreDataClass.swift */,
-				010DAAB924DDE35F003FEB6A /* PuzzledUser+CoreDataProperties.swift */,
-				010DAABA24DDE35F003FEB6A /* PuzzleAttempt+CoreDataClass.swift */,
-				010DAABB24DDE35F003FEB6A /* PuzzleAttempt+CoreDataProperties.swift */,
-				010DAABC24DDE35F003FEB6A /* PuzzleReference+CoreDataClass.swift */,
-				010DAABD24DDE35F003FEB6A /* PuzzleReference+CoreDataProperties.swift */,
-				010DAABE24DDE35F003FEB6A /* Rush3Attempt+CoreDataClass.swift */,
-				010DAABF24DDE35F003FEB6A /* Rush3Attempt+CoreDataProperties.swift */,
-				010DAAC024DDE35F003FEB6A /* Rush5Attempt+CoreDataClass.swift */,
-				010DAAC124DDE35F003FEB6A /* Rush5Attempt+CoreDataProperties.swift */,
+				01E7BABF24E7C37F0052B2DD /* Rush3Attempt+CoreDataClass.swift */,
+				01E7BAC024E7C37F0052B2DD /* Rush3Attempt+CoreDataProperties.swift */,
+				01E7BAC124E7C37F0052B2DD /* PuzzleAttempt+CoreDataClass.swift */,
+				01E7BAC224E7C37F0052B2DD /* PuzzleAttempt+CoreDataProperties.swift */,
+				01E7BAC324E7C37F0052B2DD /* PuzzledUser+CoreDataClass.swift */,
+				01E7BAC424E7C37F0052B2DD /* PuzzledUser+CoreDataProperties.swift */,
+				01E7BAC524E7C37F0052B2DD /* Rush5Attempt+CoreDataClass.swift */,
+				01E7BAC624E7C37F0052B2DD /* Rush5Attempt+CoreDataProperties.swift */,
+				01E7BAC724E7C37F0052B2DD /* PuzzleReference+CoreDataClass.swift */,
+				01E7BAC824E7C37F0052B2DD /* PuzzleReference+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
 			sourceTree = "<group>";
@@ -590,46 +596,48 @@
 			files = (
 				7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */,
 				7C33CCBD24BAC83800135967 /* PuzzleFromJson.swift in Sources */,
+				01E7BAD124E7C37F0052B2DD /* PuzzleReference+CoreDataClass.swift in Sources */,
 				01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */,
-				010DAAC624DDE35F003FEB6A /* PuzzleReference+CoreDataClass.swift in Sources */,
-				010DAAC824DDE35F003FEB6A /* Rush3Attempt+CoreDataClass.swift in Sources */,
-				010DAAC324DDE35F003FEB6A /* PuzzledUser+CoreDataProperties.swift in Sources */,
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
+				01E7BACB24E7C37F0052B2DD /* PuzzleAttempt+CoreDataClass.swift in Sources */,
 				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
-				010DAAC424DDE35F003FEB6A /* PuzzleAttempt+CoreDataClass.swift in Sources */,
+				01E7BACC24E7C37F0052B2DD /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
 				0175322524DF81670051F71F /* PuzzleRushUI.swift in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
-				010DAAC224DDE35F003FEB6A /* PuzzledUser+CoreDataClass.swift in Sources */,
-				010DAAC724DDE35F003FEB6A /* PuzzleReference+CoreDataProperties.swift in Sources */,
 				0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */,
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
+				01E7BACF24E7C37F0052B2DD /* Rush5Attempt+CoreDataClass.swift in Sources */,
+				01E7BAC924E7C37F0052B2DD /* Rush3Attempt+CoreDataClass.swift in Sources */,
+				01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
-				010DAAC924DDE35F003FEB6A /* Rush3Attempt+CoreDataProperties.swift in Sources */,
+				01E7BABC24E71E060052B2DD /* PostRushController.swift in Sources */,
 				0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */,
 				0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */,
 				01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */,
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
-				010DAACA24DDE35F003FEB6A /* Rush5Attempt+CoreDataClass.swift in Sources */,
+				01E7BAD224E7C37F0052B2DD /* PuzzleReference+CoreDataProperties.swift in Sources */,
 				0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
 				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
 				012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */,
+				01E7BAD024E7C37F0052B2DD /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
-				010DAACB24DDE35F003FEB6A /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */,
 				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 				0186FC1024D7539700726BD8 /* SignInController.swift in Sources */,
-				010DAAC524DDE35F003FEB6A /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
+				01E7BACA24E7C37F0052B2DD /* Rush3Attempt+CoreDataProperties.swift in Sources */,
+				01E7BACD24E7C37F0052B2DD /* PuzzledUser+CoreDataClass.swift in Sources */,
+				01E7BACE24E7C37F0052B2DD /* PuzzledUser+CoreDataProperties.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

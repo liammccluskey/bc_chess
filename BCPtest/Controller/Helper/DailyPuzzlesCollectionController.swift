@@ -34,11 +34,11 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 3
+        return 2
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width*0.3, height: view.frame.width*0.36)
+        return CGSize(width: view.frame.width*0.45, height: view.frame.width*0.54)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -71,7 +71,7 @@ class PuzzleCell: UICollectionViewCell {
         label.backgroundColor = .clear
         label.textAlignment = .left
         label.textColor = .white
-        label.font = UIFont(name: fontStringLight, size: 13)
+        label.font = UIFont(name: fontStringLight, size: 15)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -107,10 +107,12 @@ class PuzzleCell: UICollectionViewCell {
         
         difficultyLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
         difficultyLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        difficultyLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        //difficultyLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        difficultyLabel.topAnchor.constraint(equalTo: bc1.view.bottomAnchor, constant: 5).isActive = true
         
         completedImage.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        completedImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        completedImage.topAnchor.constraint(equalTo: bc1.view.bottomAnchor, constant: 5).isActive = true
+        //completedImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         //completedImage.heightAnchor.constraint(equalToConstant:).isActive = true
         
         

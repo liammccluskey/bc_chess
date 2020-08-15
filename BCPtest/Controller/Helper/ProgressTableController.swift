@@ -81,9 +81,11 @@ class ProgressTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let index = puzzleAttempts.count - indexPath.row - 1
-        let attempt = puzzleAttempts[index]
-        delegate?.didSelectPuzzle(type: Int(attempt.puzzleType), index: Int(attempt.puzzleIndex))
+        if attemptType == 0 { // puzzle rush attempts don't currently have an action
+            let index = puzzleAttempts.count - indexPath.row - 1
+            let attempt = puzzleAttempts[index]
+            delegate?.didSelectPuzzle(type: Int(attempt.puzzleType), index: Int(attempt.puzzleIndex))
+        }
     }
 }
 

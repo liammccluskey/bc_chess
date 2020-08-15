@@ -65,7 +65,7 @@ class PositionTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 47
+        return 44
     }
     
     override func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -80,7 +80,6 @@ class PositionTableController: UITableViewController {
         let pieceTag = isWhite ? indexPath.row*2 : indexPath.row*2 + 1
         let pieceType = PieceType(rawValue: pieceTag)
         let squares = position.getSquaresFor(isWhitePosition: isWhite, pieceTag: pieceTag)
-        print(squares.count, "  ->  ")
         var pieceImage = pieceType?.image.withRenderingMode(.alwaysOriginal)
         cell.imageView?.clipsToBounds = true
         cell.textLabel?.text = squares
@@ -95,7 +94,7 @@ class PositionTableController: UITableViewController {
         cell.imageView?.contentMode = .scaleAspectFit
         cell.imageView?.backgroundColor = .clear
         cell.textLabel?.textColor = .white
-        cell.textLabel?.font = UIFont(name: fontStringLight, size: 17)
+        cell.textLabel?.font = UIFont(name: fontStringLight, size: 16)
         cell.backgroundColor = .clear
         cell.selectionStyle = .none
         

@@ -33,9 +33,17 @@ protocol SignOutDelegate {
     func notifyOfSignOut()
 }
 
+protocol PostRushDelegate {
+    func didSelectPlayAgain()
+    func didSelectExit()
+}
 // Database
 protocol UserDBMSDelegate {
     func sendUser(user: User?)
+}
+
+protocol PublicDBMSDelegate {
+    func sendRankedUsers(rankedUsers: RankedUsers?)
 }
 
 

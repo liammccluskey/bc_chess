@@ -2,7 +2,7 @@
 //  PuzzleReference+CoreDataProperties.swift
 //  BCPtest
 //
-//  Created by Guest on 8/7/20.
+//  Created by Liam Mccluskey on 8/15/20.
 //  Copyright © 2020 Marty McCluskey. All rights reserved.
 //
 //
@@ -17,9 +17,9 @@ extension PuzzleReference {
         return NSFetchRequest<PuzzleReference>(entityName: "PuzzleReference")
     }
 
-    @NSManaged public var puzzleType: Int32
-    @NSManaged public var puzzleIndex: Int32
-    @NSManaged public var eloRegular: Int32
     @NSManaged public var eloBlindfold: Int32
+    @NSManaged public var eloRegular: Int32
+    @NSManaged public var puzzleIndex: Int32
+    @NSManaged public var puzzleType: Int32
 
 }
