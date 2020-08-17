@@ -32,16 +32,21 @@ class TabBarController: UITabBarController {
         settingsController.delegate = self
         
         let controller1 = UINavigationController(rootViewController: homeController)
-        controller1.tabBarItem.image = #imageLiteral(resourceName: "puzzle")
-        controller1.tabBarItem.title = "Puzzles"
+        //controller1.tabBarItem.image = #imageLiteral(resourceName: "puzzle")
+        //controller1.tabBarItem.title = "Puzzles"
+        controller1.tabBarItem.image = UIImage(systemName: "house.fill")
+        controller1.tabBarItem.title = "Home"
         let controller2 = UINavigationController(rootViewController: progressController)
-        controller2.tabBarItem.image = #imageLiteral(resourceName: "progress")
+        //controller2.tabBarItem.image = #imageLiteral(resourceName: "progress")
+        controller2.tabBarItem.image = UIImage(systemName: "chart.bar.fill")
         controller2.tabBarItem.title = "Progress"
         let controller3 = UINavigationController(rootViewController: leaderboardController)
-        controller3.tabBarItem.image = #imageLiteral(resourceName: "leaderboard")
+        //controller3.tabBarItem.image = #imageLiteral(resourceName: "leaderboard")
+        controller3.tabBarItem.image = UIImage(systemName: "person.3.fill")
         controller3.tabBarItem.title = "Leaderboard"
         let controller4 = UINavigationController(rootViewController: settingsController)
-        controller4.tabBarItem.image = #imageLiteral(resourceName: "settings")
+        controller4.tabBarItem.image = #imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate)
+        //controller4.tabBarItem.image = UIImage(systemName: "gearshape.fill")
         controller4.tabBarItem.title = "Settings"
     
         viewControllers = [controller1, controller2, controller3, controller4]

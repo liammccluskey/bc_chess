@@ -21,9 +21,9 @@
         <attribute name="rush5_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="rush5B_HS" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>
         <attribute name="uid" optional="YES" attributeType="String"/>
-        <relationship name="puzzleAttempts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="PuzzleAttempt" inverseName="puzzledUser" inverseEntity="PuzzleAttempt"/>
-        <relationship name="rush3Attempts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rush3Attempt" inverseName="puzzledUser" inverseEntity="Rush3Attempt"/>
-        <relationship name="rush5Attempts" optional="YES" maxCount="1" deletionRule="Nullify" destinationEntity="Rush5Attempt" inverseName="puzzledUser" inverseEntity="Rush5Attempt"/>
+        <relationship name="puzzleAttempts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="PuzzleAttempt" inverseName="puzzledUser" inverseEntity="PuzzleAttempt"/>
+        <relationship name="rush3Attempts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Rush3Attempt" inverseName="puzzledUser" inverseEntity="Rush3Attempt"/>
+        <relationship name="rush5Attempts" optional="YES" toMany="YES" deletionRule="Nullify" destinationEntity="Rush5Attempt" inverseName="puzzledUser" inverseEntity="Rush5Attempt"/>
     </entity>
     <entity name="PuzzleReference" representedClassName="PuzzleReference" syncable="YES">
         <attribute name="eloBlindfold" optional="YES" attributeType="Integer 32" defaultValueString="0" usesScalarValueType="YES"/>

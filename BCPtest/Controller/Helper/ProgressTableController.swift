@@ -28,11 +28,11 @@ class ProgressTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.backgroundColor = .clear
+        //tableView.backgroundColor = .clear
         tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
-        tableView.layer.borderWidth = 2.5
-        tableView.layer.cornerRadius = 10
-        tableView.clipsToBounds = true
+        tableView.layer.borderWidth = 1.5
+        tableView.separatorColor = .darkGray
+        tableView.backgroundColor = UIColor(red: 5/255, green: 5/255, blue: 8/255, alpha: 1)
         
         tableView.register(PuzzleAttemptCell.self, forCellReuseIdentifier: puzzleAttemptCellID)
     }

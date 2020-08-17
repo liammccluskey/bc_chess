@@ -295,6 +295,7 @@ extension PuzzleLearningController: ChessBoardDelegate {
             chessBoardController.pushMove(wbMove: solutionMove, firstMovingPlayer: currentPuzzle.player_to_move)
             onSolutionMoveIndex = onSolutionMoveIndex + 1
             if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
+                //SoundEffectPlayer().correct()
                 configPageForSolutionState(isShowingSolution: true, stateIsPartialCorrect: false)
                 print("solved puzzle and saved solution")
                 return
@@ -304,6 +305,7 @@ extension PuzzleLearningController: ChessBoardDelegate {
         } else {
             let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false
             chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
+            //SoundEffectPlayer().incorrect()
             chessBoardController.setButtonInteraction(isEnabled: false)
             stateIsIncorrect = true
             DispatchQueue.main.async {

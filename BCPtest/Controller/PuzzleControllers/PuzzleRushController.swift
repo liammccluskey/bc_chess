@@ -275,7 +275,7 @@ class PuzzleRushController: UIViewController {
             timer.invalidate()
             chessBoardController.setButtonInteraction(isEnabled: false)
             saveRushAttempt(didTimeout: true, didStrikeout: false)
-            let controller = PostRushController()
+            let controller = PostRushController(score: numCorrect, rushMinutes: startMinutes, isBlindfold: piecesHidden)
             controller.delegate = self
             self.present(controller, animated: true)
         }
@@ -305,6 +305,7 @@ extension PuzzleRushController: ChessBoardDelegate {
                 didCompletePuzzle(wasCorrect: true)
             }
         } else {
+            
             let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false
             chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
             chessBoardController.setButtonInteraction(isEnabled: false)
@@ -330,7 +331,7 @@ extension PuzzleRushController {
             if self.numIncorrect == 3 {
                 self.timer.invalidate()
                 self.saveRushAttempt(didTimeout: false, didStrikeout: true)
-                let controller = PostRushController()
+                let controller = PostRushController(score: self.numCorrect, rushMinutes: self.startMinutes, isBlindfold: self.piecesHidden)
                 controller.delegate = self
                 self.present(controller, animated: true)
                 
@@ -354,7 +355,7 @@ extension PuzzleRushController {
             rushAttempt.didTimeout = didTimeout
             rushAttempt.numCorrect = Int32(numCorrect)
             rushAttempt.piecesHidden = piecesHidden
-            rushAttempt.puzzledUser = puzzledUser
+            puzzledUser.addToRush3Attempts(rushAttempt)
             do { try context.save() }
             catch { print("Error: couldn't save rush3attempt")}
         } else if startMinutes == 5 {
@@ -365,6 +366,7 @@ extension PuzzleRushController {
             rushAttempt.numCorrect = Int32(numCorrect)
             rushAttempt.piecesHidden = piecesHidden
             rushAttempt.puzzledUser = puzzledUser
+            puzzledUser.addToRush5Attempts(rushAttempt)
             do { try context.save() }
             catch { print("Error: couldn't save rush5attempt")}
         } else {

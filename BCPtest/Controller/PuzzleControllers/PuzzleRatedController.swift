@@ -301,6 +301,7 @@ extension PuzzleRatedController: ChessBoardDelegate {
             chessBoardController.pushMove(wbMove: solutionMove, firstMovingPlayer: currentPuzzle.player_to_move)
             onSolutionMoveIndex = onSolutionMoveIndex + 1
             if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
+                //SoundEffectPlayer().correct()
                 configPageForSolutionState(isShowingSolution: true, stateIsPartialCorrect: false)
                 let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: true)
                 deltaLabel.setDelta(delta: ratingDelta)
@@ -313,6 +314,7 @@ extension PuzzleRatedController: ChessBoardDelegate {
         } else {
             let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false
             chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
+            //SoundEffectPlayer().incorrect()
             chessBoardController.setButtonInteraction(isEnabled: false)
             stateIsIncorrect = true
             let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: false)
@@ -341,7 +343,7 @@ extension PuzzleRatedController {
         puzzleAttempt.piecesHidden = piecesHidden
         puzzleAttempt.ratingDelta = ratingDelta
         puzzleAttempt.newRating = newRating
-        puzzleAttempt.puzzledUser = puzzledUser
+        puzzledUser.addToPuzzleAttempts(puzzleAttempt)
         do { try context.save() }
         catch { print("error saving puzzle attempt") }
     }

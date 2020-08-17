@@ -33,7 +33,7 @@ class HomeController: UIViewController {
         label.text = " Chess Puzzle Games"
         label.textColor = .white
         label.textAlignment = .left
-        label.font = UIFont(name: fontString, size: 23)
+        label.font = UIFont(name: fontString, size: 20)
         label.backgroundColor = .clear
         return label
     }()
@@ -47,10 +47,10 @@ class HomeController: UIViewController {
         label.backgroundColor = .clear
         return label
     }()
-    var piecesShownButton: UIButton!
-    var piecesHiddenButton: UIButton!
-    var trainingButton: UIButton!
-    var rushButton: UIButton!
+    var piecesShownButton: ModeButton!
+    var piecesHiddenButton: ModeButton!
+    var trainingButton: ModeButton!
+    var rushButton: ModeButton!
     var submodeSegment: UISegmentedControl!
     var playButton: UIButton!
     var isBlindfoldMode: Bool = false
@@ -64,7 +64,7 @@ class HomeController: UIViewController {
         label.text = " Daily Puzzles - \(dateString)"
         label.textColor = .white
         label.textAlignment = .left
-        label.font = UIFont(name: fontString, size: 23)
+        label.font = UIFont(name: fontString, size: 20)
         label.backgroundColor = .clear
         return label
     }()
@@ -88,19 +88,31 @@ class HomeController: UIViewController {
     func configureUI() {
         configureNavigationBar()
 
-        piecesShownButton = configureModeButton(puzzleMode: 2)
-        piecesHiddenButton = configureModeButton(puzzleMode: 3)
-        trainingButton = configureModeButton(puzzleMode: 0)
-        rushButton = configureModeButton(puzzleMode: 1)
+        piecesShownButton = ModeButton(puzzleMode: 2)
+        piecesShownButton.wasSelected = true
+        piecesHiddenButton = ModeButton(puzzleMode: 3)
+        piecesHiddenButton.wasSelected = false
+        trainingButton = ModeButton(puzzleMode: 0)
+        trainingButton.wasSelected = true
+        rushButton = ModeButton(puzzleMode: 1)
+        rushButton.wasSelected = false
+        piecesShownButton.addTarget(self, action: #selector(modeAction), for: .touchUpInside)
+        piecesHiddenButton.addTarget(self, action: #selector(modeAction), for: .touchUpInside)
+        trainingButton.addTarget(self, action: #selector(modeAction), for: .touchUpInside)
+        rushButton.addTarget(self, action: #selector(modeAction), for: .touchUpInside)
+        
         submodeSegment = configureSegment(items: ["Rated", "Learning"])
         playButton = configurePuzzleTypeButton(title: "Play", tag: 4)
+        let visStack = CommonUI().configureHStackView(arrangedSubViews: [piecesShownButton, piecesHiddenButton])
+        visStack.distribution = .fillEqually
+        let modeStack = CommonUI().configureHStackView(arrangedSubViews: [trainingButton, rushButton])
+        modeStack.distribution = .fillEqually
         
         stack1 = configureStackView(arrangedSubViews: [
             //testL,
             header1Label,
-                //subheader1Label,
-                CommonUI().configureHStackView(arrangedSubViews: [piecesShownButton, piecesHiddenButton]),
-                CommonUI().configureHStackView(arrangedSubViews: [trainingButton, rushButton]),
+                visStack,
+                modeStack,
                 CommonUI().configureHStackView(arrangedSubViews: [CommonUI().configSpacer(),submodeSegment,CommonUI().configSpacer()]),
                 playButton,
             header2Label,
@@ -119,7 +131,6 @@ class HomeController: UIViewController {
     }
     
     func configureAutoLayout() {
-        //stack1.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 10).isActive = true
         stack1.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
         stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
@@ -160,6 +171,16 @@ class HomeController: UIViewController {
         button.tag = tag
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontString, size: 20)
+        button.backgroundColor =  CommonUI().csBlue //UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
+        button.layer.cornerRadius = 10
+        button.clipsToBounds = true
+        button.addTarget(self, action: #selector(playAction), for: .touchUpInside)
+        button.setTitleColor(.white, for: .normal)
+        /*
+        let button = UIButton(type: .system)
+        button.tag = tag
+        button.setTitle(title, for: .normal)
+        button.titleLabel?.font = UIFont(name: fontString, size: 20)
         button.backgroundColor = CommonUI().blackColor
         button.layer.borderWidth = 3.5
         button.layer.borderColor = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1).cgColor
@@ -167,7 +188,7 @@ class HomeController: UIViewController {
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(playAction), for: .touchUpInside)
         button.setTitleColor(CommonUI().csRed, for: .normal)
-        
+        */
         return button
     }
     
@@ -176,37 +197,29 @@ class HomeController: UIViewController {
     @objc func modeAction(_ sender: UIButton) {
         switch sender.tag {
         case 0:
-            trainingButton.tintColor = CommonUI().csRed
-            trainingButton.setTitleColor(CommonUI().csRed, for: .normal)
-            rushButton.tintColor = .darkGray
-            rushButton.setTitleColor(.darkGray, for: .normal)
+            trainingButton.wasSelected = true
+            rushButton.wasSelected = false
             submodeSegment.removeAllSegments()
             submodeSegment.insertSegment(withTitle: "Rated", at: 0, animated: false)
             submodeSegment.insertSegment(withTitle: "Learning", at: 1, animated: false)
             submodeSegment.selectedSegmentIndex = 0
-            isTrainingMode = true
+            isTrainingMode = true; break
         case 1:
-            trainingButton.tintColor = .darkGray
-            trainingButton.setTitleColor(.darkGray, for: .normal)
-            rushButton.tintColor = CommonUI().csRed
-            rushButton.setTitleColor(CommonUI().csRed, for: .normal)
+            trainingButton.wasSelected = false
+            rushButton.wasSelected = true
             submodeSegment.removeAllSegments()
             submodeSegment.insertSegment(withTitle: "3 min ", at: 0, animated: false)
             submodeSegment.insertSegment(withTitle: "5 min    ", at: 1, animated: false)
             submodeSegment.selectedSegmentIndex = 0
-            isTrainingMode = false
+            isTrainingMode = false; break
         case 2:
-            piecesShownButton.tintColor = CommonUI().csRed
-            piecesShownButton.setTitleColor(CommonUI().csRed, for: .normal)
-            piecesHiddenButton.tintColor = .darkGray
-            piecesHiddenButton.setTitleColor(.darkGray, for: .normal)
-            isBlindfoldMode = false
+            piecesShownButton.wasSelected = true
+            piecesHiddenButton.wasSelected = false
+            isBlindfoldMode = false; break
         case 3:
-            piecesShownButton.tintColor = .darkGray
-            piecesShownButton.setTitleColor(.darkGray, for: .normal)
-            piecesHiddenButton.tintColor = CommonUI().csRed
-            piecesHiddenButton.setTitleColor(CommonUI().csRed, for: .normal)
-            isBlindfoldMode = true
+            piecesShownButton.wasSelected = false
+            piecesHiddenButton.wasSelected = true
+            isBlindfoldMode = true; break
         default: return
         }
     }
@@ -235,28 +248,11 @@ class HomeController: UIViewController {
     
     // MARK: - Test
     
-    func configureModeButton(puzzleMode: Int) -> UIButton {
-        let button = UIButton(type: .system)
-        button.tag = puzzleMode
-        button.backgroundColor = .clear
-        button.setTitle(PuzzleMode(rawValue: puzzleMode)?.description, for: .normal)
-        button.setImage(PuzzleMode(rawValue: puzzleMode)?.image, for: .normal)
-        button.titleEdgeInsets = UIEdgeInsets(
-            //top: 0, left: 0, bottom: (button.imageView?.frame.height)! - 100, right: 0)
-            top: 0, left: (button.imageView?.frame.width)! + 10, bottom: 0, right: 0)
-        button.addTarget(self, action: #selector(modeAction), for: .touchUpInside)
-        let tintColor = puzzleMode%2 == 0 ? CommonUI().csRed : .darkGray
-        button.tintColor = tintColor
-        button.setTitleColor(tintColor, for: .normal)
-        return button
-    }
-    
     func configureSegment(items: [String]) -> UISegmentedControl {
         let sc = UISegmentedControl(items: items)
         let font = UIFont(name: fontString, size: 16)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csBlue], for: .selected)
         sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
-        //sc.tintColor = .darkGray
         sc.selectedSegmentIndex = 0
         sc.backgroundColor = .clear
         sc.selectedSegmentTintColor = CommonUI().blackColor
@@ -266,6 +262,7 @@ class HomeController: UIViewController {
        }
 }
 
+fileprivate var modeConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .bold, scale: .medium)
 enum PuzzleMode: Int, CustomStringConvertible {
     case training, rush, piecesShown, piecesHidden
     var description: String {
@@ -278,10 +275,10 @@ enum PuzzleMode: Int, CustomStringConvertible {
     }
     var image: UIImage {
         switch self {
-        case .training: return #imageLiteral(resourceName: "training_mode").withRenderingMode(.alwaysTemplate)
-        case .rush: return #imageLiteral(resourceName: "rush_mode").withRenderingMode(.alwaysTemplate)
-        case .piecesShown: return #imageLiteral(resourceName: "pieces_shown_mode").withRenderingMode(.alwaysTemplate)
-        case .piecesHidden: return #imageLiteral(resourceName: "pieces_hidden_mode").withRenderingMode(.alwaysTemplate)
+        case .training: return UIImage(systemName: "chart.bar", withConfiguration: modeConfig)!
+        case .rush: return UIImage(systemName: "alarm", withConfiguration: modeConfig)!
+        case .piecesShown: return UIImage(systemName: "eye", withConfiguration: modeConfig)!
+        case .piecesHidden: return UIImage(systemName: "eye.slash", withConfiguration: modeConfig)!
         }
     }
 }
@@ -303,6 +300,67 @@ extension HomeController: UserDBMSDelegate {
     }
     
     
+}
+
+
+class ModeButton: UIButton {
+    
+    var puzzleMode: Int!
+    var wasSelected: Bool! {
+        didSet {
+            var color = wasSelected ? CommonUI().csBlue : .darkGray
+            //layer.borderColor = color.cgColor
+            title.textColor = color
+            image.image = image.image?.withTintColor(color, renderingMode: .alwaysOriginal)
+        }
+    }
+    
+    init(puzzleMode: Int) {
+        super.init(frame: .zero)
+        self.puzzleMode = puzzleMode
+        
+        configUI()
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    var title: UILabel!
+    var image: UIImageView!
+    
+    func configUI() {
+        backgroundColor = .clear
+        
+        image = UIImageView()
+        image.clipsToBounds = true
+        image.translatesAutoresizingMaskIntoConstraints = false
+        addSubview(image)
+        title = UILabel()
+        title.translatesAutoresizingMaskIntoConstraints = false
+        title.textAlignment = .center
+        title.font = UIFont(name: fontStringLight, size: 16)
+        title.text = PuzzleMode(rawValue: puzzleMode)?.description
+        title.textColor = .darkGray
+        addSubview(title)
+        
+        image.topAnchor.constraint(equalTo: topAnchor, constant: 0).isActive = true
+        //image.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        //image.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 5).isActive = true
+        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        title.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
+        
+        tag = puzzleMode
+        title.text = PuzzleMode(rawValue: puzzleMode)?.description
+        image.image = PuzzleMode(rawValue: puzzleMode)?.image
+        layer.cornerRadius = 10
+        layer.borderColor = UIColor.clear.cgColor
+        layer.borderWidth = 3
+        //heightAnchor.constraint(equalToConstant: 100).isActive = true
+        //widthAnchor.constraint(equalToConstant: 100).isActive = true
+    }
 }
 
 

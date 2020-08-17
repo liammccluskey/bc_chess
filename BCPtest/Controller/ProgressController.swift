@@ -78,7 +78,7 @@ class ProgressController: UIViewController {
             tableTitleLabel
         ])
         vstack.spacing = 5
-        vstack.setCustomSpacing(20, after: scoreView)
+        vstack.setCustomSpacing(20, after: hstack)
         view.addSubview(vstack)
         
         progressTable = ProgressTableController()
@@ -96,11 +96,11 @@ class ProgressController: UIViewController {
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
         
-        lineChart.heightAnchor.constraint(equalToConstant: view.frame.height/3.2).isActive = true
+        lineChart.heightAnchor.constraint(equalToConstant: view.frame.height/3.9).isActive = true
         
         progressTable.tableView.topAnchor.constraint(equalTo: vstack.bottomAnchor, constant: 3).isActive = true
-        progressTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
-        progressTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
+        progressTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        progressTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         progressTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
     }
     
@@ -142,17 +142,14 @@ class ProgressController: UIViewController {
             rush5RegularAttempts = rush5Attempts.filter{$0.piecesHidden == false}
             rush5BlindfoldAttempts = rush5Attempts.filter{$0.piecesHidden == true}
             
-            let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
-            let puzzledUsers = try context.fetch(userRequest)
-            if puzzledUsers.count == 1 { puzzledUser = puzzledUsers[0]}
-            else { print(" error fetching user from coredata with count: \(puzzledUsers.count)")}
+            puzzledUser = UserDBMS().getPuzzledUser()!
         } catch {}
     }
     
     func setPuzzleAttemptChartData() {
         var e1 = [ChartDataEntry]()
         var e2 = [ChartDataEntry]()
-        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:800))
+        e1.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:1000))
         e2.append(ChartDataEntry(x: Double(puzzledUser.registerTimestamp!.timeIntervalSince1970),y:800))
         for i in 0..<puzzleRegularAttempts.count {
             let pA = puzzleRegularAttempts[i]
@@ -169,8 +166,8 @@ class ProgressController: UIViewController {
         let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
         lineChart.data = LineChartData(dataSets: [set1, set2])
         
-        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 150
-        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 150
+        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 200
+        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 200
     }
     
     func setRush3AttemptChartData() {
@@ -320,6 +317,8 @@ extension LineChartView {
         self.xAxis.valueFormatter = DateValueFormatter()
         self.xAxis.setLabelCount(4, force: true)
         self.xAxis.avoidFirstLastClippingEnabled = true
+        self.xAxis.drawGridLinesEnabled = false
+        self.leftAxis.drawGridLinesEnabled = false
         self.legend.enabled = true
         self.drawGridBackgroundEnabled = false
         self.pinchZoomEnabled = false

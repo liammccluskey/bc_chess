@@ -26,7 +26,7 @@ class UserDBMS {
         let puzzledUser = PuzzledUser(context: context)
         puzzledUser.numPuzzleAttempts = 0
         puzzledUser.numPuzzleBAttempts = 0
-        puzzledUser.puzzle_Elo = 800
+        puzzledUser.puzzle_Elo = 1000
         puzzledUser.puzzleB_Elo = 800
         puzzledUser.rush3_HS = 0
         puzzledUser.rush3B_HS = 0
@@ -34,6 +34,7 @@ class UserDBMS {
         puzzledUser.rush5B_HS = 0
         puzzledUser.registerTimestamp = Date()
         puzzledUser.uid = uid
+        print(uid)
         do { try context.save() }
         catch { print("couldnt init puzzledUser coredata obj") }
         
@@ -77,20 +78,31 @@ class UserDBMS {
         }
     }
     
-    func updateRushHighscore(withScore score: Int, rushMinutes: Int, isBlindfold: Bool) {
+    private func updateRushHighscore(withScore score: Int, rushMinutes: Int, isBlindfold: Bool) {
         let timeTag = String(rushMinutes)
         let blindfoldTag = isBlindfold ? "B" : ""
         let fieldName = "RUSH\(timeTag)\(blindfoldTag)_HS"
         guard let currentUser = Auth.auth().currentUser else {print("Error: can't update highscore while offlline"); return}
-        Firestore.firestore().collection("users").document(currentUser.uid).updateData(
-            [fieldName : score])
+        Firestore.firestore().collection("users").document(currentUser.uid).updateData([fieldName: score]) { (error) in
+            if let error = error { print("ERROR: couldn't set user's rush highscore in Firestore: \(error)") }
+        }
         PublicDBMS().tryUpdateRankedUsers(withScore: score, rushMinutes: rushMinutes, isBlindfold: isBlindfold)
     }
     
     // MARK: - Core Data
     
     func getPuzzledUser() -> PuzzledUser? {
-        guard let thisUser = Auth.auth().currentUser else {return nil}
+        guard let thisUser = Auth.auth().currentUser else {print("ERROR: no current user logged in"); return nil}
+        print("Getting user with UID: \(thisUser.uid)")
+        let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
+        do {
+            let puzzledUsers = try context.fetch(userRequest)
+            puzzledUsers.forEach{ print($0.uid!) }
+            return puzzledUsers.filter{$0.uid! == thisUser.uid}[0]
+        } catch { print("CoreData Error: couldn't fetch puzzledUsers"); return nil}
+        /*
+        guard let thisUser = Auth.auth().currentUser else {print("ERROR: no current user logged in"); return nil}
+        print("Getting user with UID: \(thisUser.uid)")
         let userRequest = NSFetchRequest<PuzzledUser>(entityName: "PuzzledUser")
         userRequest.predicate = NSPredicate(format: "uid == %@", thisUser.uid)
         do {
@@ -98,6 +110,7 @@ class UserDBMS {
             if puzzledUsers.count == 1 { return puzzledUsers[0]}
             else { print("Incorrect # of users: \(puzzledUsers.count)"); return nil}
         } catch { print("CoreData Error: couldn't fetch puzzledUsers"); return nil}
+        */
     }
     
     func updateUserPuzzleElo(forUser user: PuzzledUser, puzzleRating: Int32, wasCorrect: Bool, isBlindfold: Bool) -> PuzzledUser {
@@ -118,25 +131,26 @@ class UserDBMS {
     /*
          Set new puzzle rush highscore if given score is greater than current highscore
     */
+        let key = piecesHidden ? "rush\(rushMinutes)B_HS" : "rush\(rushMinutes)_HS"
         let scoreNew = Int32(score)
         if rushMinutes == 3 && piecesHidden == false {
             if scoreNew > user.rush3_HS {
-                user.rush3_HS = scoreNew
+                user.setValue(scoreNew, forKey: key)
                 updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
             }
         } else if rushMinutes == 3 && piecesHidden == true {
             if scoreNew > user.rush3B_HS {
-                user.rush3B_HS = scoreNew
+                user.setValue(scoreNew, forKey: key)
                 updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
             }
         } else if rushMinutes == 5 && piecesHidden == false {
             if scoreNew > user.rush5_HS {
-                user.rush5_HS = scoreNew
+                user.setValue(scoreNew, forKey: key)
                 updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
             }
         } else if rushMinutes == 5 && piecesHidden == true {
             if scoreNew > user.rush5B_HS {
-                user.rush5B_HS = scoreNew
+                user.setValue(scoreNew, forKey: key)
                 updateRushHighscore(withScore: score, rushMinutes: rushMinutes, isBlindfold: piecesHidden)
             }
         }

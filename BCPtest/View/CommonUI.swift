@@ -13,11 +13,11 @@ public let fontStringLight = "Avenir-Book"
 
 class CommonUI {
     
-    let csBlue = UIColor(red: 5/255, green: 130/255, blue: 202/255, alpha: 1)
+    let csBlue = UIColor(red: 20/255, green: 92/255, blue: 158/255, alpha: 1)
     //let csRed = UIColor(red: 7/255, green: 160/255, blue: 195/255, alpha: 1) // good light blue
     //
     //let csRed = UIColor(red: 197/255, green: 51/255, blue: 51/255, alpha: 1)
-    let csRed = UIColor(red: 13/255, green: 137/255, blue: 78/255, alpha: 1) // good green colr
+    let csRed = UIColor.white//UIColor(red: 13/255, green: 137/255, blue: 78/255, alpha: 1) // good green colr
 
     let purpleColor = UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
     let blueColor = UIColor(red: 33/255, green: 150/255, blue: 243/255, alpha: 1)
@@ -254,6 +254,23 @@ extension UIAlertController {
     //Set tint color of UIAlertController
     func setTint(color: UIColor) {
         self.view.tintColor = color
+    }
+}
+
+extension Date {
+
+    func fullDistance(from date: Date, resultIn component: Calendar.Component, calendar: Calendar = .current) -> Int? {
+        calendar.dateComponents([component], from: self, to: date).value(for: component)
+    }
+
+    func distance(from date: Date, only component: Calendar.Component, calendar: Calendar = .current) -> Int {
+        let days1 = calendar.component(component, from: self)
+        let days2 = calendar.component(component, from: date)
+        return days1 - days2
+    }
+
+    func hasSame(_ component: Calendar.Component, as date: Date) -> Bool {
+        distance(from: date, only: component) == 0
     }
 }
 

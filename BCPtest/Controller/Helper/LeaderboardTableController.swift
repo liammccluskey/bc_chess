@@ -70,9 +70,9 @@ class LeaderboardTableCell: UITableViewCell {
             l3.text = rankedUser.SCORE
             guard let thisUser = Auth.auth().currentUser else {return}
             if thisUser.uid == rankedUser.UID {
-                layer.borderColor = CommonUI().blueColorDark.cgColor
+                backgroundColor = CommonUI().blackColorLight
             } else {
-                layer.borderColor = UIColor.clear.cgColor
+                backgroundColor = .clear
             }
         }
     }
@@ -101,10 +101,6 @@ class LeaderboardTableCell: UITableViewCell {
         addSubview(l2)
         addSubview(l3)
         
-        layer.borderColor = UIColor.clear.cgColor
-        layer.borderWidth = 4
-        layer.cornerRadius = 10
-        clipsToBounds = true
         backgroundColor = .clear
         selectionStyle = .none
     }
@@ -117,12 +113,6 @@ class LeaderboardTableCell: UITableViewCell {
         l2.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         l3.rightAnchor.constraint(equalTo: rightAnchor, constant: -15).isActive = true
         l3.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        /*
-        hstack.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        hstack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        hstack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        hstack.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        */
     }
     
 }
@@ -132,7 +122,7 @@ extension UILabel {
         self.text = text
         self.textColor = textColor
         self.textAlignment = alignment
-        self.font = UIFont(name: fontString, size: 20)
+        self.font = UIFont(name: fontString, size: 18)
         self.backgroundColor = .clear
         self.layer.cornerRadius = 5
         self.clipsToBounds = true

@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AVFoundation
 
 
 class ChessBoardController: UIViewController {
@@ -291,6 +292,9 @@ class ChessBoardController: UIViewController {
                 self.squareButtons[end].setImage(pieceImage, for: .normal)
             }
         }
+
+        SoundEffectPlayer().pieceMove()
+        SoundEffectPlayer().vibrateDevice()
     }
     
     // fix this
@@ -344,5 +348,7 @@ extension UIImageView {
     self.tintColor = color
   }
 }
+
+
 
 

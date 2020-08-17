@@ -92,7 +92,7 @@ class SettingsTableController: UITableViewController {
     
     // MARK: - Init
     
-    var settingsOptions = ["Board Theme", "Haptic Feeback", "Rate the App"]
+    var settingsOptions = ["Board Theme", "Rate the App"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -132,8 +132,7 @@ class SettingsTableController: UITableViewController {
             let controller = ThemeTableController(style: .insetGrouped)
             present(controller, animated: true)
             break;
-        case 1: break;
-        case 2: SKStoreReviewController.requestReview(); break;
+        case 1: SKStoreReviewController.requestReview(); break;
         default: break;
         }
     }

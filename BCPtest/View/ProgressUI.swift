@@ -131,7 +131,7 @@ extension UILabel {
         self.textAlignment = .center
         self.textColor = .white
         self.textAlignment = .center
-        self.font = UIFont(name: fontString, size: 22)
+        self.font = UIFont(name: fontString, size: 20)
         self.backgroundColor = .clear
         return self
     }
