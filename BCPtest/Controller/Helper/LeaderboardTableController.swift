@@ -66,7 +66,7 @@ class LeaderboardTableCell: UITableViewCell {
     }
     var rankedUser: RankedUser! {
         didSet {
-            l2.text = rankedUser.USERNAME
+            l2.text = flag(country: Locale.current.regionCode ?? "US") + rankedUser.USERNAME
             l3.text = rankedUser.SCORE
             guard let thisUser = Auth.auth().currentUser else {return}
             if thisUser.uid == rankedUser.UID {
@@ -129,6 +129,16 @@ extension UILabel {
         self.translatesAutoresizingMaskIntoConstraints = false
         return self
     }
+}
+
+
+func flag(country:String) -> String {
+    let base : UInt32 = 127397
+    var s = ""
+    for v in country.unicodeScalars {
+        s.unicodeScalars.append(UnicodeScalar(base + v.value)!)
+    }
+    return String(s)
 }
 
 

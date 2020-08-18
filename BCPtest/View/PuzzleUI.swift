@@ -110,7 +110,7 @@ class PuzzleUI {
         button.backgroundColor = .black
         button.layer.borderWidth = 1
         button.layer.borderColor = UIColor.black.cgColor
-        button.setTitleColor(.lightGray, for: .normal)
+        button.setTitleColor(.white, for: .normal)
         return button
     }
     
@@ -144,12 +144,12 @@ class PuzzleUI {
     func configurePiecesShownSegment(selectedSegmentIndex: Int = 0) -> UISegmentedControl {
         let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
         let font = UIFont(name: fontString, size: 16)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.white], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .normal)
         sc.tintColor = .lightGray
         sc.selectedSegmentIndex = selectedSegmentIndex
         sc.backgroundColor = .clear
-        sc.selectedSegmentTintColor = CommonUI().blackColorLight
+        sc.selectedSegmentTintColor = .black
         sc.layer.cornerRadius = 20
         sc.clipsToBounds = true
         return sc

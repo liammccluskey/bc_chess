@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import Charts
 
 class DailyPuzzlesCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
@@ -23,6 +24,16 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         
+        let dateString = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
+        title = " Daily Puzzles - \(dateString)".uppercased()
+        
+        let refreshControl = UIRefreshControl()
+        refreshControl.tintColor = .white
+        refreshControl.addTarget(self, action: #selector(refreshAction), for: .valueChanged)
+        collectionView.refreshControl = refreshControl
+        collectionView.addSubview(refreshControl)
+        //collectionView.alwaysBounceVertical = true
+        
         collectionView.register(PuzzleCell.self, forCellWithReuseIdentifier: cellID)
         collectionView.backgroundColor = .clear
     }
@@ -30,15 +41,19 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
     // MARK: - Config
     
     override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 3
+        return 1
     }
     
     override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
+        return 3
     }
     
+   
+    
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width*0.45, height: view.frame.width*0.54)
+        //return CGSize(width: view.frame.width*0.35, height: view.frame.width*0.35)
+        let width = collectionView.bounds.width
+        return CGSize(width: width, height: width*0.5)
     }
     
     override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
@@ -46,18 +61,26 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
         guard let puzzles = puzzles else {return cell}
         let puzzle = puzzles[indexPath.section*2 + indexPath.row]
         cell.configUI(forPuzzle: puzzle)
-        cell.difficultyLabel.text = "Difficulty:  " + String(puzzle.solution_moves.count*400 + Int.random(in: 3...200))
+        //cell.difficultyLabel.text = "Difficulty:  " + String(puzzle.solution_moves.count*400 + Int.random(in: 3...200))
         cell.backgroundColor = .clear
         return cell
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-       return UIEdgeInsets(top: 5, left: 5, bottom: 20, right: 5)
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
+        return 40
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
+        return 20
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
         guard let puzzles = puzzles else {return}
         delegate?.didSelectPuzzle(puzzle: puzzles[indexPath.section*2 + indexPath.row])
+    }
+    
+    @objc func refreshAction() {
+        collectionView.refreshControl?.endRefreshing()
     }
     
 }
@@ -66,23 +89,8 @@ class PuzzleCell: UICollectionViewCell {
     
     // MARK: - Properties
     
-    let difficultyLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.textColor = .white
-        label.font = UIFont(name: fontStringLight, size: 15)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let completedImage: UIImageView = {
-        let imView = UIImageView()
-        imView.translatesAutoresizingMaskIntoConstraints = false
-        imView.contentMode = .scaleAspectFit
-        imView.image = #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal)
-        return imView
-    }()
+    var chartController: DailyPuzzleChartController!
+
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -94,168 +102,92 @@ class PuzzleCell: UICollectionViewCell {
     
     func configUI(forPuzzle puzzle: Puzzle) {
         let bc1 = ChessBoardImageController(position: puzzle.position)
-        bc1.view.translatesAutoresizingMaskIntoConstraints = false
         bc1.view.backgroundColor = .clear
-        addSubview(bc1.view)
-        
-        addSubview(difficultyLabel)
-        addSubview(completedImage)
-        
-        bc1.view.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        bc1.view.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        bc1.view.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        
-        difficultyLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        difficultyLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        //difficultyLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        difficultyLabel.topAnchor.constraint(equalTo: bc1.view.bottomAnchor, constant: 5).isActive = true
-        
-        completedImage.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        completedImage.topAnchor.constraint(equalTo: bc1.view.bottomAnchor, constant: 5).isActive = true
-        //completedImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        //completedImage.heightAnchor.constraint(equalToConstant:).isActive = true
-        
-        
-        bc1.view.layer.cornerRadius = 10
+        bc1.view.layer.cornerRadius = 5
         bc1.view.clipsToBounds = true
-    }
-    
-    func configAutoLayout() {
         
+        chartController = DailyPuzzleChartController()
+        
+        let hstack = CommonUI().configureHStackView(arrangedSubViews: [bc1.view, chartController.view])
+        hstack.translatesAutoresizingMaskIntoConstraints = false
+        hstack.distribution = .fillEqually
+        hstack.spacing = 0
+        addSubview(hstack)
+        
+        hstack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
+        hstack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
+        hstack.topAnchor.constraint(equalTo: topAnchor).isActive = true
     }
-    
-    
 }
-/*
-class DailyPuzzlesCollectionController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+
+class DailyPuzzleChartController: UIViewController, ChartViewDelegate {
     
     // MARK: - Properties
     
-    let cellID = "cell"
-    var puzzles: [Puzzle]?
-    var delegate: DailyPuzzlesCollectionDelegate?
-    var boardImageController: ChessBoardImageController!
+    lazy var chartView: PieChartView! = {
+        let chart = PieChartView()
+        chart.translatesAutoresizingMaskIntoConstraints = false
+        chart.backgroundColor = .clear
+        return chart
+    }()
     
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
         
-        collectionView.register(PuzzleCell.self, forCellWithReuseIdentifier: cellID)
-        collectionView.backgroundColor = .clear
+        configUI()
+        configAutoLayout()
+        
+        view.backgroundColor = .clear
     }
     
     // MARK: - Config
     
-    override func numberOfSections(in collectionView: UICollectionView) -> Int {
-        return 10
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 2
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
-        return CGSize(width: view.frame.width*0.46, height: view.frame.width*0.51)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCell(withReuseIdentifier: cellID, for: indexPath) as! PuzzleCell
-        guard let puzzles = puzzles else {return cell}
-        let puzzle = puzzles[indexPath.section*2 + indexPath.row]
-        if indexPath.row == 0 && indexPath.section == 0 {
-            boardImageController = ChessBoardImageController(position: puzzle.position)
-        } else {
-            boardImageController.setNewPosition(position: puzzle.position)
-        }
-        cell.boardController = boardImageController
-        cell.difficultyLabel.text = "Difficulty:  " + String(puzzle.solution_moves.count*400 + Int.random(in: 3...200))
-        cell.backgroundColor = .clear
-        return cell
-    }
-    
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
-       return UIEdgeInsets(top: 5, left: 5, bottom: 20, right: 5)
-    }
-    
-    override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
-        guard let puzzles = puzzles else {return}
-        delegate?.didSelectPuzzle(puzzle: puzzles[indexPath.section*2 + indexPath.row])
-    }
-    
-}
-
-class PuzzleCell: UICollectionViewCell {
-    
-    // MARK: - Properties
-    
-    let difficultyLabel: UILabel = {
-        let label = UILabel()
-        label.backgroundColor = .clear
-        label.textAlignment = .left
-        label.textColor = .white
-        label.font = UIFont(name: fontStringLight, size: 13)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    let completedImage: UIImageView = {
-        let imView = UIImageView()
-        imView.translatesAutoresizingMaskIntoConstraints = false
-        imView.contentMode = .scaleAspectFit
-        imView.image = #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal)
-        return imView
-    }()
-    
-    let boardContainer: UIView = {
-        let v = UIView()
-        v.translatesAutoresizingMaskIntoConstraints = false
-        v.backgroundColor = .clear
-        return v
-    }()
-    
-    var boardController: ChessBoardImageController! {
-        didSet {
-            boardController.view.translatesAutoresizingMaskIntoConstraints = false
-            boardController.view.layer.cornerRadius = 10
-            boardController.view.clipsToBounds = true
-            
-            boardContainer.addSubview(boardController.view)
-            
-            boardController.view.rightAnchor.constraint(equalTo: boardContainer.rightAnchor).isActive = true
-            boardController.view.leftAnchor.constraint(equalTo: boardContainer.leftAnchor).isActive = true
-            boardController.view.topAnchor.constraint(equalTo: boardContainer.topAnchor).isActive = true
-        }
-    }
-    
-    override init(frame: CGRect) {
-        super.init(frame: frame)
-        
-        self.configUI()
-        self.configAutoLayout()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
     func configUI() {
-        addSubview(boardContainer)
-        addSubview(difficultyLabel)
-        addSubview(completedImage)
+        
+        configChart()
+        view.addSubview(chartView)
     }
     
     func configAutoLayout() {
-        boardContainer.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        boardContainer.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        boardContainer.topAnchor.constraint(equalTo: topAnchor).isActive = true
-        difficultyLabel.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        difficultyLabel.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        difficultyLabel.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
-        completedImage.rightAnchor.constraint(equalTo: rightAnchor, constant: -5).isActive = true
-        completedImage.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
+        chartView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        chartView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        chartView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        chartView.heightAnchor.constraint(equalTo: chartView.widthAnchor).isActive = true
+        
     }
+    
+    func configChart() {
+        chartView.drawHoleEnabled = true
+        chartView.isUserInteractionEnabled = false
+        chartView.rotationAngle = 0
+        chartView.holeColor = .clear
+       // chartView.drawCenterTextEnabled = true
+        chartView.drawEntryLabelsEnabled = false
+        chartView.legend.enabled = true
+        
+        let l = chartView.legend
+        l.form = .circle
+        l.font = UIFont(name: fontStringLight, size: 14)!
+        l.textColor = .white
+        l.horizontalAlignment = .center
+        l.verticalAlignment = .top
+        l.orientation = .vertical
+        
+        
+        
+        var entries = [PieChartDataEntry]()
+        entries.append(PieChartDataEntry(value: 70.0, label: "Correct: 70%"))
+        entries.append(PieChartDataEntry(value: 30.0, label: "Incorrect: 30%"))
+        
+        let dataSet = PieChartDataSet(entries: entries, label: "Attempts: 49900")
+        dataSet.drawValuesEnabled = false
+        dataSet.colors = [CommonUI().greenCorrect, CommonUI().redIncorrect]
+                
+        chartView.data = PieChartData(dataSet: dataSet)
+        
+    }
+    
+    
 }
-*/

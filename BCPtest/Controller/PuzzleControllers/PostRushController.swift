@@ -27,7 +27,7 @@ class PostRushController: UIViewController {
         l.font = UIFont(name: fontString, size: 30)
         l.textColor = .white
         l.textAlignment = .center
-        l.backgroundColor = CommonUI().csRed
+        l.backgroundColor = CommonUI().csBlue
         l.text = "Summary"
         l.alpha = 1
         return l
@@ -97,7 +97,7 @@ class PostRushController: UIViewController {
         mainStack.spacing = 20
         view.addSubview(mainStack)
         
-        playAgainButton = configButton(title: "Play Again", tag: 0, textColor: CommonUI().csRed)
+        playAgainButton = configButton(title: "Play Again", tag: 0, textColor: CommonUI().csGreen)
         exitButton = configButton(title: "Exit", tag: 1, textColor: CommonUI().redColor)
         buttonStack = CommonUI().configureStackView(arrangedSubViews: [
             playAgainButton, CommonUI().configureHeaderLabel(title: "OR"), exitButton

@@ -24,7 +24,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         window = UIWindow()
         window?.makeKeyAndVisible()
-        //window?.rootViewController = TabBarController()
+        //window?.rootViewController = DailyPuzzleChartController()
         window?.rootViewController = ContainerController()
         
         return true

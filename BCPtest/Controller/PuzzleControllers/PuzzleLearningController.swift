@@ -25,7 +25,7 @@ class PuzzleLearningController: UIViewController {
         let button = ButtonWithImage(type: .system)
         button.setTitle("TRY AGAIN", for: .normal)
         button.titleLabel?.font = UIFont(name: fontString, size: 20)
-        button.backgroundColor = CommonUI().redColor
+        button.backgroundColor = CommonUI().redIncorrect
         button.setTitleColor(.white, for: .normal)
         button.setImage(#imageLiteral(resourceName: "refresh").withRenderingMode(.alwaysOriginal), for: .normal)
         button.addTarget(self, action: #selector(retryAction), for: .touchUpInside)
@@ -253,7 +253,7 @@ class PuzzleLearningController: UIViewController {
         showSolutionButton.isEnabled = !isShowingSolution
         DispatchQueue.main.async {
             if isShowingSolution {
-                self.retryButton.backgroundColor = CommonUI().greenColor
+                self.retryButton.backgroundColor = CommonUI().greenCorrect
                 UIView.animate(withDuration: 0.2, animations: {
                     self.solutionLabel.text =
                         PuzzleUI().configSolutionText(solutionMoves: self.currentPuzzle.solution_moves, onIndex: self.currentPuzzle.solution_moves.count)
@@ -309,7 +309,7 @@ extension PuzzleLearningController: ChessBoardDelegate {
             chessBoardController.setButtonInteraction(isEnabled: false)
             stateIsIncorrect = true
             DispatchQueue.main.async {
-                self.retryButton.backgroundColor = CommonUI().redColor
+                self.retryButton.backgroundColor = CommonUI().redIncorrect
                 UIView.animate(withDuration: 0.3, animations: {
                     self.retryButton.alpha = 1
                     self.view.layoutIfNeeded()

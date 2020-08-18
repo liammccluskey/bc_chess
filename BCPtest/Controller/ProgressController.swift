@@ -65,14 +65,14 @@ class ProgressController: UIViewController {
         fetchData()
         setPuzzleAttemptChartData()
         
-        puzzleModeSegment = configSegment(items: ["Rated Puzzles", "Rush 3min", "Rush 5min"])
+        puzzleModeSegment = configSegment(items: ["Rated Puzzles", "Rush 3", "Rush 5"])
+        view.addSubview(puzzleModeSegment)
         scoreView = ScoreLabel(puzzledUser: puzzledUser, attemptType: 0, isBlindfold: false)
         scoreBView = ScoreLabel(puzzledUser: puzzledUser, attemptType: 0, isBlindfold: true)
         tableTitleLabel = UILabel().configHeaderLabel(title: "Recent Rated Puzzles")
         let hstack = CommonUI().configureHStackView(arrangedSubViews: [scoreView, scoreBView])
         hstack.distribution = .fillEqually
         vstack = CommonUI().configureStackView(arrangedSubViews: [
-            puzzleModeSegment,
             lineChart,
             hstack,
             tableTitleLabel
@@ -92,7 +92,11 @@ class ProgressController: UIViewController {
     }
     
     func configAutoLayout() {
-        vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        puzzleModeSegment.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        puzzleModeSegment.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        puzzleModeSegment.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        
+        vstack.topAnchor.constraint(equalTo: puzzleModeSegment.bottomAnchor, constant: 5).isActive = true
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
         
@@ -101,7 +105,7 @@ class ProgressController: UIViewController {
         progressTable.tableView.topAnchor.constraint(equalTo: vstack.bottomAnchor, constant: 3).isActive = true
         progressTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         progressTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-        progressTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        progressTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
     }
     
     func configNavigationBar() {
@@ -109,9 +113,9 @@ class ProgressController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 23)
-        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
-        navigationItem.title = "Your Progress"
+        let font = UIFont(name: fontString, size: 17)
+        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
+        navigationItem.title = "PROGRESS"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
     }
     
@@ -162,12 +166,12 @@ class ProgressController: UIViewController {
         let date = Date()
         e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.puzzle_Elo)))
         e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.puzzleB_Elo)))
-        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
-        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
+        let set1 = LineChartDataSet(entries: e1, label: "Regular").applyStandard(lineColor: CommonUI().greenColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Blindfold").applyStandard(lineColor: CommonUI().redColor)
         lineChart.data = LineChartData(dataSets: [set1, set2])
         
-        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 200
-        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 200
+        lineChart.leftAxis.axisMinimum = (lineChart.data?.yMin ?? 800) - 100
+        lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 1200) + 100
     }
     
     func setRush3AttemptChartData() {
@@ -183,14 +187,11 @@ class ProgressController: UIViewController {
             let rA = rush3BlindfoldAttempts[i]
             e2.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
-        let date = Date()
-        //e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush3_HS)))
-        //e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush3B_HS)))
-        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
-        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
+        let set1 = LineChartDataSet(entries: e1, label: "Regular").applyStandard(lineColor: CommonUI().greenColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Blindfold").applyStandard(lineColor: CommonUI().redColor)
         lineChart.data = LineChartData(dataSets: [set1, set2])
         
-        lineChart.leftAxis.axisMinimum = -1
+        lineChart.leftAxis.axisMinimum = 0
         lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 10) + 5
     }
     
@@ -207,14 +208,11 @@ class ProgressController: UIViewController {
             let rA = rush5BlindfoldAttempts[i]
             e2.append(ChartDataEntry(x: Double(rA.timestamp!.timeIntervalSince1970), y: Double(rA.numCorrect)))
         }
-        let date = Date()
-       // e1.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y:Double(puzzledUser.rush5_HS)))
-       // e2.append(ChartDataEntry(x: Double(date.timeIntervalSince1970),y: Double(puzzledUser.rush5B_HS)))
-        let set1 = LineChartDataSet(entries: e1, label: "Pieces Shown").applyStandard(lineColor: CommonUI().greenColor)
-        let set2 = LineChartDataSet(entries: e2, label: "Pieces Hidden").applyStandard(lineColor: CommonUI().blueColorDark)
+        let set1 = LineChartDataSet(entries: e1, label: "Regular").applyStandard(lineColor: CommonUI().greenColor)
+        let set2 = LineChartDataSet(entries: e2, label: "Blindfold").applyStandard(lineColor: CommonUI().redColor)
         lineChart.data = LineChartData(dataSets: [set1, set2])
         
-        lineChart.leftAxis.axisMinimum = -1
+        lineChart.leftAxis.axisMinimum = 0
         lineChart.leftAxis.axisMaximum = (lineChart.data?.yMax ?? 10) + 10
     }
     
@@ -265,14 +263,12 @@ class ProgressController: UIViewController {
         let sc = UISegmentedControl(items: items)
         sc.addTarget(self, action: #selector(modeSegmentAction), for: .valueChanged)
         let font = UIFont(name: fontString, size: 16)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
-        sc.tintColor = .lightGray
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csBlue], for: .normal)
         sc.selectedSegmentIndex = 0
-        sc.backgroundColor = .clear
-        sc.selectedSegmentTintColor = CommonUI().blackColor
-        sc.layer.cornerRadius = 20
-        sc.clipsToBounds = true
+        sc.selectedSegmentTintColor = CommonUI().csBlue
+        sc.setBackgroundImage(nil, for: .normal, barMetrics: .default)
+        sc.translatesAutoresizingMaskIntoConstraints = false
         return sc
     }
 }
@@ -301,7 +297,7 @@ extension LineChartDataSet {
         self.drawCircleHoleEnabled = false
         self.circleRadius = 2
         self.circleColors = [lineColor]
-        self.lineWidth = 3
+        self.lineWidth = 1
         self.fillAlpha = 1
         self.highlightColor = .white
         return self
@@ -315,10 +311,15 @@ extension LineChartView {
         self.rightAxis.enabled = false
         self.xAxis.labelPosition = .bottom
         self.xAxis.valueFormatter = DateValueFormatter()
-        self.xAxis.setLabelCount(4, force: true)
+        self.xAxis.setLabelCount(3, force: true)
         self.xAxis.avoidFirstLastClippingEnabled = true
         self.xAxis.drawGridLinesEnabled = false
+        
         self.leftAxis.drawGridLinesEnabled = false
+        self.leftAxis.drawAxisLineEnabled = false
+        self.leftAxis.setLabelCount(3, force: true)
+        //self.leftAxis.drawTopYLabelEntryEnabled = false
+        //self.leftAxis.drawBottomYLabelEntryEnabled = false
         self.legend.enabled = true
         self.drawGridBackgroundEnabled = false
         self.pinchZoomEnabled = false

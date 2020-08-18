@@ -29,10 +29,10 @@ class ProgressTableController: UITableViewController {
         super.viewDidLoad()
         tableView.translatesAutoresizingMaskIntoConstraints = false
         //tableView.backgroundColor = .clear
-        tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
-        tableView.layer.borderWidth = 1.5
-        tableView.separatorColor = .darkGray
-        tableView.backgroundColor = UIColor(red: 5/255, green: 5/255, blue: 8/255, alpha: 1)
+        //tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
+       // tableView.layer.borderWidth = 1.5
+        //tableView.separatorColor = .darkGray
+        tableView.backgroundColor =  UIColor().fromRGB("14,14,19")
         
         tableView.register(PuzzleAttemptCell.self, forCellReuseIdentifier: puzzleAttemptCellID)
     }
@@ -154,6 +154,7 @@ class PuzzleAttemptCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configUI()
         configAutoLayout()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {

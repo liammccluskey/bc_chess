@@ -70,21 +70,20 @@ class LeaderboardController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 23)
-        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
-        navigationItem.title = "Leaderboard"
+        let font = UIFont(name: fontString, size: 17)
+        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
+        navigationItem.title = "Leaderboard".uppercased()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
     }
     
     func configSegment(items: [String]) -> UISegmentedControl {
         let sc = UISegmentedControl(items: items)
         let font = UIFont(name: fontString, size: 16)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csRed], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
-        //sc.tintColor = .darkGray
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csBlue], for: .normal)
         sc.selectedSegmentIndex = 0
-        sc.backgroundColor = .clear
-        sc.selectedSegmentTintColor = CommonUI().blackColor
+        sc.selectedSegmentTintColor = CommonUI().csBlue
+        sc.backgroundColor = CommonUI().blackColor
         sc.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
         return sc
     }

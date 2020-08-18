@@ -48,9 +48,9 @@ class SettingsController: UIViewController {
         settingsTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         settingsTable.tableView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        signOutButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
-        signOutButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
-        signOutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -10).isActive = true
+        signOutButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        signOutButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        signOutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
     }
     
     func configNavigationBar() {
@@ -58,9 +58,9 @@ class SettingsController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().blackColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 23)
-        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.lightGray]
-        navigationItem.title = "Settings"
+        let font = UIFont(name: fontString, size: 17)
+        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
+        navigationItem.title = "Settings".uppercased()
     }
     
     func configSignOutButton() -> UIButton {
@@ -72,6 +72,7 @@ class SettingsController: UIViewController {
         button.layer.borderColor = CommonUI().redColor.cgColor
         button.layer.cornerRadius = 10
         button.clipsToBounds = true
+    
         button.addTarget(self, action: #selector(signOutAction), for: .touchUpInside)
         button.setTitleColor(CommonUI().redColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -101,7 +102,7 @@ class SettingsTableController: UITableViewController {
         
         tableView.tableFooterView = UIView()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.separatorColor = .white
+        //tableView.separatorColor = .white
         view.backgroundColor = .clear
     }
     
@@ -162,6 +163,7 @@ class SettingsCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configUI()
         configAutoLayout()
+        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
