@@ -102,7 +102,7 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
         case 1:
             let pieceStyle = PieceStyleTheme(rawValue: indexPath.row)
             cell.imageView?.image = pieceStyle!.imageSet.withRenderingMode(.alwaysOriginal)
-            cell.backgroundColor = CommonUI().blackColorLight
+            cell.backgroundColor = CommonUI().tabBarColor
             return cell
         default:
             let colorTheme = ColorTheme(rawValue: indexPath.row)

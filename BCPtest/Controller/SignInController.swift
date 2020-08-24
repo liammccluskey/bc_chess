@@ -23,7 +23,7 @@ class SignInController: UIViewController {
     var imStack: UIStackView!
     var logoImage: UIImageView = {
         let iv = UIImageView()
-        iv.image = #imageLiteral(resourceName: "logo").withRenderingMode(.alwaysOriginal)
+        iv.image = #imageLiteral(resourceName: "logo_main").withRenderingMode(.alwaysOriginal)
         iv.contentMode = .scaleAspectFit
         iv.clipsToBounds = true
         iv.translatesAutoresizingMaskIntoConstraints = false

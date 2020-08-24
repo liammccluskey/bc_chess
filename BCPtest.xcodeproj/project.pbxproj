@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
-		0161D74424CE1F1F0043E860 /* puzzlesM1234.json in Resources */ = {isa = PBXBuildFile; fileRef = 0161D74324CE1F1F0043E860 /* puzzlesM1234.json */; };
+		016FFA3524F43A87006E9A9A /* GeneratedPuzzles.json in Resources */ = {isa = PBXBuildFile; fileRef = 016FFA3424F43A86006E9A9A /* GeneratedPuzzles.json */; };
 		0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103924DC8FA600DB87FE /* ProgressTableController.swift */; };
 		0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */; };
 		0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */; };
@@ -93,7 +93,7 @@
 /* Begin PBXFileReference section */
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
-		0161D74324CE1F1F0043E860 /* puzzlesM1234.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = puzzlesM1234.json; sourceTree = "<group>"; };
+		016FFA3424F43A86006E9A9A /* GeneratedPuzzles.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = GeneratedPuzzles.json; sourceTree = "<group>"; };
 		0175103924DC8FA600DB87FE /* ProgressTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTableController.swift; sourceTree = "<group>"; };
 		0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushController.swift; sourceTree = "<group>"; };
 		0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRatedController.swift; sourceTree = "<group>"; };
@@ -393,7 +393,7 @@
 		7CE941E8245B6B1700B9A2A0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				0161D74324CE1F1F0043E860 /* puzzlesM1234.json */,
+				016FFA3424F43A86006E9A9A /* GeneratedPuzzles.json */,
 				7C33CCBC24BAC83800135967 /* PuzzleFromJson.swift */,
 				01D0830524CFA445001F57E6 /* UserDataManager.swift */,
 			);
@@ -509,7 +509,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0161D74424CE1F1F0043E860 /* puzzlesM1234.json in Resources */,
 				01E7BB0124E9CF1B0052B2DD /* piecemove.mp3 in Resources */,
 				01E7BB0524E9DA130052B2DD /* correct.mp3 in Resources */,
 				7C96CC4A23A03C1E00EE9129 /* LaunchScreen.storyboard in Resources */,
@@ -518,6 +517,7 @@
 				7C96CC4723A03C1E00EE9129 /* Assets.xcassets in Resources */,
 				01E7BAFF24E9C6D50052B2DD /* clicksound.mp3 in Resources */,
 				7C96CC4523A03C1D00EE9129 /* Main.storyboard in Resources */,
+				016FFA3524F43A87006E9A9A /* GeneratedPuzzles.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -29,6 +29,8 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
         collectionView.backgroundColor = .clear
         collectionView.showsHorizontalScrollIndicator = false
         
+        setPuzzles()
+        
         let dateString = DateFormatter.localizedString(from: Date(), dateStyle: .short, timeStyle: .none)
         title = " Daily Puzzles - \(dateString)".uppercased()
         
@@ -38,8 +40,6 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
         publicDB = PublicDBMS()
         publicDB.delegate = self
         publicDB.fetchDailyPuzzlesInfo()
-        
-        setPuzzles()
     }
     
     func setPuzzles() {
@@ -47,6 +47,7 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
         let pRef1 = PFJ.getPuzzleReferenceInRange(lowerBound: 1500, upperBound: 2000, isBlindfold: false)!
         let pRef2 = PFJ.getPuzzleReferenceInRange(lowerBound: 2000, upperBound: 3000, isBlindfold: false)!
         let pRef3 = PFJ.getPuzzleReferenceInRange(lowerBound: 1500, upperBound: 2000, isBlindfold: true)!
+        print(pRef1)
         pRefs = [pRef1, pRef2, pRef3]
         puzzles = [PFJ.getPuzzle(fromPuzzleReference: pRef1)!, PFJ.getPuzzle(fromPuzzleReference: pRef2)!, PFJ.getPuzzle(fromPuzzleReference: pRef3)!]
     }
@@ -261,4 +262,10 @@ class DailyPuzzleChartController: UIViewController, ChartViewDelegate {
     }
     
     
+}
+
+extension Date {
+    var dayOfYear: Int {
+        return Calendar.current.ordinality(of: .day, in: .year, for: self)!
+    }
 }

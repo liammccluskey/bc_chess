@@ -19,7 +19,7 @@ class PuzzlesFromJson {
     // MARK: - Init
     
     init() {
-        guard let path = Bundle.main.path(forResource: "puzzlesM1234", ofType: "json") else {return}
+        guard let path = Bundle.main.path(forResource: "GeneratedPuzzles", ofType: "json") else {return}
         do {
             let jsonData = try Data.init(contentsOf: URL(fileURLWithPath: path))
             let decoder = JSONDecoder()
@@ -67,10 +67,14 @@ class PuzzlesFromJson {
         let type = Int(puzzleReference.puzzleType)
         let index = Int(puzzleReference.puzzleIndex)
         switch type {
-        case 0: return puzzles!.m1[index]
+        case 0:return puzzles!.m1[index]
         case 1: return puzzles!.m2[index]
         case 2: return puzzles!.m3[index]
         case 3: return puzzles!.m4[index]
+        case 4: return puzzles!.m5[index]
+        case 5: return puzzles!.m6[index]
+        case 6: return puzzles!.m7[index]
+        case 7: return puzzles!.m8[index]
         default: return nil
         }
     }
@@ -80,15 +84,20 @@ class PuzzlesFromJson {
         savePuzzleReferences(puzzleType: 1, puzzles: puzzles!.m2)
         savePuzzleReferences(puzzleType: 2, puzzles: puzzles!.m3)
         savePuzzleReferences(puzzleType: 3, puzzles: puzzles!.m4)
+        savePuzzleReferences(puzzleType: 4, puzzles: puzzles!.m5)
+        savePuzzleReferences(puzzleType: 5, puzzles: puzzles!.m6)
+        savePuzzleReferences(puzzleType: 6, puzzles: puzzles!.m7)
+        savePuzzleReferences(puzzleType: 7, puzzles: puzzles!.m8)
     }
     
     fileprivate func savePuzzleReferences(puzzleType: Int, puzzles: [Puzzle]) {
         var puzzleRefs = [PuzzleReference]()
+        print("Length \(puzzleType + 1):  \(puzzles.count)")
         for i in 0..<puzzles.count {
             let puzzle = puzzles[i]
             let puzzleRef = PuzzleReference(context: context)
             let m1buffer = puzzleType == 0 ? Int.random(in: -50...100) : 0
-            puzzleRef.eloRegular = Int32(500*(puzzleType + 1) + m1buffer + puzzleType*Int.random(in: 0...150))
+            puzzleRef.eloRegular = Int32(400*(puzzleType + 1) + m1buffer + puzzleType*Int.random(in: 0...200))
             puzzleRef.eloBlindfold = Int32(100*puzzle.piece_count + 200*(puzzleType + 1) + Int.random(in: -100...100))
             puzzleRef.puzzleType = Int32(puzzleType)
             puzzleRef.puzzleIndex = Int32(i)
@@ -108,6 +117,11 @@ struct Puzzles: Codable {
     let m2: [Puzzle]
     let m3: [Puzzle]
     let m4: [Puzzle]
+    let m5: [Puzzle]
+    let m6: [Puzzle]
+    let m7: [Puzzle]
+    let m8: [Puzzle]
+    
 }
 
 // tier 1

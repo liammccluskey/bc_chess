@@ -180,7 +180,6 @@ class HomeController: UIViewController {
         dailyPuzzlesCollection.collectionView.isPagingEnabled = true
         dailyPuzzlesCollection.delegate = self
         
-        dailyPuzzlesCollection.puzzles = PFJ.puzzles!.m4
         dailyPuzzlesCollection.collectionView.reloadData()
         containerView.addSubview(dailyPuzzlesCollection.collectionView)
         containerView.addSubview(pageControl)
