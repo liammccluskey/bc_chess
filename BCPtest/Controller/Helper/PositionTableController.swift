@@ -31,7 +31,7 @@ class PositionTableController: UITableViewController {
         super.viewDidLoad()
         
         tableView.backgroundColor = .clear
-        tableView.separatorStyle = .singleLine
+        tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.layer.cornerRadius = 10
         tableView.clipsToBounds = true
@@ -46,9 +46,9 @@ class PositionTableController: UITableViewController {
         let view = UIView()
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = isWhite ? "WHITE POSITION" : "BLACK POSITION"
+        label.text = isWhite ? "White Position " : "Black Position"
         label.textColor = .lightGray
-        label.font = UIFont(name: fontStringLight, size: 16)
+        label.font = UIFont(name: fontStringLight, size: 15)
         label.backgroundColor = .clear
         label.textAlignment = .center
         view.backgroundColor = .clear
@@ -58,10 +58,11 @@ class PositionTableController: UITableViewController {
         label.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         label.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         return view
+        //return nil
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return 25
+        return 20
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
@@ -79,7 +80,8 @@ class PositionTableController: UITableViewController {
         let position = p.position
         let pieceTag = isWhite ? indexPath.row*2 : indexPath.row*2 + 1
         let pieceType = PieceType(rawValue: pieceTag)
-        let squares = position.getSquaresFor(isWhitePosition: isWhite, pieceTag: pieceTag)
+        var squares = position.getSquaresFor(isWhitePosition: isWhite, pieceTag: pieceTag)
+        squares = squares.sorted(by: {$0.first! < $1.first!})
         var pieceImage = pieceType?.image.withRenderingMode(.alwaysOriginal)
         cell.imageView?.clipsToBounds = true
         cell.textLabel?.text = squares

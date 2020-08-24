@@ -107,9 +107,9 @@ class PuzzleUI {
         button.imageView?.contentMode = .scaleAspectFit
         button.setTitle(title, for: .normal)
         button.titleLabel?.font = UIFont(name: fontStringLight, size: 16)
-        button.backgroundColor = .black
+        button.backgroundColor = CommonUI().tabBarColor
         button.layer.borderWidth = 1
-        button.layer.borderColor = UIColor.black.cgColor
+        button.layer.borderColor = CommonUI().tabBarColor.cgColor
         button.setTitleColor(.white, for: .normal)
         return button
     }
@@ -142,10 +142,10 @@ class PuzzleUI {
     // MARK: - Misc.
     
     func configurePiecesShownSegment(selectedSegmentIndex: Int = 0) -> UISegmentedControl {
-        let sc = UISegmentedControl(items: ["HIDE PIECES", "SHOW PIECES"])
-        let font = UIFont(name: fontString, size: 16)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.white], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .normal)
+        let sc = UISegmentedControl(items: ["Hide Pieces", "Show Pieces"])
+        let font = UIFont(name: fontString, size: 15)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
         sc.tintColor = .lightGray
         sc.selectedSegmentIndex = selectedSegmentIndex
         sc.backgroundColor = .clear

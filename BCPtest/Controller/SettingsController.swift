@@ -10,11 +10,13 @@ import UIKit
 import FirebaseAuth
 import StoreKit
 
-class SettingsController: UIViewController {
+class SettingsController: UIViewController, SettingsTableDelegate {
     
     // MARK: - Properties
     
     var delegate: SignOutDelegate?
+    
+    var userInfoStack: UIStackView!
     
     var settingsTable: SettingsTableController!
     var signOutButton: UIButton!
@@ -33,7 +35,11 @@ class SettingsController: UIViewController {
     func configUI() {
         configNavigationBar()
         
+        userInfoStack = configUserInfoStack()
+        view.addSubview(userInfoStack)
+        
         settingsTable = SettingsTableController()
+        settingsTable.settingsDelegate = self
         view.addSubview(settingsTable.tableView)
         
         signOutButton = configSignOutButton()
@@ -43,38 +49,69 @@ class SettingsController: UIViewController {
     }
     
     func configAutoLayout() {
-        settingsTable.tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        settingsTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        settingsTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        userInfoStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
+        userInfoStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        userInfoStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        
+        settingsTable.tableView.topAnchor.constraint(equalTo: userInfoStack.bottomAnchor, constant: 20).isActive = true
+        settingsTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
+        settingsTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -10).isActive = true
         settingsTable.tableView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
         
-        signOutButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        signOutButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        signOutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -40).isActive = true
+        signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        signOutButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        signOutButton.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        signOutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
     }
     
     func configNavigationBar() {
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = CommonUI().blackColor
+        navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 17)
+        let font = UIFont(name: fontString, size: 15)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
         navigationItem.title = "Settings".uppercased()
     }
     
+    func configUserInfoStack() -> UIStackView? {
+        guard let thisUser = Auth.auth().currentUser else {return nil}
+        let membershipName = UserDataManager().getMembershipName()
+        let membershipColor = UserDataManager().getMembershipColor()
+        let emailView = configInfoView(titleText: "Email:", valueText: thisUser.email ?? "N/A")
+        let usernameView = configInfoView(titleText: "Username: ", valueText: thisUser.displayName ?? "N/A")
+        let membershipView = configInfoView(titleText: "Membership: ", valueText: membershipName, valueColor: membershipColor)
+        
+        let vstack = CommonUI().configureStackView(arrangedSubViews: [emailView, usernameView, membershipView])
+        vstack.spacing = 10
+        return vstack
+    }
+    
+    func configInfoView(titleText: String, valueText: String, valueColor: UIColor = .white) -> UIStackView {
+        let title = UILabel()
+        title.textColor = .white
+        title.font = UIFont(name: fontString, size: 19)
+        title.text = titleText
+        let value = UILabel()
+        value.textColor = valueColor
+        value.font = UIFont(name: fontStringLight, size: 18)
+        value.text = valueText
+        
+        let hstack = CommonUI().configureHStackView(arrangedSubViews: [title, value])
+        hstack.distribution = .equalCentering
+        hstack.translatesAutoresizingMaskIntoConstraints = true
+        return hstack
+    }
+    
     func configSignOutButton() -> UIButton {
         let button = UIButton(type: .system)
-        button.setTitle("Sign Out", for: .normal)
-        button.titleLabel?.font = UIFont(name: fontString, size: 25)
-        button.backgroundColor = CommonUI().blackColor
-        button.layer.borderWidth = 3
-        button.layer.borderColor = CommonUI().redColor.cgColor
-        button.layer.cornerRadius = 10
+        button.setTitle("Log Out".uppercased(), for: .normal)
+        button.titleLabel?.font = UIFont(name: fontString, size: 18)
+        button.backgroundColor = UIColor().fromRGB("235,235,240")
+        button.layer.cornerRadius = 20
         button.clipsToBounds = true
-    
         button.addTarget(self, action: #selector(signOutAction), for: .touchUpInside)
-        button.setTitleColor(CommonUI().redColor, for: .normal)
+        button.setTitleColor(CommonUI().blackColor, for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
@@ -86,6 +123,20 @@ class SettingsController: UIViewController {
         catch { print("sign out error") }
         delegate?.notifyOfSignOut()
     }
+    
+    // MARK: - Extension
+    
+    func didSelectRow(rowIndex: Int) {
+        switch rowIndex {
+        case 0:
+            let controller = ThemeController()
+            controller.hidesBottomBarWhenPushed = true
+            navigationController?.pushViewController(controller, animated: true)//present(ThemeTableController(style: .insetGrouped), animated: true)
+        case 1: SKStoreReviewController.requestReview()
+        case 2: navigationController?.pushViewController(UpgradeController(), animated: true)
+        default: break;
+        }
+    }
 
 }
 
@@ -93,7 +144,8 @@ class SettingsTableController: UITableViewController {
     
     // MARK: - Init
     
-    var settingsOptions = ["Board Theme", "Rate the App"]
+    var settingsDelegate: SettingsTableDelegate?
+    var settingsOptions = ["Board Theme", "Rate the App", "Upgrade"]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -101,8 +153,8 @@ class SettingsTableController: UITableViewController {
         tableView.register(SettingsCell.self, forCellReuseIdentifier: settingsCellID)
         
         tableView.tableFooterView = UIView()
+        tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        //tableView.separatorColor = .white
         view.backgroundColor = .clear
     }
     
@@ -128,14 +180,8 @@ class SettingsTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        switch indexPath.row {
-        case 0:
-            let controller = ThemeTableController(style: .insetGrouped)
-            present(controller, animated: true)
-            break;
-        case 1: SKStoreReviewController.requestReview(); break;
-        default: break;
-        }
+        settingsDelegate?.didSelectRow(rowIndex: indexPath.row)
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -153,7 +199,8 @@ class SettingsCell: UITableViewCell {
     var l1: UILabel!
     var editButton: UIButton! = {
         let button = UIButton()
-        button.setImage(UIImage(systemName: "chevron.right")?.withRenderingMode(.alwaysOriginal).withTintColor(.white), for: .normal)
+        button.setImage(UIImage(systemName: "chevron.right")?
+            .withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().silverColor), for: .normal)
         button.backgroundColor = .clear
         button.translatesAutoresizingMaskIntoConstraints = false
         return button
@@ -163,7 +210,6 @@ class SettingsCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configUI()
         configAutoLayout()
-        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {
@@ -196,7 +242,7 @@ class SettingsCell: UITableViewCell {
         l.text = text
         l.textColor = textColor
         l.textAlignment = .left
-        l.font = UIFont(name: fontStringLight, size: 18)
+        l.font = UIFont(name: fontString, size: 18)
         l.backgroundColor = .clear
         l.translatesAutoresizingMaskIntoConstraints = false
         return l

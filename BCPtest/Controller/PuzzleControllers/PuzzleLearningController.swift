@@ -50,6 +50,7 @@ class PuzzleLearningController: UIViewController {
     var showSolutionButton: UIButton!
     var nextButton: UIButton!
     var buttonStack: UIStackView!
+    var tabBarFiller: UIView!
     
     
     // MARK: - Init
@@ -108,14 +109,16 @@ class PuzzleLearningController: UIViewController {
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "  EXIT  ", imageName: "arrow.left.square")
+        exitButton = PuzzleUI().configureButton(title: "  Exit  ", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "  SOLUTION  ", imageName: "questionmark.square")
+        showSolutionButton = PuzzleUI().configureButton(title: "  Solution  ", imageName: "questionmark.square")
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = PuzzleUI().configureButton(title: "  NEXT  ", imageName: "chevron.right.square")
+        nextButton = PuzzleUI().configureButton(title: "  Next  ", imageName: "chevron.right.square")
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         
         buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,showSolutionButton,nextButton])
+        tabBarFiller = CommonUI().configTabBarFiller()
+        view.addSubview(tabBarFiller)
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
       
@@ -125,10 +128,15 @@ class PuzzleLearningController: UIViewController {
     func setUpAutoLayout(isInitLoad: Bool) {
         if isInitLoad {
             // global anchors
-            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3).isActive = true
-            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
-            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 68).isActive = true
+            tabBarFiller.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+            tabBarFiller.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+            tabBarFiller.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+            tabBarFiller.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            
+            buttonStack.bottomAnchor.constraint(equalTo: tabBarFiller.topAnchor, constant: 0).isActive = true
+            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: tabBarHeight).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true

@@ -12,6 +12,16 @@ class ChessBoardImageController: UIViewController {
     
     // MARK: - Properties
     var currentPosition: Position?
+    var shouldHidePieces: Bool!
+    var eyeView: UIImageView! = {
+        let iv = UIImageView()
+        iv.clipsToBounds = true
+        iv.contentMode = .scaleAspectFit
+        let modeConfig = UIImage.SymbolConfiguration(pointSize: 50, weight: .heavy, scale: .large)
+        iv.image = UIImage(systemName: "eye.slash", withConfiguration: modeConfig)?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().blackColor)
+        iv.translatesAutoresizingMaskIntoConstraints = false
+        return iv
+    }()
     
     var dsColor: UIColor!
     var lsColor: UIColor!
@@ -23,12 +33,13 @@ class ChessBoardImageController: UIViewController {
     
     // MARK: - Init
     
-    init(position: Position) {
+    init(position: Position, shouldHidePieces: Bool) {
         self.currentPosition = position
         let theme = UserDataManager().getBoardColor()
         pieceStyle = UserDataManager().getPieceStyle()
         self.dsColor = theme?.darkSquareColor
         self.lsColor = theme?.lightSquareColor
+        self.shouldHidePieces = shouldHidePieces
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -49,9 +60,13 @@ class ChessBoardImageController: UIViewController {
     func configureUI() {
         squareImages = configureSquareImages() // squares with visible pieces
         vstack = configureSquaresVStack(piecesAreVisible: true)
-        configureStartingPosition()
+        if shouldHidePieces == false {
+            configureStartingPosition()
+            eyeView.isHidden = true
+        }
         
         view.addSubview(vstack)
+        view.addSubview(eyeView)
     }
     
     func setUpAutoLayout() {
@@ -60,6 +75,10 @@ class ChessBoardImageController: UIViewController {
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstack.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
+        
+        eyeView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        eyeView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        eyeView.centerYAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
     }
     
     func configureSquareImages() -> [UIImageView] {

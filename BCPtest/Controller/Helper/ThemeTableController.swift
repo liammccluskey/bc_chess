@@ -8,6 +8,36 @@
 
 import UIKit
 
+class ThemeController: UIViewController {
+    
+    var themeTable: ThemeTableController!
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        configUI()
+    }
+    
+    func configUI() {
+        configNavigationBar()
+        themeTable = ThemeTableController(style: .insetGrouped)
+        view.addSubview(themeTable.tableView)
+        themeTable.tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        themeTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        themeTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        themeTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+    }
+    
+    func configNavigationBar() {
+        navigationController?.navigationBar.isTranslucent = false
+        navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
+        navigationController?.navigationBar.tintColor = .white
+        let font = UIFont(name: fontString, size: 15)
+        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
+        navigationItem.title = "Board Theme".uppercased()
+    }
+}
+
 class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     
     // MARK: - Properties
@@ -26,17 +56,15 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
         tableView.clipsToBounds = true
         tableView.backgroundColor = CommonUI().blackColor
         headerView.translatesAutoresizingMaskIntoConstraints = false
-        tableView.tableHeaderView = headerView
+        //tableView.tableHeaderView = headerView
         
-        autoLayout()
+        //autoLayout()
     }
-    
-  
     
     func autoLayout() {
         headerView.centerXAnchor.constraint(equalTo: self.tableView.centerXAnchor).isActive = true
         headerView.widthAnchor.constraint(equalTo: self.tableView.widthAnchor).isActive = true
-        headerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        headerView.topAnchor.constraint(equalTo: view.topAnchor, constant: 0).isActive = true
         headerView.heightAnchor.constraint(equalToConstant: 50).isActive = true
         headerView.layoutIfNeeded()
     }
@@ -74,7 +102,7 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
         case 1:
             let pieceStyle = PieceStyleTheme(rawValue: indexPath.row)
             cell.imageView?.image = pieceStyle!.imageSet.withRenderingMode(.alwaysOriginal)
-            cell.backgroundColor = CommonUI().whiteColor
+            cell.backgroundColor = CommonUI().blackColorLight
             return cell
         default:
             let colorTheme = ColorTheme(rawValue: indexPath.row)

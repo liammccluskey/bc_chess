@@ -49,6 +49,8 @@
 		01E7BB0724E9DB090052B2DD /* SoundEffectPlayer.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BB0624E9DB090052B2DD /* SoundEffectPlayer.swift */; };
 		01E7BB0924E9F86E0052B2DD /* StoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01E7BB0824E9F86E0052B2DD /* StoreKit.framework */; };
 		01E7BB0B24E9FED90052B2DD /* UpgradeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BB0A24E9FED90052B2DD /* UpgradeController.swift */; };
+		01E7BB1024EED8B40052B2DD /* LimitReachedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BB0F24EED8B40052B2DD /* LimitReachedController.swift */; };
+		01E7BB1224EED8D10052B2DD /* UpgradeConfirmationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BB1124EED8D10052B2DD /* UpgradeConfirmationController.swift */; };
 		2DFB99AA45888FCDD9AF8CC5 /* Pods_BCPtest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DC5AEAABF0359A94E461130B /* Pods_BCPtest.framework */; };
 		4DFE7AABCD66C3CB703C7F16 /* Pods_BCPtestTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 7D09C3B701BDD9651A4BE227 /* Pods_BCPtestTests.framework */; };
 		7B8BBFA5F96EE6050E8519E1 /* Pods_BCPtest_BCPtestUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */; };
@@ -132,6 +134,8 @@
 		01E7BB0624E9DB090052B2DD /* SoundEffectPlayer.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SoundEffectPlayer.swift; sourceTree = "<group>"; };
 		01E7BB0824E9F86E0052B2DD /* StoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = StoreKit.framework; path = System/Library/Frameworks/StoreKit.framework; sourceTree = SDKROOT; };
 		01E7BB0A24E9FED90052B2DD /* UpgradeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeController.swift; sourceTree = "<group>"; };
+		01E7BB0F24EED8B40052B2DD /* LimitReachedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitReachedController.swift; sourceTree = "<group>"; };
+		01E7BB1124EED8D10052B2DD /* UpgradeConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeConfirmationController.swift; sourceTree = "<group>"; };
 		09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BCPtest_BCPtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EBBB4FFBC6285CCB9A0C970 /* Pods-BCPtest-BCPtestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest-BCPtestUITests.debug.xcconfig"; path = "Target Support Files/Pods-BCPtest-BCPtestUITests/Pods-BCPtest-BCPtestUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		462C4FF45114BF0815A592C2 /* Pods-BCPtest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.debug.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -259,6 +263,16 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		01E7BB0E24EED1830052B2DD /* MembershipControllers */ = {
+			isa = PBXGroup;
+			children = (
+				01E7BB0A24E9FED90052B2DD /* UpgradeController.swift */,
+				01E7BB0F24EED8B40052B2DD /* LimitReachedController.swift */,
+				01E7BB1124EED8D10052B2DD /* UpgradeConfirmationController.swift */,
+			);
+			path = MembershipControllers;
+			sourceTree = "<group>";
+		};
 		120BDD14AA5136088DFF9A32 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -370,7 +384,7 @@
 				0186FBFE24D515C300726BD8 /* SettingsController.swift */,
 				0186FC0124D5191400726BD8 /* LeaderboardController.swift */,
 				0186FC0324D5193700726BD8 /* ProgressController.swift */,
-				01E7BB0A24E9FED90052B2DD /* UpgradeController.swift */,
+				01E7BB0E24EED1830052B2DD /* MembershipControllers */,
 				0186FC0024D518BF00726BD8 /* Helper */,
 			);
 			path = Controller;
@@ -637,6 +651,7 @@
 				01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */,
 				01E7BAFA24E832060052B2DD /* PuzzledUser+CoreDataProperties.swift in Sources */,
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
+				01E7BB1024EED8B40052B2DD /* LimitReachedController.swift in Sources */,
 				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				01E7BAF524E832060052B2DD /* PuzzleReference+CoreDataClass.swift in Sources */,
@@ -650,6 +665,7 @@
 				0175322524DF81670051F71F /* PuzzleRushUI.swift in Sources */,
 				01E7BAFC24E99FC50052B2DD /* PostRushUI.swift in Sources */,
 				7C33C51924BAC4E200135967 /* PuzzleController.swift in Sources */,
+				01E7BB1224EED8D10052B2DD /* UpgradeConfirmationController.swift in Sources */,
 				01E7BAF724E832060052B2DD /* Rush5Attempt+CoreDataClass.swift in Sources */,
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
 				0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */,
@@ -855,7 +871,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.0;
+				CURRENT_PROJECT_VERSION = 2.1.1;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -878,7 +894,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.0;
+				CURRENT_PROJECT_VERSION = 2.1.1;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

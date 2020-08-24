@@ -13,10 +13,9 @@ public let fontStringLight = "Avenir-Book"
 
 class CommonUI {
     
-    //let csBlue = UIColor().fromRGB("32, 116, 174")
-    let csBlue = UIColor().fromRGB("20,92,158")
+    let csBlue = UIColor().fromRGB("22,94,160")
     let csBlueOpaque = UIColor(red: 20/255, green: 92/255, blue: 158/255, alpha: 0.25)
-    let csButton = UIColor().fromRGB("146, 189, 163")
+    let csButton = UIColor().fromRGB("45, 216, 129")
     
     //let csRed = UIColor(red: 197/255, green: 51/255, blue: 51/255, alpha: 1)
     let csRed = UIColor.white
@@ -33,16 +32,27 @@ class CommonUI {
     let tanColorDark = UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
     let redIncorrect = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
     let greenCorrect = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
-    let redColor = UIColor(red: 255/255, green: 80/255, blue: 0/255, alpha: 1)
-    let greenColor = UIColor(red: 0/255, green: 200/255, blue: 5/255, alpha: 1)
+    //let redColor = UIColor(red: 255/255, green: 80/255, blue: 0/255, alpha: 1)
+    let redColor = UIColor().fromRGB("255, 58, 61")
+    //let greenColor = UIColor(red: 0/255, green: 200/255, blue: 5/255, alpha: 1)
+    //let greenColor = UIColor().fromRGB("30,215,96")
+    let greenColor = UIColor().fromRGB("45, 216, 129")
+    
     
     let goldColor = UIColor(red: 201/255, green: 176/255, blue: 55/255, alpha: 1)
     let silverColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1)
     let bronzeColor = UIColor(red: 173/255, green: 138/255, blue: 86/255, alpha: 1)
     
-    let blackColorLight = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1)
-    let blackColor = UIColor().fromRGB("10,10,15")
+    //let blackColorLight = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1)
+    //let blackColor = UIColor().fromRGB("10,10,15")
+    let blackColor = UIColor().fromRGB("18,18,18")
+    let blackColorLight = UIColor().fromRGB("28,28,31")
+    
     let whiteColor = UIColor(red: 237/255, green: 227/255, blue: 214/255, alpha: 1)
+    let softWhite = UIColor().fromRGB("200,200,205")
+
+    let tabBarColor = UIColor().fromRGB("40,40,40")
+    let navBarColor = UIColor().fromRGB("25,25,25")
     
     // MARK: - User Data
     
@@ -60,6 +70,13 @@ class CommonUI {
         }
         return theme.lightSquareColor
     }
+    
+    func configTabBarFiller() -> UIView {
+        let v = UIView()
+        v.backgroundColor = tabBarColor
+        v.translatesAutoresizingMaskIntoConstraints = false
+        return v
+    }
  
     
     func configSpacer() -> UILabel {
@@ -67,7 +84,7 @@ class CommonUI {
         Really shouldn't use this hackish method
     */
         let label = UILabel()
-        label.text = "     "
+        label.text = "        "
         label.textColor = .clear
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 12)
@@ -285,6 +302,13 @@ extension UIColor {
         let g: CGFloat = CGFloat(Double(colors[1])!/255.0)
         let b: CGFloat = CGFloat(Double(colors[2])!/255.0)
         return UIColor(red: r, green: g, blue: b, alpha: 1)
+    }
+    func fromRGB( _ rgbString: String, alpha: CGFloat) -> UIColor {
+        let colors: [String] = rgbString.replacingOccurrences(of: " ", with: "").split(separator: ",").map{ String($0) }
+        let r: CGFloat = CGFloat(Double(colors[0])!/255.0)
+        let g: CGFloat = CGFloat(Double(colors[1])!/255.0)
+        let b: CGFloat = CGFloat(Double(colors[2])!/255.0)
+        return UIColor(red: r, green: g, blue: b, alpha: alpha)
     }
 }
 

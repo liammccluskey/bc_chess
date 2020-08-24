@@ -65,17 +65,17 @@ class ScoreLabel: UIView {
         self.addSubview(value)
         self.addSubview(title)
 
-        value.topAnchor.constraint(equalTo: self.topAnchor, constant: 5).isActive = true
+        value.topAnchor.constraint(equalTo: self.topAnchor, constant: 10).isActive = true
         value.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         value.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
 
         title.topAnchor.constraint(equalTo: value.bottomAnchor).isActive = true
         title.leftAnchor.constraint(equalTo: self.leftAnchor).isActive = true
         title.rightAnchor.constraint(equalTo: self.rightAnchor).isActive = true
-        title.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -5).isActive = true
+        title.bottomAnchor.constraint(equalTo: self.bottomAnchor, constant: -10).isActive = true
 
         //self.layer.borderWidth = 3.5
-        //self.layer.borderColor = CommonUI().blackColorLight.cgColor
+        self.backgroundColor = CommonUI().blackColorLight
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
         self.translatesAutoresizingMaskIntoConstraints = true
@@ -120,6 +120,7 @@ extension UIView {
         self.layer.cornerRadius = 10
         self.clipsToBounds = true
         self.translatesAutoresizingMaskIntoConstraints = true
+       // self.backgroundColor = .black
         return self
     }
 }

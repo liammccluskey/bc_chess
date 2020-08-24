@@ -27,7 +27,7 @@ class PostRushController: UIViewController {
         l.font = UIFont(name: fontString, size: 30)
         l.textColor = .white
         l.textAlignment = .center
-        l.backgroundColor = CommonUI().csBlue
+        l.backgroundColor = CommonUI().greenCorrect
         l.text = "Summary"
         l.alpha = 1
         return l
@@ -83,6 +83,10 @@ class PostRushController: UIViewController {
     // MARK: - Config
     
     func configUI() {
+        let blurEffect = UIBlurEffect(style: .dark)
+        let blurredEffectView = UIVisualEffectView(effect: blurEffect)
+        blurredEffectView.frame = view.bounds
+        view.addSubview(blurredEffectView)
         view.addSubview(headerLabel)
         
         scoreLabel.text = "SCORE: \(score!)"
@@ -97,16 +101,15 @@ class PostRushController: UIViewController {
         mainStack.spacing = 20
         view.addSubview(mainStack)
         
-        playAgainButton = configButton(title: "Play Again", tag: 0, textColor: CommonUI().csGreen)
+        playAgainButton = configButton(title: "Play Again", tag: 0, textColor: CommonUI().greenColor)
         exitButton = configButton(title: "Exit", tag: 1, textColor: CommonUI().redColor)
         buttonStack = CommonUI().configureStackView(arrangedSubViews: [
             playAgainButton, CommonUI().configureHeaderLabel(title: "OR"), exitButton
         ])
         buttonStack.spacing = 20
         view.addSubview(buttonStack)
-        
-        view.alpha = 0.95
-        view.backgroundColor = .black
+
+        view.backgroundColor = .clear
     }
     
     func configAutoLayout() {
@@ -115,12 +118,12 @@ class PostRushController: UIViewController {
         headerLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         headerLabel.heightAnchor.constraint(equalToConstant: 100).isActive = true
         
-        mainStack.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 40).isActive = true
+        mainStack.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 50).isActive = true
         mainStack.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         mainStack.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        mainStack.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
+        //mainStack.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
 
-        buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
         buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
     }

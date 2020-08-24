@@ -28,11 +28,8 @@ class ProgressTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         tableView.translatesAutoresizingMaskIntoConstraints = false
-        //tableView.backgroundColor = .clear
-        //tableView.layer.borderColor = CommonUI().blackColorLight.cgColor
-       // tableView.layer.borderWidth = 1.5
-        //tableView.separatorColor = .darkGray
-        tableView.backgroundColor =  UIColor().fromRGB("14,14,19")
+        tableView.backgroundColor =  .clear
+        tableView.separatorStyle = .none
         
         tableView.register(PuzzleAttemptCell.self, forCellReuseIdentifier: puzzleAttemptCellID)
     }
@@ -53,7 +50,7 @@ class ProgressTableController: UITableViewController {
     }
     
     override func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        return 40
+        return 50
     }
     
     override func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -86,6 +83,7 @@ class ProgressTableController: UITableViewController {
             let attempt = puzzleAttempts[index]
             delegate?.didSelectPuzzle(type: Int(attempt.puzzleType), index: Int(attempt.puzzleIndex))
         }
+        tableView.deselectRow(at: indexPath, animated: true)
     }
 }
 
@@ -154,7 +152,6 @@ class PuzzleAttemptCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         configUI()
         configAutoLayout()
-        selectionStyle = .none
     }
     
     required init?(coder: NSCoder) {

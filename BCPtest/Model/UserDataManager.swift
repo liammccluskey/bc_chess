@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 class UserDataManager {
     
@@ -17,6 +18,12 @@ class UserDataManager {
         static let boardColor = "boardColor"
         static let buttonColor = "buttonColor"
         static let pieceStyle = "pieceStyle"
+    }
+    
+    struct membershipKeys {
+        static let rushLimit = "rushLimit"
+        static let puzzleLimit = "puzzleLimit"
+        static let membershipType = "membershipType"
     }
     
     struct stateKeys {
@@ -67,4 +74,44 @@ class UserDataManager {
         let style = defaults.integer(forKey: themeKeys.pieceStyle)
         return style
     }
+    
+    // MARK: - Membership
+    
+    func setMembershipType(type: Int) {
+        let currentMembership = defaults.integer(forKey: membershipKeys.membershipType)
+        if currentMembership > type { return }
+        let membership = MembershipType(rawValue: type)!
+        defaults.set(type, forKey: membershipKeys.membershipType)
+        defaults.set(membership.rushLimit, forKey: membershipKeys.rushLimit)
+        defaults.set(membership.puzzleLimit, forKey: membershipKeys.puzzleLimit)
+    }
+    
+    func getMembershipName() -> String {
+        let type = defaults.integer(forKey: membershipKeys.membershipType)
+        return MembershipType(rawValue: type)!.displayName
+    }
+    
+    func getMembershipColor() -> UIColor {
+        let type = defaults.integer(forKey: membershipKeys.membershipType)
+        switch type {
+        case 0: return .white
+        case 1: return CommonUI().silverColor
+        case 2: return CommonUI().goldColor
+        default: return .white
+        }
+    }
+    
+    func hasReachedRushLimit() -> Bool {
+        let rushLimit = defaults.integer(forKey: membershipKeys.rushLimit)
+        print("Rush Limit: \(rushLimit)")
+        return UserDBMS().getDailyRushCount() >= rushLimit
+    }
+    
+    func hasReachedPuzzleLimit() -> Bool {
+        let puzzleLimit = defaults.integer(forKey: membershipKeys.puzzleLimit)
+        print("Puzzle Limit: \(puzzleLimit)")
+        return UserDBMS().getDailyRatedPuzzleCount() >= puzzleLimit
+    }
+    
+    
 }

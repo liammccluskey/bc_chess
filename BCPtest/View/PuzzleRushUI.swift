@@ -52,7 +52,7 @@ extension UILabel {
     }
     
     func setCorrectness(isCorrect: Bool) {
-        self.backgroundColor = isCorrect ? CommonUI().greenColor : CommonUI().redColor
+        self.backgroundColor = isCorrect ? CommonUI().greenCorrect : CommonUI().redIncorrect
         self.text = isCorrect ? "CORRECT" : "INCORRECT"
     }
     
@@ -61,17 +61,6 @@ extension UILabel {
 class IncorrectMarksView: UIView {
     
     var numIncorrect = 0 {
-        /*
-        didSet {
-            switch numIncorrect {
-            case 0: m1.isHidden = true; m2.isHidden = true; m3.isHidden = true; layoutIfNeeded(); break
-            case 1: m1.isHidden = false; layoutIfNeeded(); break
-            case 2: m2.isHidden = false; layoutIfNeeded(); break
-            case 3: m3.isHidden = false; layoutIfNeeded(); break
-            default: break
-            }
-        }
-        */
         didSet {
             switch numIncorrect {
             case 0: m1.alpha = 0; m2.alpha = 0; m3.alpha = 0; break
@@ -85,7 +74,7 @@ class IncorrectMarksView: UIView {
     let m1: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .clear
-        iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redColor)
+        iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redIncorrect)
         iv.contentMode = .scaleAspectFill
         //iv.clipsToBounds = true
         return iv
@@ -93,7 +82,7 @@ class IncorrectMarksView: UIView {
     let m2: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .clear
-        iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redColor)
+        iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redIncorrect)
         iv.contentMode = .scaleAspectFill
         //iv.clipsToBounds = true
         return iv
@@ -101,7 +90,7 @@ class IncorrectMarksView: UIView {
     let m3: UIImageView = {
         let iv = UIImageView()
         iv.backgroundColor = .clear
-        iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redColor)
+        iv.image = UIImage(systemName: "xmark.square.fill")?.withRenderingMode(.alwaysOriginal).withTintColor(CommonUI().redIncorrect)
         iv.contentMode = .scaleAspectFill
         //iv.clipsToBounds = true
         return iv

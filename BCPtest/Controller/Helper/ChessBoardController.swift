@@ -31,6 +31,8 @@ class ChessBoardController: UIViewController {
     
     var vstack: UIStackView! // vertical stack of horizontal stacks with all chessboard squares
     var vstackBlank: UIStackView! // repeat above but squares don't show pieces
+    var nameStackV: UIStackView!
+    var nameStackH: UIStackView!
     
     
     // MARK: - Init/Interface
@@ -77,20 +79,39 @@ class ChessBoardController: UIViewController {
         
         view.addSubview(vstackBlank)
         view.addSubview(vstack)
+        
+        nameStackH = configSquareNameStackH()
+        nameStackV = configSquareNameStackV()
+        view.addSubview(nameStackV)
+        view.addSubview(nameStackH)
+        view.backgroundColor = .black
     }
     
     func setUpAutoLayout() {
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
+        vstack.rightAnchor.constraint(equalTo: nameStackV.leftAnchor, constant: -0).isActive = true
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        vstack.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        vstack.bottomAnchor.constraint(equalTo: nameStackH.topAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
         
         vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
+        vstackBlank.rightAnchor.constraint(equalTo: nameStackV.leftAnchor, constant: -0).isActive = true
         vstackBlank.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        vstackBlank.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        vstackBlank.bottomAnchor.constraint(equalTo: nameStackH.topAnchor).isActive = true
         vstackBlank.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
+        
+        nameStackH.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
+        nameStackH.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        nameStackH.rightAnchor.constraint(equalTo: vstack.rightAnchor).isActive = true
+        
+        nameStackV.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        nameStackV.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        nameStackV.bottomAnchor.constraint(equalTo: vstack.bottomAnchor).isActive = true
+        nameStackV.widthAnchor.constraint(equalToConstant: 15).isActive = true
+        
+        vstack.alpha = 1
+        vstackBlank.alpha = 1
+        
     }
     
     func configureSquareButtons() -> [UIButton] {
@@ -105,6 +126,7 @@ class ChessBoardController: UIViewController {
             button.addTarget(self, action: #selector(squareAction), for: .touchUpInside)
             button.backgroundColor = getSquareColor(squareIndex: i)
             button.setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
+            
             button.imageEdgeInsets = UIEdgeInsets(top: 0, left: 0, bottom: 0, right: 0)
             buttons.append(button)
         }
@@ -347,6 +369,45 @@ extension UIImageView {
     self.image = templateImage
     self.tintColor = color
   }
+}
+
+extension ChessBoardController {
+    
+    private func configSquareNameStackH() -> UIStackView {
+        var labels: [UILabel] = []
+        let names = ["A","B","C","D","E","F","G", "H"]
+        names.forEach { (name) in
+            labels.append(configSquareNameLabel(text: name))
+        }
+        let sv = UIStackView(arrangedSubviews: labels)
+        sv.distribution = .fillEqually
+        sv.axis = .horizontal
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }
+    
+    private func configSquareNameStackV() -> UIStackView {
+        var labels: [UILabel] = []
+        let names = [8,7,6,5,4,3,2,1]
+        names.forEach { (name) in
+           labels.append(configSquareNameLabel(text: String(name)))
+        }
+        let sv = UIStackView(arrangedSubviews: labels)
+        sv.distribution = .fillEqually
+        sv.axis = .vertical
+        sv.translatesAutoresizingMaskIntoConstraints = false
+        return sv
+    }
+    
+    private func configSquareNameLabel(text: String) -> UILabel {
+        let l = UILabel()
+        l.backgroundColor = .black
+        l.textColor = CommonUI().softWhite
+        l.font = UIFont(name: fontString, size: 12)
+        l.textAlignment = .center
+        l.text = text
+        return l
+    }
 }
 
 

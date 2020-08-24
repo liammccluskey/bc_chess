@@ -12,6 +12,8 @@ import CoreData
 class PuzzleRushController: UIViewController {
     
     // MARK: - Properties
+    var limitReachedController: LimitReachedController!
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var startMinutes: Int!
     var piecesHidden: Bool!
@@ -58,6 +60,7 @@ class PuzzleRushController: UIViewController {
     // bottom buttons
     var exitButton: UIButton!
     var buttonStack: UIStackView! // quit
+    var tabBarFiller: UIView!
     
     
     // MARK: - Init
@@ -76,15 +79,28 @@ class PuzzleRushController: UIViewController {
     }
     
     override func viewDidLoad() {
+        print(UserDataManager().hasReachedRushLimit())
+        
         super.viewDidLoad()
-        view.isUserInteractionEnabled = false
         
         configureUI()
         setUpAutoLayout()
         
+        if UserDataManager().hasReachedRushLimit() {
+            limitReachedController = LimitReachedController()
+            limitReachedController.delegate = self
+            pregameCountdownLabel.removeFromSuperview()
+            view.addSubview(limitReachedController.view)
+            return
+        }
         pregameCountdown = 3
         pregameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(pregameTimerAction), userInfo: nil, repeats: true)
-        
+        view.isUserInteractionEnabled = false
+    
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -134,9 +150,11 @@ class PuzzleRushController: UIViewController {
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "  QUIT  ", imageName: "arrow.left.square")
+        exitButton = PuzzleUI().configureButton(title: "  Quit  ", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
         buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton])
+        tabBarFiller = CommonUI().configTabBarFiller()
+        view.addSubview(tabBarFiller)
         view.addSubview(buttonStack)
         
         if piecesHidden == false {
@@ -155,10 +173,15 @@ class PuzzleRushController: UIViewController {
         pregameCountdownLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         
         let upperPadding: CGFloat = piecesHidden ? 8 : 40
-        buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3).isActive = true
-        buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
-        buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-        buttonStack.heightAnchor.constraint(equalToConstant: 70).isActive = true
+        tabBarFiller.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        tabBarFiller.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        tabBarFiller.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        tabBarFiller.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+        
+        buttonStack.bottomAnchor.constraint(equalTo: tabBarFiller.topAnchor, constant: 0).isActive = true
+        buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: tabBarHeight).isActive = true
         
         playerToMoveLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         playerToMoveLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -378,6 +401,12 @@ extension PuzzleRushController {
 
 extension PuzzleRushController: PostRushDelegate {
     func didSelectPlayAgain() {
+        if UserDataManager().hasReachedRushLimit() {
+            limitReachedController = LimitReachedController()
+            limitReachedController.delegate = self
+            view.addSubview(limitReachedController.view)
+            return
+        }
         onSolutionMoveIndex = 0
         stateIsIncorrect = false
         numCorrect = 0
@@ -392,9 +421,19 @@ extension PuzzleRushController: PostRushDelegate {
             self.viewDidLoad()
         }
     }
-    
     func didSelectExit() {
         navigationController?.popViewController(animated: true)
+    }
+    
+}
+
+extension PuzzleRushController: LimitReachedDelegate {
+    func didSelectUpgrade() {
+        navigationController?.pushViewController(UpgradeController(), animated: true)
+    }
+    
+    func didDismiss() {
+        navigationController?.popToRootViewController(animated: true)
     }
     
 }

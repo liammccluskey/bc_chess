@@ -9,6 +9,7 @@
 import UIKit
 
 import Firebase
+import FirebaseAuth
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
@@ -67,28 +68,37 @@ class LeaderboardController: UIViewController {
     
     func configNavigationBar() {
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = CommonUI().blackColor
+        navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 17)
+        let font = UIFont(name: fontString, size: 15)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
         navigationItem.title = "Leaderboard".uppercased()
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
+        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill"), style: .plain, target: self, action: #selector(showMeAction))
     }
     
     func configSegment(items: [String]) -> UISegmentedControl {
         let sc = UISegmentedControl(items: items)
-        let font = UIFont(name: fontString, size: 16)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.black], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().csBlue], for: .normal)
+        let font = UIFont(name: fontString, size: 15)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: CommonUI().softWhite], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
         sc.selectedSegmentIndex = 0
-        sc.selectedSegmentTintColor = CommonUI().csBlue
-        sc.backgroundColor = CommonUI().blackColor
+        sc.backgroundColor = .black
+        sc.selectedSegmentTintColor = .black
+        sc.translatesAutoresizingMaskIntoConstraints = false
         sc.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
         return sc
     }
     
     // MARK: - Selectors
+    
+    @objc func showMeAction() {
+        let indexPath = IndexPath(row: leaderboardTable.thisUserPosition, section: 0)
+        if leaderboardTable.thisUserPosition != -1 {
+            leaderboardTable.tableView.scrollToRow(at: indexPath, at: .middle, animated: true)
+        }
+    }
     
     @objc func segmentAction() {
         let rushType = rushTypeSegment.selectedSegmentIndex
@@ -99,7 +109,20 @@ class LeaderboardController: UIViewController {
         else if rushType == 1 && visibility == 0 { unsortedUsers = rankedUsers.RUSH5 }
         else if rushType == 1 && visibility == 1 { unsortedUsers = rankedUsers.RUSH5B }
         
-        leaderboardTable.rankedUsers = unsortedUsers.sorted(by: {Int($0.SCORE)! > Int($1.SCORE)!})
+        let sortedUsers = unsortedUsers.sorted(by: {Int($0.SCORE)! > Int($1.SCORE)!})
+        leaderboardTable.rankedUsers = sortedUsers
+        
+        if let thisUser = Auth.auth().currentUser {
+            if let thisUserPosition = sortedUsers.firstIndex(where: {$0.UID == thisUser.uid}) {
+                leaderboardTable.thisUserPosition = thisUserPosition
+                print("Position: " + String(thisUserPosition))
+            }
+            else {
+                leaderboardTable.thisUserPosition = -1
+            }
+        }
+        
+        
         DispatchQueue.main.async {
             self.leaderboardTable.tableView.reloadData()
         }
@@ -115,6 +138,8 @@ extension LeaderboardController: PublicDBMSDelegate {
         guard let users = rankedUsers else {return}
         self.rankedUsers = users
         rushTypeSegment.sendActions(for: .valueChanged)
+    }
+    func sendDailyPuzzlesInfo(info: DailyPuzzlesInfo?) {
     }
 }
 
@@ -152,9 +177,10 @@ struct RankedUser: Codable {
     var UID: String
     var USERNAME: String
     var SCORE: String
+    var COUNTRY_CODE: String
     
     func toDict() -> [String: Any] {
-        return ["SCORE": self.SCORE, "UID": self.UID, "USERNAME": self.USERNAME]
+        return ["SCORE": self.SCORE, "UID": self.UID, "USERNAME": self.USERNAME, "COUNTRY_CODE": self.COUNTRY_CODE]
     }
 }
 

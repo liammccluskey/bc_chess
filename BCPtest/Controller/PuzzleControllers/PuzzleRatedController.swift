@@ -13,6 +13,8 @@ import CoreData
 class PuzzleRatedController: UIViewController {
     
     // MARK: - Properties
+    var limitReachedController: LimitReachedController!
+    
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var puzzledUser: PuzzledUser!
     var piecesHidden: Bool!
@@ -48,6 +50,7 @@ class PuzzleRatedController: UIViewController {
     var positionTableB: PositionTableController!
     
     // bottom buttons
+    var tabBarFiller: UIView!
     var exitButton: UIButton!
     var showSolutionButton: UIButton!
     var nextButton: UIButton!
@@ -73,16 +76,26 @@ class PuzzleRatedController: UIViewController {
         
         configureUI()
         setUpAutoLayout(isInitLoad: true)
+        
+        if UserDataManager().hasReachedPuzzleLimit() {
+            limitReachedController = LimitReachedController()
+            limitReachedController.delegate = self
+            view.addSubview(limitReachedController.view)
+        }
+        
     }
     
     override func viewWillDisappear(_ animated: Bool) {
         navigationController?.navigationBar.isHidden = false
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     // MARK: - Config
     
     func configureUI() {
-        configureNavigationBar()
         solutionLabel = PuzzleUI().configSolutionLabel()
         configurePageData(isReload: false)
         
@@ -108,14 +121,16 @@ class PuzzleRatedController: UIViewController {
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "  EXIT  ", imageName: "arrow.left.square")
+        exitButton = PuzzleUI().configureButton(title: "  Exit  ", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "  SOLUTION  ", imageName: "questionmark.square")
+        showSolutionButton = PuzzleUI().configureButton(title: "  Solution  ", imageName: "questionmark.square")
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = PuzzleUI().configureButton(title: "  NEXT  ", imageName: "chevron.right.square")
+        nextButton = PuzzleUI().configureButton(title: "  Next  ", imageName: "chevron.right.square")
         nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         
         buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,showSolutionButton,nextButton])
+        tabBarFiller = CommonUI().configTabBarFiller()
+        view.addSubview(tabBarFiller)
         view.addSubview(buttonStack)
         view.addSubview(retryButton)
         
@@ -131,10 +146,15 @@ class PuzzleRatedController: UIViewController {
         let upperPadding: CGFloat = piecesHidden ? 10 : 50
         if isInitLoad {
             // global anchors
-            buttonStack.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 3).isActive = true
-            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
-            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: 70).isActive = true
+            tabBarFiller.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+            tabBarFiller.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+            tabBarFiller.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+            tabBarFiller.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
+            
+            buttonStack.bottomAnchor.constraint(equalTo: tabBarFiller.topAnchor, constant: 0).isActive = true
+            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+            buttonStack.heightAnchor.constraint(equalToConstant: tabBarHeight).isActive = true
             
             retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
             retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
@@ -166,12 +186,6 @@ class PuzzleRatedController: UIViewController {
         positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
         positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 0).isActive = true
         positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
-    }
-    
-    func configureNavigationBar() {
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationBar.barStyle = .black
     }
     
     func configurePageData(isReload: Bool) {
@@ -241,6 +255,12 @@ class PuzzleRatedController: UIViewController {
     }
     
     @objc func nextAction() {
+        if UserDataManager().hasReachedPuzzleLimit() {
+            limitReachedController = LimitReachedController()
+            limitReachedController.delegate = self
+            view.addSubview(limitReachedController.view)
+            return
+        }
         restartPuzzle(isNewPuzzle: true)
         pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
         currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
@@ -354,6 +374,16 @@ extension PuzzleRatedController {
         let updatedUser = UserDBMS().updateUserPuzzleElo(forUser: puzzledUser, puzzleRating: pElo, wasCorrect: wasCorrect, isBlindfold: piecesHidden)
         let newRating = piecesHidden ? updatedUser.puzzleB_Elo : updatedUser.puzzle_Elo
         return newRating - oldRating
+    }
+}
+
+extension PuzzleRatedController: LimitReachedDelegate {
+    func didSelectUpgrade() {
+        navigationController?.pushViewController(UpgradeController(), animated: true)
+    }
+    
+    func didDismiss() {
+        navigationController?.popToRootViewController(animated: true)
     }
 }
 

@@ -10,6 +10,8 @@ import UIKit
 import FirebaseAuth
 import Firebase
 
+import CoreData
+
 // globals
 var PFJ: PuzzlesFromJson!
 class ContainerController: UIViewController {
@@ -21,17 +23,21 @@ class ContainerController: UIViewController {
         
         view.backgroundColor = .black
         
+        PFJ = PuzzlesFromJson()
         if UserDataManager().isFirstLaunch() {
+            PFJ.savePuzzlesToCoreData()
+            UserDataManager().setDidLaunch()
+            UserDataManager().setMembershipType(type: 0)
             configSignInController()
         } else if let _ = Auth.auth().currentUser {
+            let userHasCoreData: Bool = UserDBMS().getPuzzledUser() != nil
+            if userHasCoreData == false {
+                UserDBMS().initExistingUserCoreData(uid: Auth.auth().currentUser!.uid)
+            }
             configTabBarController()
         } else {
             configSignInController()
         }
-        
-        PFJ = PuzzlesFromJson()
-
-        
     }
     
     // MARK: - Config

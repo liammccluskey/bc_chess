@@ -21,8 +21,13 @@ protocol ProgressTableDelegate {
     func didSelectPuzzle(type: Int, index: Int)
 }
 
+protocol SettingsTableDelegate {
+    func didSelectRow(rowIndex: Int)
+}
+
 protocol DailyPuzzlesCollectionDelegate {
-    func didSelectPuzzle(puzzle: Puzzle)
+    func didSelectPuzzle(puzzle: Puzzle, puzzleReference: PuzzleReference, puzzleNumber: Int, piecesHidden: Bool, publicAttemptsInfo: DailyPuzzlesInfo?)
+    func didMoveToPage(pageNumber: Int)
 }
 
 protocol SignInDelegate {
@@ -37,6 +42,11 @@ protocol PostRushDelegate {
     func didSelectPlayAgain()
     func didSelectExit()
 }
+
+protocol LimitReachedDelegate {
+    func didDismiss()
+    func didSelectUpgrade()
+}
 // Database
 protocol UserDBMSDelegate {
     func sendUser(user: User?)
@@ -44,6 +54,7 @@ protocol UserDBMSDelegate {
 
 protocol PublicDBMSDelegate {
     func sendRankedUsers(rankedUsers: RankedUsers?)
+    func sendDailyPuzzlesInfo(info: DailyPuzzlesInfo?)
 }
 
 

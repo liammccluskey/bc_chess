@@ -45,12 +45,20 @@ class PuzzlesFromJson {
     
     func getPuzzleReferenceInRange(lowerBound: Int, upperBound: Int, isBlindfold: Bool) -> PuzzleReference? {
         let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
-        let predicateRegular = NSPredicate(format:"eloRegular BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound)) }")
-        let predicateBlindfold = NSPredicate(format:"eloBlindfold BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound))}")
-        request.predicate = isBlindfold ? predicateBlindfold : predicateRegular
+        //let predicateRegular = NSPredicate(format:"eloRegular BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound)) }")
+        //let predicateBlindfold = NSPredicate(format:"eloBlindfold BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound))}")
+       // request.predicate = isBlindfold ? predicateBlindfold : predicateRegular
         do {
-            let puzzlesInRange = try context.fetch(request)
-            return puzzlesInRange.randomElement()
+            var pRefs = try context.fetch(request)
+            if isBlindfold {
+                pRefs = pRefs.filter{$0.eloBlindfold > lowerBound && $0.eloBlindfold < upperBound}
+                print("isRegular: \(!isBlindfold), \(lowerBound) - \(upperBound): \(pRefs.count)")
+                return pRefs.randomElement()
+            } else {
+                pRefs = pRefs.filter{$0.eloRegular > lowerBound && $0.eloRegular < upperBound}
+                return pRefs.randomElement()
+            }
+            
         } catch { print("Error: no puzzles in range \(lowerBound) - \(upperBound)")}
         return nil
     }

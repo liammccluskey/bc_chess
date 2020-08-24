@@ -13,11 +13,14 @@ class SignInController: UIViewController {
     
     // MARK: - Properties
     
+    var keyboardShown = false
+    
     let commonUI = CommonUI()
     
     var userDBMS: UserDBMS!
     var delegate: SignInDelegate?
     
+    var imStack: UIStackView!
     var logoImage: UIImageView = {
         let iv = UIImageView()
         iv.image = #imageLiteral(resourceName: "logo").withRenderingMode(.alwaysOriginal)
@@ -56,36 +59,81 @@ class SignInController: UIViewController {
         configAutoLayout()
     }
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillShow), name: UIResponder.keyboardWillShowNotification, object: nil)
+
+        NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillHide), name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
+    @objc func keyboardWillShow() {
+        print("show")
+        if logoImage.isHidden == true { return }
+        UIView.animate(withDuration: 0.2) {
+            self.logoImage.isHidden = true
+            self.view.layoutIfNeeded()
+        }
+    
+    }
+
+    @objc func keyboardWillHide() {
+        print("hide")
+        
+        if logoImage.isHidden == false { return }
+        UIView.animate(withDuration: 0.2) {
+            self.logoImage.isHidden = false
+            self.view.layoutIfNeeded()
+        }
+        
+    }
+
+    
+    override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillShowNotification, object: nil)
+        NotificationCenter.default.removeObserver(self, name: UIResponder.keyboardWillHideNotification, object: nil)
+    }
+    
     // MARK: - Config
     
     func configUI() {
         
-        view.addSubview(logoImage)
+        imStack = commonUI.configureStackView(arrangedSubViews: [logoImage])
+        view.addSubview(imStack)
         
-        signInUpSegment = configSegment(items: ["SIGN IN", "REGISTER"])
+        signInUpSegment = configSegment(items: ["Sign In", "Register"])
         emailField = configInputField(placeHolder: "  Email")
         usernameField = configInputField(placeHolder: "  Username", isHidden: true)
         
         passwordField = configInputField(placeHolder: "  Password", isSecure: true)
-        signInUpButton = configButton(title: "SIGN IN")
+        signInUpButton = configButton(title: "Sign In")
         vstack = commonUI.configureStackView(arrangedSubViews: [
-            titleLabel, signInUpSegment, emailField, usernameField, passwordField, signInUpButton])
+            titleLabel, signInUpSegment, emailField, usernameField, passwordField])
         vstack.spacing = 20
-        vstack.setCustomSpacing(60, after: titleLabel)
+        vstack.setCustomSpacing(40, after: titleLabel)
         view.addSubview(vstack)
+        view.addSubview(signInUpButton)
         
         view.backgroundColor = commonUI.blackColor
     }
     
     func configAutoLayout() {
-        logoImage.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
-        logoImage.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -80).isActive = true
-        logoImage.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 80).isActive = true
-        logoImage.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        imStack.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 0).isActive = true
+        imStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        //imStack.heightAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
+        imStack.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
         
-        vstack.topAnchor.constraint(equalTo: logoImage.bottomAnchor, constant: 5).isActive = true
+        
+        vstack.topAnchor.constraint(equalTo: imStack.bottomAnchor, constant: -30).isActive = true
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        
+        signInUpButton.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -30).isActive = true
+        signInUpButton.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
+        signInUpButton.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        
     }
     
     // MARK: - Selectors
@@ -98,7 +146,10 @@ class SignInController: UIViewController {
         if signInUpSegment.selectedSegmentIndex == 0 {
             Auth.auth().signIn(withEmail: email, password: password) { (authResult, error) in
                 if authResult != nil {
-                    print("succes log in")
+                    let userHasCoreData: Bool = self.userDBMS.getPuzzledUser() != nil
+                    if userHasCoreData == false {
+                        self.userDBMS.initExistingUserCoreData(uid: Auth.auth().currentUser!.uid)
+                    }
                     self.delegate?.notifyOfSignIn()
                 } else {self.showSignInUpAlert(message: error!.localizedDescription); return }
             }
@@ -119,13 +170,13 @@ class SignInController: UIViewController {
              if isSignIn {
                 UIView.animate(withDuration: 0.2) {
                     self.usernameField.isHidden = true
-                    self.signInUpButton.setTitle("SIGN IN", for: .normal)
+                    self.signInUpButton.setTitle("Sign In", for: .normal)
                     self.view.layoutIfNeeded()
                 }
              } else {
                 UIView.animate(withDuration: 0.2) {
                     self.usernameField.isHidden = false
-                    self.signInUpButton.setTitle("REGISTER", for: .normal)
+                    self.signInUpButton.setTitle("Register", for: .normal)
                     self.view.layoutIfNeeded()
                 }
             }
@@ -135,13 +186,7 @@ class SignInController: UIViewController {
     // MARK: - Alerts
     
     func showSignInUpAlert(message: String) {
-        let alert = UIAlertController(title: "", message: message, preferredStyle: .alert)
-        alert.setTitle(font: UIFont(name: fontString, size: 23), color: .lightGray)
-        alert.setMessage(font: UIFont(name: fontStringLight, size: 20), color: .white)
-        alert.setTint(color: commonUI.csRed)
-        alert.setBackgroundColor(color: commonUI.blackColor)
-        alert.view.layer.borderColor = commonUI.blackColorLight.cgColor
-        alert.view.layer.borderWidth = 10
+        let alert = UIAlertController(title: "Error", message: "\n" + message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .default, handler: nil))
         present(alert, animated: true)
     }
@@ -158,40 +203,42 @@ class SignInController: UIViewController {
         tf.placeholder = placeHolder
         tf.textAlignment = .left
         tf.backgroundColor = commonUI.blackColorLight
-        tf.layer.cornerRadius = 10
+        tf.layer.cornerRadius = 5
         tf.clipsToBounds = true
         tf.autocorrectionType = .no
         tf.isSecureTextEntry = isSecure
+        if isSecure {
+            tf.addTarget(self, action: #selector(keyboardWillHide), for: UIControl.Event.editingDidEnd)
+        }
+        tf.heightAnchor.constraint(equalToConstant: 50).isActive = true
         return tf
     }
     
     func configSegment(items: [String]) -> UISegmentedControl {
         let sc = UISegmentedControl(items: items)
         sc.addTarget(self, action: #selector(segmentAction), for: .valueChanged)
-        let font = UIFont(name: fontString, size: 23)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: commonUI.csRed], for: .selected)
-        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.lightGray], for: .normal)
-        sc.tintColor = .lightGray
+        let font = UIFont(name: fontString, size: 22)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.white], for: .selected)
+        sc.setTitleTextAttributes([.font: font!, .foregroundColor: UIColor.darkGray], for: .normal)
         sc.selectedSegmentIndex = 0
-        sc.backgroundColor = .clear
-        sc.selectedSegmentTintColor = commonUI.blackColor
+        sc.backgroundColor = .black
+        sc.selectedSegmentTintColor = .black
         sc.layer.cornerRadius = 20
         sc.clipsToBounds = true
+        sc.heightAnchor.constraint(equalToConstant: 35).isActive = true
         return sc
     }
     
     func configButton(title: String) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name: fontString, size: 25)
-        button.backgroundColor = commonUI.blackColor
-        button.layer.borderWidth = 3.5
-        button.layer.borderColor = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1).cgColor
-        button.layer.cornerRadius = 10
+        button.titleLabel?.font = UIFont(name: fontString, size: 22)
+        button.backgroundColor = commonUI.greenCorrect
+        button.layer.cornerRadius = 22
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(signInUpAction), for: .touchUpInside)
-        button.setTitleColor(commonUI.csRed, for: .normal)
-        
+        button.setTitleColor(.black, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }
 }
