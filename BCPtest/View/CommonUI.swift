@@ -148,10 +148,10 @@ class CommonUI {
 // testing this below
 
 enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
+    case tan
     case darkBlue
     case gray
     case green
-    case tan
     case purple
     case lightBlue
     var darkSquareColor: UIColor {

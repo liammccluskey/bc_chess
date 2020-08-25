@@ -44,9 +44,9 @@ class DailyPuzzlesCollectionController: UICollectionViewController, UICollection
     
     func setPuzzles() {
         piecesHidden = [false, false, true]
-        let pRef1 = PFJ.getPuzzleReferenceInRange(lowerBound: 1500, upperBound: 2000, isBlindfold: false)!
-        let pRef2 = PFJ.getPuzzleReferenceInRange(lowerBound: 2000, upperBound: 3000, isBlindfold: false)!
-        let pRef3 = PFJ.getPuzzleReferenceInRange(lowerBound: 1500, upperBound: 2000, isBlindfold: true)!
+        let pRef1 = PFJ.getDailyPuzzleReferenceInRange(lowerBound: 1000, upperBound: 2000, isBlindfold: false)!
+        let pRef2 = PFJ.getDailyPuzzleReferenceInRange(lowerBound: 2000, upperBound: 2500, isBlindfold: false)!
+        let pRef3 = PFJ.getDailyPuzzleReferenceInRange(lowerBound: 1000, upperBound: 2000, isBlindfold: true)!
         print(pRef1)
         pRefs = [pRef1, pRef2, pRef3]
         puzzles = [PFJ.getPuzzle(fromPuzzleReference: pRef1)!, PFJ.getPuzzle(fromPuzzleReference: pRef2)!, PFJ.getPuzzle(fromPuzzleReference: pRef3)!]
@@ -258,14 +258,5 @@ class DailyPuzzleChartController: UIViewController, ChartViewDelegate {
         dataSet.colors = [CommonUI().greenCorrect, CommonUI().redIncorrect]
                 
         chartView.data = PieChartData(dataSet: dataSet)
-        
-    }
-    
-    
-}
-
-extension Date {
-    var dayOfYear: Int {
-        return Calendar.current.ordinality(of: .day, in: .year, for: self)!
     }
 }

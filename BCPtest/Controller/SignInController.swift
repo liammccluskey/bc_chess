@@ -111,8 +111,8 @@ class SignInController: UIViewController {
         signInUpButton = configButton(title: "Sign In")
         vstack = commonUI.configureStackView(arrangedSubViews: [
             titleLabel, signInUpSegment, emailField, usernameField, passwordField])
-        vstack.spacing = 20
-        vstack.setCustomSpacing(40, after: titleLabel)
+        vstack.spacing = 15
+        vstack.setCustomSpacing(20, after: titleLabel)
         view.addSubview(vstack)
         view.addSubview(signInUpButton)
         
@@ -126,7 +126,7 @@ class SignInController: UIViewController {
         imStack.widthAnchor.constraint(equalToConstant: view.frame.width/3).isActive = true
         
         
-        vstack.topAnchor.constraint(equalTo: imStack.bottomAnchor, constant: -30).isActive = true
+        vstack.topAnchor.constraint(equalTo: imStack.bottomAnchor, constant: 10).isActive = true
         vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
         vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
         

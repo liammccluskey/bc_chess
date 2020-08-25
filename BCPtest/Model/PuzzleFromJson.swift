@@ -19,7 +19,7 @@ class PuzzlesFromJson {
     // MARK: - Init
     
     init() {
-        guard let path = Bundle.main.path(forResource: "GeneratedPuzzles", ofType: "json") else {return}
+        guard let path = Bundle.main.path(forResource: "GeneratedPuzzles-2", ofType: "json") else {return}
         do {
             let jsonData = try Data.init(contentsOf: URL(fileURLWithPath: path))
             let decoder = JSONDecoder()
@@ -45,9 +45,6 @@ class PuzzlesFromJson {
     
     func getPuzzleReferenceInRange(lowerBound: Int, upperBound: Int, isBlindfold: Bool) -> PuzzleReference? {
         let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
-        //let predicateRegular = NSPredicate(format:"eloRegular BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound)) }")
-        //let predicateBlindfold = NSPredicate(format:"eloBlindfold BETWEEN { \(Int32(lowerBound)) , \(Int32(upperBound))}")
-       // request.predicate = isBlindfold ? predicateBlindfold : predicateRegular
         do {
             var pRefs = try context.fetch(request)
             if isBlindfold {
@@ -56,7 +53,32 @@ class PuzzlesFromJson {
                 return pRefs.randomElement()
             } else {
                 pRefs = pRefs.filter{$0.eloRegular > lowerBound && $0.eloRegular < upperBound}
+                print("isRegular: \(!isBlindfold), \(lowerBound) - \(upperBound): \(pRefs.count)")
                 return pRefs.randomElement()
+            }
+            
+        } catch { print("Error: no puzzles in range \(lowerBound) - \(upperBound)")}
+        return nil
+    }
+    
+    func getDailyPuzzleReferenceInRange(lowerBound: Int, upperBound: Int, isBlindfold: Bool) -> PuzzleReference? {
+        let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
+        do {
+            var pRefs = try context.fetch(request)
+            if isBlindfold {
+                pRefs = pRefs.filter{$0.eloBlindfold > lowerBound && $0.eloBlindfold < upperBound}
+                if pRefs.count == 0 {
+                    return nil
+                } else {
+                    return pRefs.randomElementForToday() as? PuzzleReference
+                }
+            } else {
+                pRefs = pRefs.filter{$0.eloRegular > lowerBound && $0.eloRegular < upperBound}
+                if pRefs.count == 0 {
+                    return nil
+                } else {
+                    return pRefs.randomElementForToday() as? PuzzleReference
+                }
             }
             
         } catch { print("Error: no puzzles in range \(lowerBound) - \(upperBound)")}
@@ -96,9 +118,9 @@ class PuzzlesFromJson {
         for i in 0..<puzzles.count {
             let puzzle = puzzles[i]
             let puzzleRef = PuzzleReference(context: context)
-            let m1buffer = puzzleType == 0 ? Int.random(in: -50...100) : 0
-            puzzleRef.eloRegular = Int32(400*(puzzleType + 1) + m1buffer + puzzleType*Int.random(in: 0...200))
-            puzzleRef.eloBlindfold = Int32(100*puzzle.piece_count + 200*(puzzleType + 1) + Int.random(in: -100...100))
+            let m1buffer = puzzleType == 0 ? Int.random(in: 100...200)*(-1) : 0
+            puzzleRef.eloRegular = Int32(450*(puzzleType + 1) + m1buffer + Int.random(in: 0...300)) // 250 - 
+            puzzleRef.eloBlindfold = Int32(75*puzzle.piece_count + 250*(puzzleType + 1) + Int.random(in: 0...100))
             puzzleRef.puzzleType = Int32(puzzleType)
             puzzleRef.puzzleIndex = Int32(i)
             puzzleRefs.append(puzzleRef)
@@ -221,6 +243,21 @@ enum PieceName: String {
         case .k: // 11
             return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bk")!
         }
+    }
+}
+
+
+extension Date {
+    var dayOfYear: Int {
+        return Calendar.current.ordinality(of: .day, in: .year, for: self)!
+    }
+}
+
+extension Array {
+    func randomElementForToday() -> Any {
+        let count = self.count
+        let dayOfYear = Date().dayOfYear
+        return self[dayOfYear % count]
     }
 }
 

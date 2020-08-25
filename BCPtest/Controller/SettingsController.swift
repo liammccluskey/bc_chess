@@ -21,11 +21,12 @@ class SettingsController: UIViewController, SettingsTableDelegate {
     var settingsTable: SettingsTableController!
     var signOutButton: UIButton!
     
+    
     // MARK: - Init
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+    
         configUI()
         configAutoLayout()
     }
@@ -56,7 +57,7 @@ class SettingsController: UIViewController, SettingsTableDelegate {
         settingsTable.tableView.topAnchor.constraint(equalTo: userInfoStack.bottomAnchor, constant: 20).isActive = true
         settingsTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
         settingsTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -10).isActive = true
-        settingsTable.tableView.bottomAnchor.constraint(equalTo: view.centerYAnchor).isActive = true
+        settingsTable.tableView.bottomAnchor.constraint(equalTo: signOutButton.topAnchor, constant: -20).isActive = true
         
         signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         signOutButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
@@ -76,8 +77,8 @@ class SettingsController: UIViewController, SettingsTableDelegate {
     
     func configUserInfoStack() -> UIStackView? {
         guard let thisUser = Auth.auth().currentUser else {return nil}
-        let membershipName = UserDataManager().getMembershipName()
         let membershipColor = UserDataManager().getMembershipColor()
+        let membershipName = UserDataManager().getMembershipName()
         let emailView = configInfoView(titleText: "Email:", valueText: thisUser.email ?? "N/A")
         let usernameView = configInfoView(titleText: "Username: ", valueText: thisUser.displayName ?? "N/A")
         let membershipView = configInfoView(titleText: "Membership: ", valueText: membershipName, valueColor: membershipColor)

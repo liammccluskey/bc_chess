@@ -186,11 +186,11 @@ class PuzzleRushController: UIViewController {
         playerToMoveLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         playerToMoveLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         playerToMoveLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        playerToMoveLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        playerToMoveLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         correctnessLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         correctnessLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         correctnessLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        correctnessLabel.heightAnchor.constraint(equalToConstant: 45).isActive = true
+        correctnessLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
         numCorrectLabel.topAnchor.constraint(equalTo: playerToMoveLabel.bottomAnchor, constant: upperPadding).isActive = true
         numCorrectLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
@@ -251,7 +251,6 @@ class PuzzleRushController: UIViewController {
         positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
         positionTableW.tableView.reloadData()
         positionTableB.tableView.reloadData()
-        //puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef!, isBlindfold: piecesHidden)
         chessBoardController.setNewPosition(position: currentPuzzle.position, piecesHidden: piecesHidden)
         solutionLabel.text = " "
     }
@@ -263,15 +262,25 @@ class PuzzleRushController: UIViewController {
     }
     
     func fetchNextPuzzle() {
-        lowerBoundFetch = 500 + (numCorrect/3)*100 - 50
-        upperBoundFetch = 500 + (numCorrect/3)*100 + 50
+        if numCorrect < 5 {
+            lowerBoundFetch = 250 + numCorrect*100
+            upperBoundFetch = lowerBoundFetch + 100
+        } else {
+            lowerBoundFetch = 650 + (numCorrect/2)*100
+            upperBoundFetch = lowerBoundFetch + 100
+        }
         var foundPuzzle = false
         while foundPuzzle == false {
             pRef = PFJ.getPuzzleReferenceInRange(lowerBound: lowerBoundFetch, upperBound: upperBoundFetch, isBlindfold: piecesHidden)
             if pRef != nil { foundPuzzle = true; break }
-            else { upperBoundFetch += 100 }
+            else {
+                upperBoundFetch += 100
+                lowerBoundFetch -= 50
+            }
         }
         currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: pRef!)
+        print(currentPuzzle.solution_moves)
+        print(pRef!.eloRegular)
     }
     
     // MARK: - Selectors
@@ -361,7 +370,7 @@ extension PuzzleRushController {
             } else {
                 self.restartPuzzleAttempt()
                 self.fetchNextPuzzle()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     self.correctnessLabel.alpha = 0
                     self.configurePageForNewPuzzle()
                 }

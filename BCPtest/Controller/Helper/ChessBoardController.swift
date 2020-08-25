@@ -88,24 +88,24 @@ class ChessBoardController: UIViewController {
     }
     
     func setUpAutoLayout() {
-        vstack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        vstack.rightAnchor.constraint(equalTo: nameStackV.leftAnchor, constant: -0).isActive = true
+        vstack.leftAnchor.constraint(equalTo: nameStackV.rightAnchor, constant: 0).isActive = true
+        vstack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
         vstack.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstack.bottomAnchor.constraint(equalTo: nameStackH.topAnchor).isActive = true
         vstack.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
         
-        vstackBlank.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-        vstackBlank.rightAnchor.constraint(equalTo: nameStackV.leftAnchor, constant: -0).isActive = true
+        vstackBlank.leftAnchor.constraint(equalTo: nameStackV.rightAnchor, constant: 0).isActive = true
+        vstackBlank.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -0).isActive = true
         vstackBlank.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
         vstackBlank.bottomAnchor.constraint(equalTo: nameStackH.topAnchor).isActive = true
         vstackBlank.heightAnchor.constraint(equalTo: vstack.widthAnchor).isActive = true
         
         nameStackH.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        nameStackH.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        nameStackH.leftAnchor.constraint(equalTo: vstack.leftAnchor).isActive = true
         nameStackH.rightAnchor.constraint(equalTo: vstack.rightAnchor).isActive = true
         
         nameStackV.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        nameStackV.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        nameStackV.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         nameStackV.bottomAnchor.constraint(equalTo: vstack.bottomAnchor).isActive = true
         nameStackV.widthAnchor.constraint(equalToConstant: 15).isActive = true
         
@@ -302,7 +302,7 @@ class ChessBoardController: UIViewController {
         } else {
             pieceImage = self.squareButtons[start].currentImage!
         }
-        DispatchQueue.main.async {
+       // DispatchQueue.main.async {
             UIView.animate(withDuration: 1.0) {
                 if needsHighlight {
                     self.squareButtons[start].layer.borderColor = UIColor.black.cgColor
@@ -313,7 +313,7 @@ class ChessBoardController: UIViewController {
                 self.squareButtons[start].setImage(#imageLiteral(resourceName: "clear_square"), for: .normal)
                 self.squareButtons[end].setImage(pieceImage, for: .normal)
             }
-        }
+    //    }
 
         SoundEffectPlayer().pieceMove()
         SoundEffectPlayer().vibrateDevice()

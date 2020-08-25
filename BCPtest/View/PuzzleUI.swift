@@ -48,7 +48,7 @@ class PuzzleUI {
         let label = UILabel()
         label.backgroundColor = .clear
         label.textColor = .white
-        label.font = UIFont(name: fontStringLight, size: 19)
+        label.font = UIFont(name: fontStringLight, size: 17)
         label.numberOfLines = 0
         return label
     }
@@ -58,7 +58,7 @@ class PuzzleUI {
         for i in 0..<onIndex {
             let move = solutionMoves[i]
             let response = move.response_san == "complete" ? "Complete" : move.response_san
-            let readableMove = "        \(i + 1).  \(move.answer_san)  \(response)"
+            let readableMove = "    \(i + 1).  \(move.answer_san)  \(response)"
             solutionText = solutionText + readableMove
             if i%2 != 0 { solutionText = solutionText + "\n"}
         }
