@@ -152,6 +152,7 @@ struct Puzzle: Codable {
     let solution_moves: [WBMove]
     let player_to_move: String
     let piece_count: Int
+    let fen: String
 }
 
 // tier 2
@@ -231,7 +232,7 @@ enum PieceName: String {
         case .b: // 5
             return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bb")!
         case .R: // 6
-            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "R")!
+            return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wr")!
         case .r: // 7
             return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "br")!
         case .Q: // 8

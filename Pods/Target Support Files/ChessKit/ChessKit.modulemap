@@ -1,0 +1,6 @@
+framework module ChessKit {
+  umbrella header "ChessKit-umbrella.h"
+
+  export *
+  module * { export * }
+}

@@ -221,6 +221,7 @@ PODS:
   - Charts (3.5.0):
     - Charts/Core (= 3.5.0)
   - Charts/Core (3.5.0)
+  - ChessKit (1.2.17)
   - Firebase/Analytics (6.30.0):
     - Firebase/Core
   - Firebase/Auth (6.30.0):
@@ -338,6 +339,7 @@ PODS:
 
 DEPENDENCIES:
   - Charts
+  - ChessKit
   - Firebase/Analytics
   - Firebase/Auth
   - Firebase/Firestore
@@ -348,6 +350,7 @@ SPEC REPOS:
     - abseil
     - BoringSSL-GRPC
     - Charts
+    - ChessKit
     - Firebase
     - FirebaseAnalytics
     - FirebaseAuth
@@ -370,6 +373,7 @@ SPEC CHECKSUMS:
   abseil: 6c8eb7892aefa08d929b39f9bb108e5367e3228f
   BoringSSL-GRPC: 8edf627ee524575e2f8d19d56f068b448eea3879
   Charts: 40a08591df1f8ad5c223ddedfb1a06da92f24f7c
+  ChessKit: 1374fa3a4df7a34b0217da32346e55ec2958e804
   Firebase: 210f41ca352067d83b1ba4fd2e7fb49a0c017397
   FirebaseAnalytics: a299a86ef70fcc6aa011418bc65a7e101fb9636c
   FirebaseAuth: 300433de340c1b058dbb8aec224a3f1bcfda5184
@@ -388,6 +392,6 @@ SPEC CHECKSUMS:
   nanopb: c43f40fadfe79e8b8db116583945847910cbabc9
   PromisesObjC: b14b1c6b68e306650688599de8a45e49fae81151
 
-PODFILE CHECKSUM: b0083c2a0a1200d5b7376b243b2746cc6088aef9
+PODFILE CHECKSUM: 8510567d3c8ab3954f66d82abecb475d086082a3
 
 COCOAPODS: 1.9.3

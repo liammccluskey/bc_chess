@@ -8,6 +8,162 @@
 
 import UIKit
 
+import UIKit
+import ChessKit
+import AVFoundation
+
+/*
+ case tan               0
+ case darkBlue          1
+ case gray              2
+ case green             3
+ case purple            4
+ case lightBlue         5
+ 
+ case darkWood          6
+ case walnut            7
+ case newspaper         8
+ case lightPurple       9
+ 
+ 
+ case classic //chesscom        0
+ case lichess                   1
+ case newspaper                 2
+ case fancy                     3
+ case minimal                   4
+ }
+ */
+
+class ChessBoardImageController: UIViewController {
+    
+    var game: Game!
+    
+    var sideLength: CGFloat!
+    
+    // MARK: - Properties
+    var shouldHidePieces: Bool!
+    var layoutColor: Int! // 0-> black, 1-> white
+    
+    var dsColor: UIColor!
+    var lsColor: UIColor!
+    var boardImage: UIImage!
+    
+    var squareIVs: [UIImageView] = []
+    var pieceIVs: [UIImageView] = []
+    
+    
+    // MARK: - Init/Interface
+    
+    init(sideLength: CGFloat, fen: String, shouldHidePieces: Bool) {
+        self.sideLength = sideLength
+        self.layoutColor = 1
+        self.shouldHidePieces = true
+        let theme = UserDataManager().getBoardColor()
+        self.dsColor = theme!.darkSquareColor
+        self.lsColor = theme!.lightSquareColor
+        self.boardImage = theme!.image
+        
+        let position = FenSerialization.default.deserialize(fen: fen)
+        self.game = Game(position: position)
+        
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        
+        self.view.frame = CGRect(x: 0, y: 0, width: sideLength, height: sideLength)
+        configureUI()
+    }
+    
+    // MARK: - Config
+    
+    func configureUI() {
+        
+        configBoardImage()
+        configSquareIVs()
+        if !shouldHidePieces {
+            configPieceIVs()
+        }
+        
+        view.isUserInteractionEnabled = true
+        view.backgroundColor = .black
+    }
+    
+    func configBoardImage() {
+        let iv = UIImageView(frame: view.frame)
+        iv.contentMode = .scaleToFill
+        iv.image = boardImage
+        view.addSubview(iv)
+    }
+    
+    func configSquareIVs() {
+        let xOffset: CGFloat = layoutColor == 0 ? 7 : 0
+        let yOffset: CGFloat = layoutColor == 0 ? 0 : 7
+        for i in 0..<64 {
+            
+            let x = sideLength/8.0 * abs(xOffset - CGFloat(i % 8))
+            let y = sideLength/8.0 * abs(yOffset - CGFloat(i/8))
+            let iv = UIImageView(frame: CGRect(x: x, y: y, width: sideLength/8.0, height: sideLength/8.0))
+            iv.backgroundColor = getSquareColor(squareIndex: i)
+            iv.tag = i
+            view.addSubview(iv)
+            squareIVs.append(iv)
+        }
+    }
+    
+    func configPieceIVs() {
+        let xOffset: CGFloat = layoutColor == 0 ? 7 : 0
+        let yOffset: CGFloat = layoutColor == 0 ? 0 : 7
+        game.position.board.enumeratedPieces().map {
+            let index = nameToIndex(square: $0.0.coordinate)
+            let pieceImage = PieceName(rawValue: $0.1.description)?.image
+            
+            let x = sideLength/8.0 * abs(xOffset - CGFloat(index % 8))
+            let y = sideLength/8.0 * abs(yOffset - CGFloat(index/8))
+            let iv = UIImageView(frame: CGRect(x: x, y: y, width: sideLength/8.0, height: sideLength/8.0))
+            iv.image = pieceImage ?? UIImage()
+            iv.contentMode = .scaleAspectFit
+            iv.tag = index
+            
+            iv.backgroundColor = .clear
+            pieceIVs.append(iv)
+            view.addSubview(iv)
+        }
+    }
+    
+    // MARK: - Helper
+        
+    func getSquareColor(squareIndex: Int) -> UIColor {
+        if (squareIndex / 8)  % 2 == 0 {
+            return squareIndex % 2 == 0 ? dsColor : lsColor
+        } else {
+            return squareIndex % 2 != 0 ? dsColor : lsColor
+        }
+    }
+    
+    func nameToIndex(square: String) -> Int {
+        let file = square.first!
+        let rank = Int(String(square.last!))!
+        let files: [Character: Int] = ["a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7]
+        return (rank-1)*8 + files[file]!
+    }
+    
+    func indexToName(index: Int) -> String {
+        let rank = index/8 + 1
+        let fileIndex = index % 8
+        let files = ["a","b","c","d","e","f","g","h"]
+        let file = files[fileIndex]
+        return "\(file)\(rank)"
+    }
+    
+}
+ 
+/*
 class ChessBoardImageController: UIViewController {
     
     // MARK: - Properties
@@ -175,4 +331,6 @@ class ChessBoardImageController: UIViewController {
         return "\(file)\(rank)"
     }
 }
+ 
+ */
 

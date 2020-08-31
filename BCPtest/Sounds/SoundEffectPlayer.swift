@@ -12,8 +12,24 @@ import UIKit
 var audioPlayer: AVAudioPlayer?
 class SoundEffectPlayer {
     
-    func  pieceMove() {
-        playSound(forResource: "clicksound")
+    func pieceMove() {
+        playSound(forResource: "move_self")
+    }
+    
+    func capture() {
+        playSound(forResource: "capture")
+    }
+    
+    func moveCheck() {
+        playSound(forResource: "move_check")
+    }
+    
+    func moveSelf() {
+        playSound(forResource: "move_self")
+    }
+    
+    func illegal() {
+        playSound(forResource: "illegal")
     }
     
     func correct() {
@@ -35,8 +51,11 @@ class SoundEffectPlayer {
         let path = Bundle.main.path(forResource: forResource, ofType: ofType)!
         let url = URL(fileURLWithPath: path)
         do {
+            try? AVAudioSession.sharedInstance().setCategory(AVAudioSession.Category.ambient)
+            try? AVAudioSession.sharedInstance().setActive(true)
             audioPlayer = try AVAudioPlayer(contentsOf: url)
             audioPlayer?.play()
         } catch { print(error) }
+        
     }
 }

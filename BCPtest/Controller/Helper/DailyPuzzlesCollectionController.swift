@@ -164,7 +164,7 @@ class PuzzleCell: UICollectionViewCell {
         }
         chartController = DailyPuzzleChartController(numTries: numTries, numCorrectTries: numCorrectTries, numIncorrectTries: numIncorrectTries)
         
-        let bc1 = ChessBoardImageController(position: puzzle.position, shouldHidePieces: isBlindfold)
+        let bc1 = ChessBoardImageController(sideLength: bounds.width/2,fen: puzzle.fen, shouldHidePieces: isBlindfold)
         bc1.view.backgroundColor = .clear
         bc1.view.layer.cornerRadius = 5
         bc1.view.clipsToBounds = true

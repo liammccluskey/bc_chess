@@ -8,7 +8,12 @@
 
 /* Begin PBXBuildFile section */
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
-		016FFA3724F459CF006E9A9A /* GeneratedPuzzles-2.json in Resources */ = {isa = PBXBuildFile; fileRef = 016FFA3624F459CF006E9A9A /* GeneratedPuzzles-2.json */; };
+		0141A40924FCA767007DBB26 /* illegal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0141A40824FCA767007DBB26 /* illegal.mp3 */; };
+		0141A40B24FD6E35007DBB26 /* GeneratedPuzzles-3.json in Resources */ = {isa = PBXBuildFile; fileRef = 0141A40A24FD6E35007DBB26 /* GeneratedPuzzles-3.json */; };
+		0154D84E24FBF7A2003DE0AA /* TestBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0154D84D24FBF7A2003DE0AA /* TestBoardController.swift */; };
+		0154D85224FC6585003DE0AA /* move_check.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D84F24FC6580003DE0AA /* move_check.mp3 */; };
+		0154D85324FC6585003DE0AA /* capture.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85024FC6583003DE0AA /* capture.mp3 */; };
+		0154D85424FC6585003DE0AA /* move_self.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85124FC6585003DE0AA /* move_self.mp3 */; };
 		0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103924DC8FA600DB87FE /* ProgressTableController.swift */; };
 		0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */; };
 		0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */; };
@@ -26,6 +31,7 @@
 		0186FC1024D7539700726BD8 /* SignInController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0F24D7539700726BD8 /* SignInController.swift */; };
 		0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC1224D77DA800726BD8 /* UserDMBS.swift */; };
 		01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */ = {isa = PBXBuildFile; fileRef = 01C2412D24DA7269006741E4 /* BCPTest.xcdatamodeld */; };
+		01C4759F24F93ABA003E2E3B /* MoveValidator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C4759E24F93ABA003E2E3B /* MoveValidator.swift */; };
 		01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006E24DB2815003293D4 /* ProgressUI.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
@@ -93,7 +99,12 @@
 /* Begin PBXFileReference section */
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
-		016FFA3624F459CF006E9A9A /* GeneratedPuzzles-2.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "GeneratedPuzzles-2.json"; sourceTree = "<group>"; };
+		0141A40824FCA767007DBB26 /* illegal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = illegal.mp3; sourceTree = "<group>"; };
+		0141A40A24FD6E35007DBB26 /* GeneratedPuzzles-3.json */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.json; path = "GeneratedPuzzles-3.json"; sourceTree = "<group>"; };
+		0154D84D24FBF7A2003DE0AA /* TestBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBoardController.swift; sourceTree = "<group>"; };
+		0154D84F24FC6580003DE0AA /* move_check.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_check.mp3; sourceTree = "<group>"; };
+		0154D85024FC6583003DE0AA /* capture.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = capture.mp3; sourceTree = "<group>"; };
+		0154D85124FC6585003DE0AA /* move_self.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_self.mp3; sourceTree = "<group>"; };
 		0175103924DC8FA600DB87FE /* ProgressTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTableController.swift; sourceTree = "<group>"; };
 		0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushController.swift; sourceTree = "<group>"; };
 		0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRatedController.swift; sourceTree = "<group>"; };
@@ -111,6 +122,7 @@
 		0186FC0F24D7539700726BD8 /* SignInController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignInController.swift; sourceTree = "<group>"; };
 		0186FC1224D77DA800726BD8 /* UserDMBS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDMBS.swift; sourceTree = "<group>"; };
 		01C2412E24DA7269006741E4 /* BCPTest.xcdatamodel */ = {isa = PBXFileReference; lastKnownFileType = wrapper.xcdatamodel; path = BCPTest.xcdatamodel; sourceTree = "<group>"; };
+		01C4759E24F93ABA003E2E3B /* MoveValidator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoveValidator.swift; sourceTree = "<group>"; };
 		01C9006E24DB2815003293D4 /* ProgressUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressUI.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
@@ -221,6 +233,8 @@
 				0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */,
 				012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */,
 				0175103924DC8FA600DB87FE /* ProgressTableController.swift */,
+				01C4759E24F93ABA003E2E3B /* MoveValidator.swift */,
+				0154D84D24FBF7A2003DE0AA /* TestBoardController.swift */,
 			);
 			path = Helper;
 			sourceTree = "<group>";
@@ -254,6 +268,10 @@
 		01E7BAFD24E9C6BC0052B2DD /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				0141A40824FCA767007DBB26 /* illegal.mp3 */,
+				0154D85024FC6583003DE0AA /* capture.mp3 */,
+				0154D84F24FC6580003DE0AA /* move_check.mp3 */,
+				0154D85124FC6585003DE0AA /* move_self.mp3 */,
 				01E7BB0324E9DA130052B2DD /* correct.mp3 */,
 				01E7BB0224E9DA110052B2DD /* incorrect.mp3 */,
 				01E7BB0024E9CF1B0052B2DD /* piecemove.mp3 */,
@@ -393,7 +411,7 @@
 		7CE941E8245B6B1700B9A2A0 /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				016FFA3624F459CF006E9A9A /* GeneratedPuzzles-2.json */,
+				0141A40A24FD6E35007DBB26 /* GeneratedPuzzles-3.json */,
 				7C33CCBC24BAC83800135967 /* PuzzleFromJson.swift */,
 				01D0830524CFA445001F57E6 /* UserDataManager.swift */,
 			);
@@ -509,11 +527,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0154D85224FC6585003DE0AA /* move_check.mp3 in Resources */,
 				01E7BB0124E9CF1B0052B2DD /* piecemove.mp3 in Resources */,
-				016FFA3724F459CF006E9A9A /* GeneratedPuzzles-2.json in Resources */,
+				0154D85324FC6585003DE0AA /* capture.mp3 in Resources */,
 				01E7BB0524E9DA130052B2DD /* correct.mp3 in Resources */,
 				7C96CC4A23A03C1E00EE9129 /* LaunchScreen.storyboard in Resources */,
 				0186FC0E24D748F800726BD8 /* GoogleService-Info.plist in Resources */,
+				0141A40924FCA767007DBB26 /* illegal.mp3 in Resources */,
+				0141A40B24FD6E35007DBB26 /* GeneratedPuzzles-3.json in Resources */,
+				0154D85424FC6585003DE0AA /* move_self.mp3 in Resources */,
 				01E7BB0424E9DA130052B2DD /* incorrect.mp3 in Resources */,
 				7C96CC4723A03C1E00EE9129 /* Assets.xcassets in Resources */,
 				01E7BAFF24E9C6D50052B2DD /* clicksound.mp3 in Resources */,
@@ -658,6 +680,7 @@
 				01E7BAF624E832060052B2DD /* PuzzleReference+CoreDataProperties.swift in Sources */,
 				01E7BAF324E832060052B2DD /* Rush3Attempt+CoreDataClass.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
+				01C4759F24F93ABA003E2E3B /* MoveValidator.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
 				01E7BAF224E832060052B2DD /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
@@ -672,6 +695,7 @@
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
 				01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
+				0154D84E24FBF7A2003DE0AA /* TestBoardController.swift in Sources */,
 				01E7BABC24E71E060052B2DD /* PostRushController.swift in Sources */,
 				0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */,
 				0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */,
@@ -871,7 +895,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.2;
+				CURRENT_PROJECT_VERSION = 2.1.3;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -883,7 +907,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = Puzzled;
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Debug;
 		};
@@ -894,7 +918,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.2;
+				CURRENT_PROJECT_VERSION = 2.1.3;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -906,7 +930,7 @@
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = Puzzled;
 				SWIFT_VERSION = 4.2;
-				TARGETED_DEVICE_FAMILY = 1;
+				TARGETED_DEVICE_FAMILY = "1,2";
 			};
 			name = Release;
 		};

@@ -154,6 +154,11 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
     case green
     case purple
     case lightBlue
+    
+    case darkWood
+    case walnut
+    case newspaper
+    case lightPurple
     var darkSquareColor: UIColor {
         switch self {
         case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
@@ -162,6 +167,10 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .tan: return UIColor(red: 181/255, green: 136/255, blue: 99/255, alpha: 1)
         case .purple: return UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
         case .lightBlue: return UIColor(red: 140/255, green: 162/255, blue: 173/255, alpha: 1)
+        case .darkWood: return .clear
+        case .walnut: return .clear
+        case .newspaper: return .clear
+        case .lightPurple: return .clear
         }
     }
     var lightSquareColor: UIColor {
@@ -172,6 +181,10 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
             case .tan: return UIColor(red: 240/255, green: 217/255, blue: 181/255, alpha: 1)
             case .purple: return UIColor(red: 155/255, green: 125/255, blue: 202/255, alpha: 1)
             case .lightBlue: return UIColor(red: 216/255, green: 221/255, blue: 219/255, alpha: 1)
+            case .darkWood: return .clear
+            case .walnut: return .clear
+            case .newspaper: return .clear
+            case .lightPurple: return .clear
         }
     }
     var description: String {
@@ -182,6 +195,24 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .tan: return "Tan"
         case .purple: return "Purple"
         case .lightBlue: return "Light Blue"
+        case .darkWood: return "Dark Wood"
+        case .walnut: return "Walnut"
+        case .newspaper: return "Newspaper"
+        case .lightPurple: return "Light Purple"
+        }
+    }
+    var image: UIImage {
+        switch self {
+        case .darkBlue: return #imageLiteral(resourceName: "clear_square")
+        case .gray: return #imageLiteral(resourceName: "clear_square")
+        case .green: return #imageLiteral(resourceName: "clear_square")
+        case .tan: return #imageLiteral(resourceName: "clear_square")
+        case .purple: return #imageLiteral(resourceName: "clear_square")
+        case .lightBlue: return #imageLiteral(resourceName: "clear_square")
+        case .darkWood: return UIImage(named: "dark_wood")!
+        case .walnut: return UIImage(named: "walnut")!
+        case .newspaper: return UIImage(named: "newspaper")!
+        case .lightPurple: return UIImage(named: "light_purple")!
         }
     }
 }
@@ -189,32 +220,40 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
 //public var pieceStyle = "lichess"
 public var pieceStyle = UserDataManager().getPieceStyle()
 enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
+    case classic //chesscom
+    case modern
     case lichess
-    case simple
+    case newspaper
     case fancy
     case minimal
     var fileExtension: String {
         switch self {
         case .lichess: return "lichess_"
-        case .simple: return "simple_"
+        case .classic: return "simple_"
+        case .modern: return "modern_"
+        case .newspaper: return "newspaper_"
         case .fancy: return "fancy_"
         case .minimal: return "minimal_"
         }
     }
     var description: String {
         switch self {
+        case .classic: return "Classic"
+        case .modern: return "Modern"
         case .lichess: return "Standard"
-        case .simple: return "Fancy"
-        case .fancy: return "Default"
+        case .newspaper: return "Newspaper"
+        case .fancy: return "Fancy"
         case .minimal: return "Minimal"
         }
     }
     var imageSet: UIImage {
         switch self {
         case .lichess: return UIImage(named: "lichess_set") ?? UIImage()
-        case .simple: return UIImage(named: "simple_set") ?? UIImage()
+        case .classic: return UIImage(named: "simple_set") ?? UIImage()
+        case .modern: return UIImage()
         case .fancy: return UIImage(named: "fancy_set") ?? UIImage()
         case .minimal: return UIImage(named: "minimal_set") ?? UIImage()
+        case .newspaper: return UIImage()
         }
     }
 }
