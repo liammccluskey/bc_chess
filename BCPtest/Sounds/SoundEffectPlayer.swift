@@ -12,20 +12,26 @@ import UIKit
 var audioPlayer: AVAudioPlayer?
 class SoundEffectPlayer {
     
+    // MARK: - Sounds
+    
     func pieceMove() {
         playSound(forResource: "move_self")
+        vibrateLight()
     }
     
     func capture() {
         playSound(forResource: "capture")
+        vibrateLight()
     }
     
     func moveCheck() {
         playSound(forResource: "move_check")
+        vibrateLight()
     }
     
     func moveSelf() {
         playSound(forResource: "move_self")
+        vibrateLight()
     }
     
     func illegal() {
@@ -33,15 +39,22 @@ class SoundEffectPlayer {
     }
     
     func correct() {
-        playSound(forResource: "correct")
+        playSound(forResource: "resultGood")
     }
     
     func incorrect() {
-        playSound(forResource: "incorrect")
+        playSound(forResource: "resultBad")
     }
     
     func vibrateDevice() {
-        let generator = UIImpactFeedbackGenerator(style: .light)
+        let generator = UIImpactFeedbackGenerator(style: .medium)
+        generator.impactOccurred()
+    }
+    
+    // MARK: - Haptic Feedback
+    
+    func vibrateLight() {
+        let generator = UIImpactFeedbackGenerator(style: .medium)
         generator.impactOccurred()
     }
     

@@ -49,7 +49,7 @@ class TabBarController: UITabBarController {
         controller3.tabBarItem.title = "Leaderboard"
         let controller4 = UINavigationController(rootViewController: settingsController)
         controller4.tabBarItem.image = #imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate)
-        //controller4.tabBarItem.image = UIImage(systemName: "gearshape.fill")
+        //controller4.tabBarItem.image = UIImage(systemName: "gearshape")
         controller4.tabBarItem.title = "Settings"
     
         viewControllers = [controller1, controller2, controller3, controller4]

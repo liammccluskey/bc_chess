@@ -8,6 +8,7 @@
 
 import UIKit
 import CoreData
+import ChessKit
 
 class PuzzlesFromJson {
     
@@ -19,7 +20,7 @@ class PuzzlesFromJson {
     // MARK: - Init
     
     init() {
-        guard let path = Bundle.main.path(forResource: "GeneratedPuzzles-2", ofType: "json") else {return}
+        guard let path = Bundle.main.path(forResource: "GeneratedPuzzles-5", ofType: "json") else {return}
         do {
             let jsonData = try Data.init(contentsOf: URL(fileURLWithPath: path))
             let decoder = JSONDecoder()
@@ -80,8 +81,22 @@ class PuzzlesFromJson {
                     return pRefs.randomElementForToday() as? PuzzleReference
                 }
             }
-            
         } catch { print("Error: no puzzles in range \(lowerBound) - \(upperBound)")}
+        return nil
+    }
+    
+    func getPuzzleReferenceWithFilters(playerToMove: String, finalAnswerSAN: String) -> PuzzleReference? {
+        let request = PuzzleReference.fetchRequest() as NSFetchRequest<PuzzleReference>
+        do {
+            var pRefs = try context.fetch(request)
+            let filteredPRefs = pRefs.filter{
+                let puzzle = getPuzzle(fromPuzzleReference: $0)
+                return puzzle!.solution_moves.last!.answer_san == finalAnswerSAN
+                    && puzzle!.player_to_move == playerToMove
+            }
+            return filteredPRefs.randomElement()
+            
+        } catch { print("couldn't fetch prefs from core data")}
         return nil
     }
     
@@ -243,6 +258,22 @@ enum PieceName: String {
             return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "wk")!
         case .k: // 11
             return UIImage(named: PieceStyleTheme(rawValue: pieceStyle)!.fileExtension + "bk")!
+        }
+    }
+    var unicode: String {
+        switch self {
+        case .P: return "\u{2659}"
+        case .p: return "\u{265F}"
+        case .N: return "\u{2658}"
+        case .n: return "\u{265E}"
+        case .B: return "\u{2657}"
+        case .b: return "\u{265D}"
+        case .R: return "\u{2656}"
+        case .r: return "\u{265C}"
+        case .Q: return "\u{2655}"
+        case .q: return "\u{265B}"
+        case .K: return "\u{2654}"
+        case .k: return "\u{265A}"
         }
     }
 }

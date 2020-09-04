@@ -7,10 +7,15 @@
 //
 
 import UIKit
+import ChessKit
 
 protocol ChessBoardDelegate {
     func didMakeMove(moveUCI: String)
     func didFinishShowingSolution()
+}
+
+protocol BoardDelegate {
+    func didMakeMove(move: Move, animated: Bool)
 }
 
 protocol ThemeTableDelegate {

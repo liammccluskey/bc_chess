@@ -36,29 +36,11 @@ class PositionTableController: UITableViewController {
         tableView.layer.cornerRadius = 10
         tableView.clipsToBounds = true
         tableView.tableFooterView = UIView()
+        tableView.showsVerticalScrollIndicator = false
     }
     
     override func numberOfSections(in tableView: UITableView) -> Int {
         return 1
-    }
-
-    override func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
-        let view = UIView()
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = isWhite ? "White Position " : "Black Position"
-        label.textColor = .lightGray
-        label.font = UIFont(name: fontStringLight, size: 15)
-        label.backgroundColor = .clear
-        label.textAlignment = .center
-        view.backgroundColor = .clear
-        view.addSubview(label)
-        label.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        label.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        label.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        label.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        return view
-        //return nil
     }
     
     override func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {

@@ -46,47 +46,7 @@ class PublicDBMS {
         usersDocRef.updateData([fieldName: FieldValue.arrayRemove([thisUserOld.toDict()])])
         usersDocRef.updateData([fieldName: FieldValue.arrayUnion([thisUser.toDict()])])
     }
-    /*
-    func tryUpdateRankedUsers(withScore score: Int, rushMinutes: Int, isBlindfold: Bool, scoreOld: Int) {
-        let timeTag = String(rushMinutes)
-        let blindfoldTag = isBlindfold ? "B" : ""
-        let fieldName = "RUSH\(timeTag)\(blindfoldTag)"
-        let CC: String = Locale.current.regionCode ?? "US"
-        
-        guard let currentUser = Auth.auth().currentUser else {print("ERROR: no current user"); return}
-        let thisUser = RankedUser(UID: currentUser.uid, USERNAME: currentUser.displayName ?? "anonymous", SCORE: String(score), COUNTRY_CODE: CC)
-        let thisUserOld = RankedUser(UID: currentUser.uid, USERNAME: currentUser.displayName ?? "anonymous", SCORE: String(scoreOld), COUNTRY_CODE: CC)
-        
-        let minsDocRef = db.collection("rankedUsers").document("rankedMinimums")
-        let usersDocRef = db.collection("rankedUsers").document("usersData")
-        db.runTransaction({ (transaction, errorPointer) -> Any? in
-            let doc: DocumentSnapshot
-            do { try doc = transaction.getDocument(minsDocRef) }
-            catch let fetchError as NSError { errorPointer?.pointee = fetchError; return nil }
-
-            let rankMins: RankedMinimums?
-            var minUser: RankedUser
-            do { try rankMins = doc.data(as: RankedMinimums.self) ?? nil }
-            catch { print("ERROR: couldn't read rankedMinimums doc \(error)"); return nil }
-            guard let mins = rankMins else {print("ERROR: rankMins was nil"); return nil }
-            minUser = mins.getValue(forKey: fieldName)
-            print(minUser)
-            
-            if score > Int(minUser.SCORE)! {
-                transaction.updateData([fieldName: FieldValue.arrayUnion([thisUser.toDict()])], forDocument: usersDocRef)
-                transaction.updateData([fieldName: FieldValue.arrayRemove([thisUserOld.toDict()])], forDocument: usersDocRef)
-                transaction.updateData([
-                    fieldName: FieldValue.arrayRemove([minUser.toDict()])
-                ], forDocument: usersDocRef)
-            }
-            return nil
-        }) { (object, error) in
-            if let error = error {
-                print("PublicDBMS.tryUpdateRankedUsers() Error: Transaction failed with \(error)")
-            }
-        }
-    }
-    */
+   
     // MARK: - Daily Puzzles
     
     func fetchDailyPuzzlesInfo() {
@@ -94,6 +54,7 @@ class PublicDBMS {
         formatter.dateStyle = .short
         formatter.timeStyle = .none
         let docName = formatter.string(from: Date()).replacingOccurrences(of: "/", with: "_")
+        print("\n\n\n\n\n the daily puzzles doc is \(docName)")
         let docRef = db.collection("dailyPuzzles").document(docName)
         docRef.getDocument { (document, error) in
             guard let document = document else { print("ERROR reading DailyPuzzlesDocument: \(String(describing: error))"); return}
@@ -106,9 +67,8 @@ class PublicDBMS {
     
     func updateDailyPuzzlesInfo(puzzleNumber: Int, attemptWasCorrect: Bool) {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
-        let docName = formatter.string(from: Date()).replacingOccurrences(of: "/", with: "_")
+        formatter.dateFormat = "mm_dd_yyyy"
+        let docName = formatter.string(from: Date())
         let docRef = db.collection("dailyPuzzles").document(docName)
         
         let attemptsField = "P\(puzzleNumber)_ATTEMPTS"

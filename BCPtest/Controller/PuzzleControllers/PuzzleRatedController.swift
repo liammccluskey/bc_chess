@@ -1,18 +1,20 @@
 //
-//  PuzzleRatedController.swift
+//  PuzzleRatedController1.swift
 //  BCPtest
 //
-//  Created by Guest on 8/6/20.
+//  Created by Liam Mccluskey on 9/1/20.
 //  Copyright © 2020 Marty McCluskey. All rights reserved.
 //
 
-
 import UIKit
 import CoreData
+import ChessKit
+
 
 class PuzzleRatedController: UIViewController {
     
     // MARK: - Properties
+    private var workItems: [DispatchWorkItem] = []
     var limitReachedController: LimitReachedController!
     
     let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
@@ -21,20 +23,10 @@ class PuzzleRatedController: UIViewController {
     var pRef: PuzzleReference!
     var currentPuzzle: Puzzle!
     var onSolutionMoveIndex: Int = 0
-    var stateIsIncorrect = false
     
-    lazy var retryButton: ButtonWithImage = {
-        let button = ButtonWithImage(type: .system)
-        button.setTitle("TRY AGAIN", for: .normal)
-        button.titleLabel?.font = UIFont(name: fontString, size: 20)
-        button.backgroundColor = CommonUI().redIncorrect
-        button.setTitleColor(.white, for: .normal)
-        button.setImage(#imageLiteral(resourceName: "refresh").withRenderingMode(.alwaysOriginal), for: .normal)
-        button.addTarget(self, action: #selector(retryAction), for: .touchUpInside)
-        button.alpha = 0
-        button.translatesAutoresizingMaskIntoConstraints = false
-        return button
-    }()
+    var incorrectButton: UIButton! // action: retry puzzle, color red
+    var correctButton: UIButton! // action: next puzzle, color green
+    var postSolutionButton: UIButton! // action: retry puzzle, color green
     
     var playerToMoveLabel: UILabel!
     var ratingLabel: UILabel!
@@ -42,8 +34,7 @@ class PuzzleRatedController: UIViewController {
     var puzzleRatingLabel: UILabel!
     
     // stack 1
-    var stack1: UIStackView!
-    var chessBoardController: ChessBoardController!
+    var boardController: BoardController!
     var solutionLabel: UILabel!
     var header2Label: UILabel = CommonUI().configureHeaderLabel(title: "STARTING POSITION")
     var positionTableW: PositionTableController!
@@ -53,6 +44,7 @@ class PuzzleRatedController: UIViewController {
     var tabBarFiller: UIView!
     var exitButton: UIButton!
     var showSolutionButton: UIButton!
+    var tryAgainButton: UIButton!
     var nextButton: UIButton!
     var buttonStack: UIStackView!
     
@@ -63,8 +55,11 @@ class PuzzleRatedController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.piecesHidden = piecesHidden
         self.puzzledUser = UserDBMS().getPuzzledUser()
-        self.pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
+        self.pRef = PFJ.getPuzzleReferenceWithFilters(playerToMove: "black", finalAnswerSAN: "f6")
         self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
+        
+        //self.pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
+        //self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
     }
     
     required init?(coder: NSCoder) {
@@ -75,14 +70,18 @@ class PuzzleRatedController: UIViewController {
         super.viewDidLoad()
         
         configureUI()
-        setUpAutoLayout(isInitLoad: true)
+        setUpAutoLayout()
         
         if UserDataManager().hasReachedPuzzleLimit() {
             limitReachedController = LimitReachedController()
             limitReachedController.delegate = self
             view.addSubview(limitReachedController.view)
         }
-        
+    }
+    
+    override func viewDidLayoutSubviews() {
+        print("did layout subviews")
+        setFrames()
     }
     
     override func viewWillDisappear(_ animated: Bool) {
@@ -96,12 +95,18 @@ class PuzzleRatedController: UIViewController {
     // MARK: - Config
     
     func configureUI() {
-        solutionLabel = PuzzleUI().configSolutionLabel()
-        configurePageData(isReload: false)
+        correctButton = PuzzleUI().configBannerButton(title: "  Correct", imageName: "checkmark", bgColor: CommonUI().greenCorrect)
+        correctButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+        incorrectButton = PuzzleUI().configBannerButton(title: "  Incorrect", imageName: "xmark", bgColor: CommonUI().redIncorrect)
+        incorrectButton.addTarget(self, action: #selector(retryAction), for: .touchUpInside)
+        postSolutionButton = PuzzleUI().configBannerButton(title: "  Try Again", imageName: "arrow.counterclockwise", bgColor: CommonUI().greenCorrect)
+        postSolutionButton.addTarget(self, action: #selector(retryAction), for: .touchUpInside)
+        view.addSubview(correctButton)
+        view.addSubview(incorrectButton)
+        view.addSubview(postSolutionButton)
         
-        // stack
         playerToMoveLabel = PuzzleUI().configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
-        view.insertSubview(playerToMoveLabel, at: 0)
+        view.addSubview(playerToMoveLabel)
         
         ratingLabel = PuzzleUI().configRatingLabel()
         ratingLabel.setRating(forPuzzledUser: puzzledUser, isBlindfold: piecesHidden)
@@ -111,9 +116,21 @@ class PuzzleRatedController: UIViewController {
         view.addSubview(ratingLabel)
         view.addSubview(deltaLabel)
         view.addSubview(puzzleRatingLabel)
-        stack1 = CommonUI().configureStackView(arrangedSubViews: [ chessBoardController.view, solutionLabel ])
-        stack1.setCustomSpacing(10, after: chessBoardController.view)
-        view.addSubview(stack1)
+        ratingLabel.isHidden = true
+        puzzleRatingLabel.isHidden = true
+        deltaLabel.isHidden = true
+        
+        let screenW = view.bounds.width
+        let sideLength = UIDevice.current.userInterfaceIdiom == .pad && piecesHidden ? screenW - 175 : screenW
+        boardController = BoardController(sideLength: sideLength, fen: currentPuzzle.fen, showPiecesInitially: !piecesHidden)
+        boardController.delegate = self
+        view.addSubview(boardController.view)
+        
+        
+        solutionLabel = PuzzleUI().configSolutionLabel()
+        solutionLabel.translatesAutoresizingMaskIntoConstraints = false
+        solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: 0)
+        view.addSubview(solutionLabel)
         
         positionTableW = PositionTableController(puzzle: currentPuzzle, isWhite: true)
         positionTableB = PositionTableController(puzzle: currentPuzzle, isWhite: false)
@@ -121,18 +138,22 @@ class PuzzleRatedController: UIViewController {
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "  Exit  ", imageName: "arrow.left.square")
+        exitButton = PuzzleUI().configureButton(title: "  Exit", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
-        showSolutionButton = PuzzleUI().configureButton(title: "  Solution  ", imageName: "questionmark.square")
+        showSolutionButton = PuzzleUI().configureButton(title: "  Solution", imageName: "lightbulb")
         showSolutionButton.addTarget(self, action: #selector(showSolutionAction), for: .touchUpInside)
-        nextButton = PuzzleUI().configureButton(title: "  Next  ", imageName: "chevron.right.square")
-        nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
         
-        buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,showSolutionButton,nextButton])
+        tryAgainButton = PuzzleUI().configureButton(title: "  Retry", imageName: "arrow.counterclockwise", weight: .bold)
+        tryAgainButton.addTarget(self, action: #selector(retryAction), for: .touchUpInside)
+        nextButton = PuzzleUI().configureButton(title: "  Next", imageName: "arrow.right", weight: .bold)
+        nextButton.addTarget(self, action: #selector(nextAction), for: .touchUpInside)
+        tryAgainButton.isHidden = true
+        nextButton.isHidden = true
+        
+        buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton,showSolutionButton,tryAgainButton,nextButton])
         tabBarFiller = CommonUI().configTabBarFiller()
         view.addSubview(tabBarFiller)
         view.addSubview(buttonStack)
-        view.addSubview(retryButton)
         
         if piecesHidden == false {
             positionTableB.tableView.isHidden = true
@@ -142,116 +163,122 @@ class PuzzleRatedController: UIViewController {
         view.backgroundColor = CommonUI().blackColorLight
     }
     
-    func setUpAutoLayout(isInitLoad: Bool) {
-        let upperPadding: CGFloat = piecesHidden ? 10 : 50
-        if isInitLoad {
-            // global anchors
-            tabBarFiller.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
-            tabBarFiller.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-            tabBarFiller.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-            tabBarFiller.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
-            
-            buttonStack.bottomAnchor.constraint(equalTo: tabBarFiller.topAnchor, constant: 0).isActive = true
-            buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
-            buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
-            buttonStack.heightAnchor.constraint(equalToConstant: tabBarHeight).isActive = true
-            
-            retryButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-            retryButton.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-            retryButton.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-            retryButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
-            playerToMoveLabel.topAnchor.constraint(equalTo: retryButton.topAnchor).isActive = true
-            playerToMoveLabel.leftAnchor.constraint(equalTo: retryButton.leftAnchor).isActive = true
-            playerToMoveLabel.rightAnchor.constraint(equalTo: retryButton.rightAnchor).isActive = true
-            playerToMoveLabel.bottomAnchor.constraint(equalTo: retryButton.bottomAnchor).isActive = true
-            ratingLabel.topAnchor.constraint(equalTo: retryButton.bottomAnchor, constant: upperPadding).isActive = true
-            ratingLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-            deltaLabel.leftAnchor.constraint(equalTo: ratingLabel.rightAnchor, constant: 10).isActive = true
-            deltaLabel.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor).isActive = true
-            puzzleRatingLabel.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor).isActive = true
-            puzzleRatingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-        }
+    func setUpAutoLayout() {
+        tabBarFiller.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
+        tabBarFiller.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        tabBarFiller.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        tabBarFiller.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor).isActive = true
         
-        let sidePadding: CGFloat = piecesHidden ? 20 : 0
-        stack1.topAnchor.constraint(equalTo: ratingLabel.bottomAnchor, constant: upperPadding).isActive = true
-        stack1.leftAnchor.constraint(equalTo: view.leftAnchor, constant: sidePadding).isActive = true
-        stack1.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -sidePadding).isActive = true
+        buttonStack.bottomAnchor.constraint(equalTo: tabBarFiller.topAnchor, constant: 0).isActive = true
+        buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
+        buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: tabBarHeight).isActive = true
         
-        positionTableW.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
-        positionTableW.tableView.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        positionTableW.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 0).isActive = true
-        positionTableW.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
+        let bannerH:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 60 : 40
+        playerToMoveLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
+        playerToMoveLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        playerToMoveLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
+        playerToMoveLabel.heightAnchor.constraint(equalToConstant: bannerH).isActive = true
         
-        positionTableB.tableView.leftAnchor.constraint(equalTo:  view.centerXAnchor, constant: 0).isActive = true
-        positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-        positionTableB.tableView.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 0).isActive = true
-        positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
+        ratingLabel.topAnchor.constraint(equalTo: playerToMoveLabel.bottomAnchor, constant: 10).isActive = true
+        ratingLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+        deltaLabel.leftAnchor.constraint(equalTo: ratingLabel.rightAnchor, constant: 10).isActive = true
+        deltaLabel.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor).isActive = true
+        puzzleRatingLabel.centerYAnchor.constraint(equalTo: ratingLabel.centerYAnchor).isActive = true
+        puzzleRatingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+    
+        solutionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        solutionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
     }
     
-    func configurePageData(isReload: Bool) {
-        if isReload {
-            playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
-            playerToMoveLabel.backgroundColor = currentPuzzle.player_to_move == "white" ? .lightGray : .black //CommonUI().blackColorLight
-            playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .black : .lightGray
-            positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
-            positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
-            positionTableW.tableView.reloadData()
-            positionTableB.tableView.reloadData()
-            ratingLabel.setRating(forPuzzledUser: puzzledUser, isBlindfold: piecesHidden)
-            puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef, isBlindfold: piecesHidden)
-        }
-        // Done for reloads and initial loads
-        chessBoardController = ChessBoardController(
-            position: currentPuzzle.position,
-            showPiecesInitially: !piecesHidden,
-            boardTheme: PuzzleUI().boardTheme
-        )
-        chessBoardController.delegate = self
-        
-        // move this
-        if isReload {
-            stack1.removeFromSuperview()
-            stack1 = CommonUI().configureStackView(arrangedSubViews: [chessBoardController.view, solutionLabel])
-            stack1.setCustomSpacing(15, after: chessBoardController.view)
-            view.addSubview(stack1)
-            setUpAutoLayout(isInitLoad: false)
+    func setFrames() {
+        correctButton.frame = playerToMoveLabel.frame
+        incorrectButton.frame = playerToMoveLabel.frame
+        postSolutionButton.frame = playerToMoveLabel.frame
+
+        if UIDevice.current.userInterfaceIdiom == .pad && piecesHidden {
+            let tableW: CGFloat = 175
+            let boardW = view.bounds.width - tableW
+            let boardY = view.bounds.midY - boardW/2
+            boardController.view.frame.origin.y = boardY
+            solutionLabel.frame.origin.y = boardY + boardW + 10
+            positionTableW.tableView.frame = CGRect(x: boardW, y: boardY, width: tableW, height: boardW/2)
+            positionTableB.tableView.frame = CGRect(x: boardW, y: boardY + boardW/2, width: tableW, height: boardW/2)
+            solutionLabel.frame.origin.y = boardY + boardW + 0
+        } else {
+            correctButton.frame = playerToMoveLabel.frame
+            incorrectButton.frame = playerToMoveLabel.frame
+            postSolutionButton.frame = playerToMoveLabel.frame
+            if piecesHidden {
+                boardController.view.frame.origin.y = ratingLabel.isHidden ?
+                    ratingLabel.frame.origin.y : ratingLabel.frame.origin.y + 3 + ratingLabel.frame.height
+                print("Rating label is hidden: \(ratingLabel.isHidden)")
+                print("rating label y origin is: \(ratingLabel.frame.origin.y)")
+                print("rating label height is: \(ratingLabel.frame.height)")
+            } else {
+                let atMid = view.frame.midY - boardController.view.frame.height/2
+                let withPadding = ratingLabel.frame.origin.y + 3 + ratingLabel.frame.height
+                boardController.view.frame.origin.y = max(atMid, withPadding)
+            }
+            solutionLabel.frame.origin.y = boardController.view.frame.origin.y + boardController.view.frame.height + 0
+            let tvY = solutionLabel.frame.origin.y + solutionLabel.frame.height + 0
+            let tvX = view.frame.width/2
+            let tvHeight = buttonStack.frame.origin.y - tvY
+            positionTableB.tableView.frame = CGRect(x: 0, y: tvY, width: tvX, height: tvHeight)
+            positionTableW.tableView.frame = CGRect(x: tvX, y: tvY, width: tvX, height: tvHeight)
         }
     }
     
-    func restartPuzzle(isNewPuzzle: Bool) {
+    func updatePageData(isNewPuzzle: Bool) {
+        puzzledUser = UserDBMS().getPuzzledUser()
+        ratingLabel.setRating(forPuzzledUser: puzzledUser, isBlindfold: piecesHidden)
+        if isNewPuzzle == false {return}
+        playerToMoveLabel.text = "\(currentPuzzle.player_to_move.capitalized) to Move"
+        playerToMoveLabel.backgroundColor = currentPuzzle.player_to_move == "white" ? CommonUI().softWhite : .black //CommonUI().blackColorLight
+        playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? CommonUI().blackColorLight : CommonUI().softWhite
+        positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
+        positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
+        positionTableW.tableView.reloadData()
+        positionTableB.tableView.reloadData()
+        puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef, isBlindfold: piecesHidden)
+    }
+    
+    func restartPuzzle(withFEN fen: String, isNewPuzzle: Bool=false) {
         solutionLabel.text = ""
+        deltaLabel.text = ""
         onSolutionMoveIndex = 0
-        stateIsIncorrect = false
-        if piecesHidden {chessBoardController.hidePieces()}
-        chessBoardController.clearSelections()
-        chessBoardController.setButtonInteraction(isEnabled: true)
-        showSolutionButton.isEnabled = true
-        DispatchQueue.main.async {
-            if isNewPuzzle {
-                self.retryButton.alpha = 0
-                self.deltaLabel.text = ""
-            }
-            else {
-                self.chessBoardController.configureStartingPosition()
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.retryButton.alpha = 0
-                    self.view.layoutIfNeeded()
-                })
-            }
-        }
+        boardController.setNewPosition(fen: fen)
+        boardController.configStartPosition(piecesHidden: piecesHidden)
+        setRatingLabelVisiblity(isHidden: true, animated: !isNewPuzzle)
+        boardController.view.isUserInteractionEnabled = true
     }
     
     // MARK: - Selectors
     
     @objc func exitAction() {
         navigationController?.popViewController(animated: true)
+        cancelWorkItems()
     }
     
     @objc func showSolutionAction() {
-        configPageForSolutionState(
-            isShowingSolution: true,
-            stateIsIncorrect: stateIsIncorrect,
-            stateIsPartialCorrect: true)
+        cancelWorkItems()
+        boardController.view.isUserInteractionEnabled = false
+        updateSolutionLabel(showFullSolution: true)
+        boardController.setNewPosition(fen: currentPuzzle.fen)
+        boardController.configStartPosition(piecesHidden: false)
+        var delay = 0.25
+        currentPuzzle.solution_moves.forEach({
+            [$0.answer_uci, $0.response_uci].forEach { (moveDescription) in
+                if moveDescription == "complete" { return }
+                let workItem = DispatchWorkItem {
+                    self.boardController.pushMove(move: Move(string: moveDescription), animated: true)
+                }
+                workItems.append(workItem)
+                DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: workItem)
+                delay += 0.8
+            }
+        })
+        showPostPuzzleButtons(didCompletePuzzle: false)
     }
     
     @objc func nextAction() {
@@ -261,98 +288,139 @@ class PuzzleRatedController: UIViewController {
             view.addSubview(limitReachedController.view)
             return
         }
-        restartPuzzle(isNewPuzzle: true)
         pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
         currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
-        configurePageData(isReload: true)
+        restartPuzzle(withFEN: currentPuzzle.fen, isNewPuzzle: true)
+        updatePageData(isNewPuzzle: true)
+        cancelWorkItems()
+        
+        showPrePuzzleButtons()
     }
 
     
     @objc func retryAction() {
-        restartPuzzle(isNewPuzzle: false)
-        configPageForSolutionState(isShowingSolution: false)
+        cancelWorkItems()
+        restartPuzzle(withFEN: currentPuzzle.fen)
+        updatePageData(isNewPuzzle: false)
+        
+        showPrePuzzleButtons()
     }
     
-    // MARK: - Selector Helper
+    // MARK: - IDK
     
-    func configPageForSolutionState(isShowingSolution:Bool,stateIsIncorrect:Bool=false,stateIsPartialCorrect:Bool=false) {
-        chessBoardController.setButtonInteraction(isEnabled: !isShowingSolution)
-        showSolutionButton.isEnabled = !isShowingSolution
+    func setRatingLabelVisiblity(isHidden: Bool, animated: Bool=true) {
+        let duration = animated ? 0.5 : 0
+        let delay = animated ? 0.5 : 0.0
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay, execute: {
+            print("did cahnge rating visiblity isHidden to \(isHidden)")
+            UIView.animate(withDuration: duration) {
+                self.ratingLabel.isHidden = isHidden
+                self.puzzleRatingLabel.isHidden = isHidden
+                self.deltaLabel.isHidden = isHidden
+                self.setFrames()
+            }
+        })
+    }
+    
+    func showPostPuzzleButtons(didCompletePuzzle: Bool, wasCorrect: Bool=true) {
+        let workItem = DispatchWorkItem {
+            UIView.animate(withDuration: 0.2) {
+                self.tryAgainButton.isHidden = false
+                self.nextButton.isHidden = false
+                if didCompletePuzzle && wasCorrect {
+                    self.nextButton.setImage(self.nextButton.imageView?.image?.withTintColor(CommonUI().greenCorrect), for: .normal)
+                    self.view.bringSubviewToFront(self.correctButton)
+                    self.view.bringSubviewToFront(self.boardController.view)
+                } else if didCompletePuzzle && !wasCorrect {
+                    self.tryAgainButton.setImage(self.tryAgainButton.imageView?.image?.withTintColor(CommonUI().redIncorrect), for: .normal)
+                    self.view.bringSubviewToFront(self.incorrectButton)
+                    self.view.bringSubviewToFront(self.boardController.view)
+                } else {
+                    self.tryAgainButton.setImage(self.tryAgainButton.imageView?.image?.withTintColor(CommonUI().greenCorrect), for: .normal)
+                    self.view.bringSubviewToFront(self.postSolutionButton)
+                    self.view.bringSubviewToFront(self.boardController.view)
+                }
+                self.view.layoutIfNeeded()
+            }
+        }
+        workItems.append(workItem)
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: workItem)
+    }
+    
+    func showPrePuzzleButtons() {
         DispatchQueue.main.async {
-            if isShowingSolution {
-                self.retryButton.backgroundColor = CommonUI().greenCorrect
-                UIView.animate(withDuration: 0.2, animations: {
-                    self.solutionLabel.text =
-                        PuzzleUI().configSolutionText(solutionMoves: self.currentPuzzle.solution_moves, onIndex: self.currentPuzzle.solution_moves.count)
-                    self.retryButton.alpha = 1
-                    self.view.layoutIfNeeded()
-                })
-            }
-            if stateIsIncorrect {self.chessBoardController.configureStartingPosition()}
-            if stateIsIncorrect || stateIsPartialCorrect {
-                self.retryButton.isEnabled = false
-                self.chessBoardController.showPieces()
-            }
+            self.view.bringSubviewToFront(self.playerToMoveLabel)
+            self.view.bringSubviewToFront(self.boardController.view)
+            self.tryAgainButton.isHidden = true
+            self.tryAgainButton.setImage(self.tryAgainButton.imageView?.image?.withTintColor(CommonUI().lightGray), for: .normal)
+            self.nextButton.isHidden = true
+            self.nextButton.setImage(self.nextButton.imageView?.image?.withTintColor(CommonUI().lightGray), for: .normal)
+            self.view.layoutIfNeeded()
         }
-        if isShowingSolution && stateIsIncorrect {
-            chessBoardController.displaySolutionMoves(
+    }
+    
+    func updateSolutionLabel(showFullSolution: Bool = false) {
+        if showFullSolution {
+            solutionLabel.attributedText = PuzzleUI().configSolutionText(
                 solutionMoves: currentPuzzle.solution_moves,
-                playerToMove: currentPuzzle.player_to_move)
-        } else if isShowingSolution && stateIsPartialCorrect {
-            let movesRemaining = currentPuzzle.solution_moves.count - onSolutionMoveIndex
-            let movesToPush = Array(currentPuzzle.solution_moves.suffix(movesRemaining))
-            chessBoardController.displaySolutionMoves(
-                solutionMoves: movesToPush,
-                playerToMove: currentPuzzle.player_to_move)
+                onIndex: currentPuzzle.solution_moves.count,
+                firstMovingPlayer: currentPuzzle.player_to_move)
+            return
         }
+        if onSolutionMoveIndex > currentPuzzle.solution_moves.count { return }
+        solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
+    }
+    
+    func didCompletePuzzle(wasCorrect: Bool) {
+        boardController.view.isUserInteractionEnabled = false
+        if wasCorrect && piecesHidden { boardController.showPieces() }
+        let ratingDelta = savePuzzleAttempt(wasCorrect: wasCorrect)
+        deltaLabel.setDelta(delta: ratingDelta)
+        showPostPuzzleButtons(didCompletePuzzle: true, wasCorrect: wasCorrect)
+        setRatingLabelVisiblity(isHidden: false)
+    }
+    
+    func cancelWorkItems() {
+        workItems.forEach({$0.cancel()})
     }
 }
 
-extension PuzzleRatedController: ChessBoardDelegate {
-    func didFinishShowingSolution() {
-        retryButton.isEnabled = true
-        print("did enable button")
-    }
-    
-    func didMakeMove(moveUCI: String) {
-        let solutionUCI = currentPuzzle.solution_moves[onSolutionMoveIndex].answer_uci
-        if solutionUCI.contains(moveUCI) {
-            let solutionMove: WBMove = currentPuzzle.solution_moves[onSolutionMoveIndex]
-            chessBoardController.pushMove(wbMove: solutionMove, firstMovingPlayer: currentPuzzle.player_to_move)
-            onSolutionMoveIndex = onSolutionMoveIndex + 1
-            if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
-                //SoundEffectPlayer().correct()
-                configPageForSolutionState(isShowingSolution: true, stateIsPartialCorrect: false)
-                let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: true)
-                deltaLabel.setDelta(delta: ratingDelta)
-                savePuzzleAttempt(wasCorrect: true, ratingDelta: ratingDelta, pRef: pRef)
-                print("solved puzzle and saved solution")
-                return
-            }
-            solutionLabel.text = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
-            
+extension PuzzleRatedController: BoardDelegate {
+    func didMakeMove(move: Move, animated: Bool) {
+        self.boardController.view.isUserInteractionEnabled = false
+        let workItem = DispatchWorkItem {
+            self.boardController.pushMove(move: move, animated: animated)
+        }
+        workItems.append(workItem)
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: workItem)
+        let solutionMoves = currentPuzzle.solution_moves[onSolutionMoveIndex]
+        let answerMove = Move(string: solutionMoves.answer_uci)
+        
+        if move.description != answerMove.description {
+            didCompletePuzzle(wasCorrect: false)
+            return
+        }
+        onSolutionMoveIndex += 1
+        updateSolutionLabel()
+        if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
+            didCompletePuzzle(wasCorrect: true)
         } else {
-            let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false
-            chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
-            //SoundEffectPlayer().incorrect()
-            chessBoardController.setButtonInteraction(isEnabled: false)
-            stateIsIncorrect = true
-            let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: false)
-            deltaLabel.setDelta(delta: ratingDelta)
-            savePuzzleAttempt(wasCorrect: false, ratingDelta: ratingDelta, pRef: pRef)
-            DispatchQueue.main.async {
-                self.retryButton.backgroundColor = CommonUI().redIncorrect
-                UIView.animate(withDuration: 0.3, animations: {
-                    self.retryButton.alpha = 1
-                    self.view.layoutIfNeeded()
-                })
+            let responseMove = Move(string: solutionMoves.response_uci)
+            self.boardController.view.isUserInteractionEnabled = false
+            let workItem = DispatchWorkItem {
+                self.boardController.pushMove(move: responseMove, animated: true) {
+                    self.boardController.view.isUserInteractionEnabled = true
+                }
             }
+            workItems.append(workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: workItem)
         }
     }
 }
 
 extension PuzzleRatedController {
-    func savePuzzleAttempt(wasCorrect: Bool, ratingDelta: Int32, pRef: PuzzleReference) {
+    func savePuzzleAttempt(wasCorrect: Bool) -> Int32{
+        let ratingDelta = updateUserRating(forPuzzleReference: pRef, wasCorrect: wasCorrect)
         puzzledUser = UserDBMS().getPuzzledUser()
         let newRating = piecesHidden ? puzzledUser.puzzleB_Elo : puzzledUser.puzzle_Elo
         let puzzleAttempt = PuzzleAttempt(context: context)
@@ -366,6 +434,7 @@ extension PuzzleRatedController {
         puzzledUser.addToPuzzleAttempts(puzzleAttempt)
         do { try context.save() }
         catch { print("error saving puzzle attempt") }
+        return ratingDelta
     }
     
     func updateUserRating(forPuzzleReference pRef: PuzzleReference, wasCorrect: Bool) -> Int32 {
@@ -386,6 +455,4 @@ extension PuzzleRatedController: LimitReachedDelegate {
         navigationController?.popToRootViewController(animated: true)
     }
 }
-
-
 

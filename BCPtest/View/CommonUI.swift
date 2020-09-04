@@ -8,6 +8,7 @@
 
 import UIKit
 
+public let fontStringBold = "Avenir-Heavy"
 public let fontString = "Avenir-Medium"
 public let fontStringLight = "Avenir-Book"
 
@@ -17,9 +18,7 @@ class CommonUI {
     let csBlueOpaque = UIColor(red: 20/255, green: 92/255, blue: 158/255, alpha: 0.25)
     let csButton = UIColor().fromRGB("45, 216, 129")
     
-    //let csRed = UIColor(red: 197/255, green: 51/255, blue: 51/255, alpha: 1)
     let csRed = UIColor.white
-    //let csGreen = UIColor(red: 13/255, green: 137/255, blue: 78/255, alpha: 1) // good green colr
     let csGreen = UIColor(red: 0/255, green: 200/255, blue: 5/255, alpha: 1)
 
     let purpleColor = UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
@@ -30,12 +29,11 @@ class CommonUI {
     let lightGray = UIColor(red: 134/255, green: 136/255, blue: 138/255, alpha: 1)
     let tanColorLight = UIColor(red: 226/255, green: 210/255, blue: 178/255, alpha: 1)
     let tanColorDark = UIColor(red: 180/255, green: 132/255, blue: 100/255, alpha: 1)
-    let redIncorrect = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
-    let greenCorrect = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
-    //let redColor = UIColor(red: 255/255, green: 80/255, blue: 0/255, alpha: 1)
+    //let redIncorrect = UIColor(red: 167/255, green: 11/255, blue: 11/255, alpha: 1)
+    let redIncorrect = UIColor().fromRGB("208,52,48")
+    //let greenCorrect = UIColor(red: 3/255, green: 127/255, blue: 68/255, alpha: 1)
+    let greenCorrect = UIColor().fromRGB("133,169,75")
     let redColor = UIColor().fromRGB("255, 58, 61")
-    //let greenColor = UIColor(red: 0/255, green: 200/255, blue: 5/255, alpha: 1)
-    //let greenColor = UIColor().fromRGB("30,215,96")
     let greenColor = UIColor().fromRGB("45, 216, 129")
     
     
@@ -43,8 +41,6 @@ class CommonUI {
     let silverColor = UIColor(red: 180/255, green: 180/255, blue: 180/255, alpha: 1)
     let bronzeColor = UIColor(red: 173/255, green: 138/255, blue: 86/255, alpha: 1)
     
-    //let blackColorLight = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1)
-    //let blackColor = UIColor().fromRGB("10,10,15")
     let blackColor = UIColor().fromRGB("18,18,18")
     let blackColorLight = UIColor().fromRGB("28,28,31")
     
@@ -148,17 +144,18 @@ class CommonUI {
 // testing this below
 
 enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
+    case darkWood
+    case lightBlue
+    case walnut
     case tan
-    case darkBlue
+    case newspaper
     case gray
     case green
+    case darkBlue
     case purple
-    case lightBlue
-    
-    case darkWood
-    case walnut
-    case newspaper
     case lightPurple
+    case cement
+    case rustPaper
     var darkSquareColor: UIColor {
         switch self {
         case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
@@ -171,6 +168,8 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .walnut: return .clear
         case .newspaper: return .clear
         case .lightPurple: return .clear
+        case .cement: return UIColor().fromRGB("0,0,0", alpha: 0.7)
+        case .rustPaper: return UIColor().fromRGB("0,0,0", alpha: 0.5)
         }
     }
     var lightSquareColor: UIColor {
@@ -185,6 +184,8 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
             case .walnut: return .clear
             case .newspaper: return .clear
             case .lightPurple: return .clear
+            case .cement: return UIColor().fromRGB("0,0,0", alpha: 0.4)
+            case .rustPaper: return .clear
         }
     }
     var description: String {
@@ -199,6 +200,8 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .walnut: return "Walnut"
         case .newspaper: return "Newspaper"
         case .lightPurple: return "Light Purple"
+        case .cement: return "Cement"
+        case .rustPaper: return "Rust Paper"
         }
     }
     var image: UIImage {
@@ -213,6 +216,8 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .walnut: return UIImage(named: "walnut")!
         case .newspaper: return UIImage(named: "newspaper")!
         case .lightPurple: return UIImage(named: "light_purple")!
+        case .cement: return UIImage(named: "cement")!
+        case .rustPaper: return UIImage(named: "rust_paper")!
         }
     }
 }
@@ -226,6 +231,8 @@ enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
     case newspaper
     case fancy
     case minimal
+    case threeD
+    case realThreeD
     var fileExtension: String {
         switch self {
         case .lichess: return "lichess_"
@@ -234,6 +241,8 @@ enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
         case .newspaper: return "newspaper_"
         case .fancy: return "fancy_"
         case .minimal: return "minimal_"
+        case .threeD: return "3d_"
+        case .realThreeD: return "lichess_3d_"
         }
     }
     var description: String {
@@ -244,16 +253,8 @@ enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
         case .newspaper: return "Newspaper"
         case .fancy: return "Fancy"
         case .minimal: return "Minimal"
-        }
-    }
-    var imageSet: UIImage {
-        switch self {
-        case .lichess: return UIImage(named: "lichess_set") ?? UIImage()
-        case .classic: return UIImage(named: "simple_set") ?? UIImage()
-        case .modern: return UIImage()
-        case .fancy: return UIImage(named: "fancy_set") ?? UIImage()
-        case .minimal: return UIImage(named: "minimal_set") ?? UIImage()
-        case .newspaper: return UIImage()
+        case .threeD: return "3D"
+        case .realThreeD: return "Real 3D"
         }
     }
 }

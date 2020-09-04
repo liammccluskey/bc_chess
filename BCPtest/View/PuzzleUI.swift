@@ -28,8 +28,10 @@ class PuzzleUI {
     
     func configRatingLabel() -> UILabel {
         let l = UILabel()
+        l.numberOfLines = 0
         l.backgroundColor = .clear
         l.textColor = .white
+        l.textAlignment = .center
         l.font = UIFont(name: fontString, size: 19)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -47,70 +49,75 @@ class PuzzleUI {
     func configSolutionLabel() -> UILabel {
         let label = UILabel()
         label.backgroundColor = .clear
-        label.textColor = .white
-        label.font = UIFont(name: fontStringLight, size: 17)
+        label.textColor = .lightGray
+        //label.font = UIFont(name: fontString, size: 25)
         label.numberOfLines = 0
         return label
     }
     
-    func configSolutionText(solutionMoves: [WBMove], onIndex: Int) -> String {
-        var solutionText = ""
+    func configSolutionText(solutionMoves: [WBMove], onIndex: Int, firstMovingPlayer: String="white") -> NSAttributedString {
+        let numAttr = [NSAttributedString.Key.font:UIFont(name: fontString, size: 19), NSAttributedString.Key.foregroundColor : UIColor.darkGray]
+        let unicodeAttr = [NSAttributedString.Key.font : UIFont.boldSystemFont(ofSize: 30), NSAttributedString.Key.foregroundColor : UIColor.lightGray]
+        let txtAttr = [NSAttributedString.Key.font:UIFont(name: fontString, size: 19) , NSAttributedString.Key.foregroundColor : UIColor.lightGray]
+        let highlightAttr = [NSAttributedString.Key.underlineColor: UIColor.lightGray]
+        let attrSolution = NSMutableAttributedString(string: "")
+        let buff1 = NSAttributedString(string: " ")
+        let buff2 = NSAttributedString(string: "  ")
+        
         for i in 0..<onIndex {
             let move = solutionMoves[i]
-            let response = move.response_san == "complete" ? "Complete" : move.response_san
-            let readableMove = "    \(i + 1).  \(move.answer_san)  \(response)"
-            solutionText = solutionText + readableMove
-            if i%2 != 0 { solutionText = solutionText + "\n"}
+            var answerP = String(move.answer_san.first!)
+            answerP = firstMovingPlayer == "black" ? answerP.capitalized : answerP.lowercased()
+            var responseP = String(move.response_san.first!)
+            responseP = firstMovingPlayer == "black" ? responseP.lowercased() : responseP.uppercased()
+            
+            attrSolution.append(NSAttributedString(string: "\(i + 1).", attributes: numAttr))
+            attrSolution.append(buff1)
+            let attrMove = NSMutableAttributedString(string: "")
+            [[move.answer_san, move.answer_uci, answerP],[move.response_san, move.response_uci, responseP]].forEach({
+                if $0[0] == "complete" {
+                    attrMove.append(NSAttributedString(string: "\u{2713}", attributes: unicodeAttr))
+                } else if $0[0][0,1] == $0[1][0,1] { // piece is pawn
+                    attrMove.append(NSAttributedString(string: $0[0], attributes: txtAttr))
+                } else if let pieceName = PieceName(rawValue: $0[2]) {
+                    attrMove.append(NSAttributedString(string: pieceName.unicode, attributes: unicodeAttr))
+                    attrMove.append(NSAttributedString(string: String($0[0].dropFirst()), attributes: txtAttr))
+                } else {
+                    attrMove.append(NSAttributedString(string:$0[0], attributes: txtAttr))
+                }
+                attrMove.append(buff2)
+            })
+            attrSolution.append(attrMove)
+            attrSolution.append(buff1)
         }
-        return solutionText
-    }
-    
-    func configureAnswerView(move: WBMove, matePly: Int) -> UIView {
-        let answer = UILabel()
-        answer.translatesAutoresizingMaskIntoConstraints = false
-        answer.backgroundColor = .clear
-        answer.textColor = .white
-        answer.font = UIFont(name: fontStringLight, size: 20)
-        answer.layer.cornerRadius = 5
-        answer.layer.borderColor = UIColor.clear.cgColor
-        answer.layer.borderWidth = 3
-        answer.clipsToBounds = true
-        let response = move.response_san == "complete" ? "Checkmate" : move.response_san
-        let spaceString = String(repeating: " ", count: 14 - move.answer_san.count)
-        let readableMove = "    #\(matePly):    \(move.answer_san)" + spaceString + response
-        answer.text = readableMove
         
-        let correct = UIImageView()
-        correct.translatesAutoresizingMaskIntoConstraints = false
-        correct.contentMode = .scaleAspectFit
-        correct.image = #imageLiteral(resourceName: "check").withRenderingMode(.alwaysOriginal)
-        
-        let container = UIView()
-        container.addSubview(answer)
-        container.addSubview(correct)
-        container.heightAnchor.constraint(equalTo: correct.heightAnchor).isActive = true
-        correct.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
-        correct.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -10).isActive = true
-        answer.heightAnchor.constraint(equalTo: correct.heightAnchor).isActive = true
-        answer.centerYAnchor.constraint(equalTo: container.centerYAnchor).isActive = true
-        answer.leftAnchor.constraint(equalTo: container.leftAnchor, constant: 10).isActive = true
-        answer.rightAnchor.constraint(equalTo: container.rightAnchor, constant: -55).isActive = true
-        
-        return container
+        return attrSolution
     }
     
     // MARK: - Buttons
     
-    func configureButton(title: String, imageName: String) -> UIButton {
+    func configBannerButton(title: String, imageName: String, bgColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
-        button.setImage(UIImage(systemName: imageName)?.withRenderingMode(.alwaysOriginal).withTintColor(.lightGray), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name: fontStringLight, size: 16)
-        button.backgroundColor = CommonUI().tabBarColor
-        button.layer.borderWidth = 1
-        button.layer.borderColor = CommonUI().tabBarColor.cgColor
+        button.titleLabel?.font = UIFont(name: fontStringBold, size: 18)
+        button.backgroundColor = bgColor
         button.setTitleColor(.white, for: .normal)
+        let config = UIImage.SymbolConfiguration(pointSize: 20, weight: .bold, scale: .medium)
+        button.setImage(UIImage(systemName: imageName, withConfiguration: config)?
+            .withRenderingMode(.alwaysOriginal)
+            .withTintColor(.white), for: .normal)
+        return button
+    }
+    
+    func configureButton(title: String, imageName: String, weight: UIImage.SymbolWeight = .regular) -> UIButton {
+        let button = UIButton(type: .system)
+        let config = UIImage.SymbolConfiguration(pointSize: 28, weight: weight, scale: .medium)
+        button.setImage(UIImage(systemName: imageName, withConfiguration: config)?
+            .withRenderingMode(.alwaysOriginal)
+            .withTintColor(CommonUI().lightGray)
+            , for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.backgroundColor = CommonUI().tabBarColor
         return button
     }
     
@@ -119,7 +126,7 @@ class PuzzleUI {
          Creates horizontal stack view for bottom button bar
          */
         let stackView = UIStackView(arrangedSubviews: arrangedSubViews)
-        stackView.distribution = .fillProportionally
+        stackView.distribution = .fillEqually
         stackView.axis = .horizontal
         stackView.spacing = 0
         stackView.translatesAutoresizingMaskIntoConstraints = false
@@ -130,11 +137,11 @@ class PuzzleUI {
     
     func configureToMoveLabel(playerToMove: String) -> UILabel {
         let label = UILabel()
-        label.backgroundColor = playerToMove == "white" ? .lightGray : .black //CommonUI().blackColorLight
-        label.textColor = playerToMove == "white" ? .black : .lightGray
+        label.backgroundColor = playerToMove == "white" ? CommonUI().softWhite : .black //CommonUI().blackColorLight
+        label.textColor = playerToMove == "white" ? CommonUI().blackColorLight : CommonUI().softWhite
         label.textAlignment = .center
-        label.font = UIFont(name: fontString, size: 19)
-        label.text = "\(playerToMove.uppercased()) TO MOVE"
+        label.font = UIFont(name: fontStringBold, size: 18)
+        label.text = "\(playerToMove.capitalized) to Move"
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }
@@ -157,6 +164,14 @@ class PuzzleUI {
     }
 }
 
+extension UIButton {
+    func tint(withColor color: UIColor) -> UIButton {
+        self.imageView?.image = self.imageView?.image?.withTintColor(color)
+        self.titleLabel?.textColor = color
+        return self
+    }
+}
+
 class ButtonWithImage: UIButton {
     override func layoutSubviews() {
         super.layoutSubviews()
@@ -168,25 +183,39 @@ class ButtonWithImage: UIButton {
     }
 }
 
+
 extension UILabel {
     
     func setDelta(delta: Int32) {
         let sign = delta >= 0 ? "+" : ""
-        let color = delta >= 0 ? CommonUI().greenColor : CommonUI().redColor
+        let color = delta >= 0 ? CommonUI().greenCorrect : CommonUI().redIncorrect
         self.text = "\(sign) \(delta)"
         self.textColor = color
     }
     
     func setRating(forPuzzledUser user: PuzzledUser, isBlindfold: Bool) {
+        
+        self.textAlignment = .left
         let rating = isBlindfold ? user.puzzleB_Elo : user.puzzle_Elo
-        self.text = "ELO:  \(rating)"
+        let attrSmall = [NSAttributedString.Key.foregroundColor:UIColor.lightGray, NSAttributedString.Key.font:UIFont(name: fontString, size: 15)]
+        let attrLarge = [NSAttributedString.Key.foregroundColor:UIColor.lightGray, NSAttributedString.Key.font:UIFont(name: fontString, size: 20)]
+        
+        let attrText = NSMutableAttributedString(string: "")
+        attrText.append(NSAttributedString(string: "Your Rating\n", attributes: attrSmall))
+        attrText.append(NSAttributedString(string: String(rating), attributes: attrLarge))
+        self.attributedText = attrText
     }
     
     func setPuzzleRating(forPuzzleReference pRef: PuzzleReference, isBlindfold: Bool) {
+        self.textAlignment = .right
         let rating = isBlindfold ? pRef.eloBlindfold : pRef.eloRegular
-        self.text = "DIFFICULTY:  \(rating)"
-        self.textColor = .lightGray
-        self.font = UIFont(name: fontStringLight, size: 18)
+        let attrSmall = [NSAttributedString.Key.foregroundColor:UIColor.lightGray, NSAttributedString.Key.font:UIFont(name: fontString, size: 15)]
+        let attrLarge = [NSAttributedString.Key.foregroundColor:UIColor.lightGray, NSAttributedString.Key.font:UIFont(name: fontString, size: 20)]
+        
+        let attrText = NSMutableAttributedString(string: "")
+        attrText.append(NSAttributedString(string: "Difficulty\n", attributes: attrSmall))
+        attrText.append(NSAttributedString(string: String(rating), attributes: attrLarge))
+        self.attributedText = attrText
     }
 }
 

@@ -50,17 +50,17 @@ class SettingsController: UIViewController, SettingsTableDelegate {
     }
     
     func configAutoLayout() {
-        userInfoStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 20).isActive = true
-        userInfoStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        userInfoStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        userInfoStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        userInfoStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        userInfoStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         
         settingsTable.tableView.topAnchor.constraint(equalTo: userInfoStack.bottomAnchor, constant: 20).isActive = true
         settingsTable.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 10).isActive = true
-        settingsTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -10).isActive = true
+        settingsTable.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         settingsTable.tableView.bottomAnchor.constraint(equalTo: signOutButton.topAnchor, constant: -20).isActive = true
         
         signOutButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-        signOutButton.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        signOutButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         signOutButton.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
         signOutButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -30).isActive = true
     }
@@ -79,9 +79,9 @@ class SettingsController: UIViewController, SettingsTableDelegate {
         guard let thisUser = Auth.auth().currentUser else {return nil}
         let membershipColor = UserDataManager().getMembershipColor()
         let membershipName = UserDataManager().getMembershipName()
-        let emailView = configInfoView(titleText: "Email:", valueText: thisUser.email ?? "N/A")
-        let usernameView = configInfoView(titleText: "Username: ", valueText: thisUser.displayName ?? "N/A")
-        let membershipView = configInfoView(titleText: "Membership: ", valueText: membershipName, valueColor: membershipColor)
+        let emailView = configInfoView(titleText: "Email", valueText: thisUser.email ?? "N/A")
+        let usernameView = configInfoView(titleText: "Username ", valueText: thisUser.displayName ?? "N/A")
+        let membershipView = configInfoView(titleText: "Membership ", valueText: membershipName, valueColor: membershipColor)
         
         let vstack = CommonUI().configureStackView(arrangedSubViews: [emailView, usernameView, membershipView])
         vstack.spacing = 10
@@ -106,10 +106,10 @@ class SettingsController: UIViewController, SettingsTableDelegate {
     
     func configSignOutButton() -> UIButton {
         let button = UIButton(type: .system)
-        button.setTitle("Log Out".uppercased(), for: .normal)
-        button.titleLabel?.font = UIFont(name: fontString, size: 18)
+        button.setTitle("Log Out", for: .normal)
+        button.titleLabel?.font = UIFont(name: fontStringBold, size: 20)
         button.backgroundColor = UIColor().fromRGB("235,235,240")
-        button.layer.cornerRadius = 20
+        button.layer.cornerRadius = 25
         button.clipsToBounds = true
         button.addTarget(self, action: #selector(signOutAction), for: .touchUpInside)
         button.setTitleColor(CommonUI().blackColor, for: .normal)
@@ -228,7 +228,7 @@ class SettingsCell: UITableViewCell {
     }
     
     func configAutoLayout() {
-        l1.leftAnchor.constraint(equalTo: leftAnchor, constant: 30).isActive = true
+        l1.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
         l1.topAnchor.constraint(equalTo: topAnchor).isActive = true
         l1.bottomAnchor.constraint(equalTo: bottomAnchor).isActive = true
         

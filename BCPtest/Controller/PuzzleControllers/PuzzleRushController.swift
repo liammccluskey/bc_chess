@@ -332,7 +332,7 @@ extension PuzzleRushController: ChessBoardDelegate {
             let solutionMove: WBMove = currentPuzzle.solution_moves[onSolutionMoveIndex]
             chessBoardController.pushMove(wbMove: solutionMove, firstMovingPlayer: currentPuzzle.player_to_move)
             onSolutionMoveIndex = onSolutionMoveIndex + 1
-            solutionLabel.text = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
+            solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
             if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
                 didCompletePuzzle(wasCorrect: true)
             }

@@ -59,7 +59,7 @@ class LeaderboardTableCell: UITableViewCell {
     
     var rankIndex: Int! {
         didSet {
-            l1.text = "# \(rankIndex ?? -1)"
+            l1.text = "# \(rankIndex ?? -1)    "
             if rankIndex == 1 { l1.backgroundColor = CommonUI().goldColor }
             else if rankIndex == 2 { l1.backgroundColor = CommonUI().silverColor }
             else if rankIndex == 3 { l1.backgroundColor = CommonUI().bronzeColor }
@@ -96,8 +96,8 @@ class LeaderboardTableCell: UITableViewCell {
     // MARK: Config
     
     func configUI() {
-        l1 = UILabel().configLeaderboardCell(text: "", textColor: .white, alignment: .center)
-        l2 = UILabel().configLeaderboardCell(text: "", textColor: .lightGray, alignment: .left)
+        l1 = UILabel().configLeaderboardCell(text: "", textColor: .darkGray, alignment: .center, fontSize: 15)
+        l2 = UILabel().configLeaderboardCell(text: "", textColor: .white, alignment: .left)
         l3 = UILabel().configLeaderboardCell(text: "", textColor: .white, alignment: .right)
         addSubview(l1)
         addSubview(l2)
@@ -108,12 +108,12 @@ class LeaderboardTableCell: UITableViewCell {
     }
     
     func configAutoLayout() {
-        l1.leftAnchor.constraint(equalTo: leftAnchor, constant: 15).isActive = true
+        l1.leftAnchor.constraint(equalTo: leftAnchor, constant: 5).isActive = true
         l1.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
-        l1.widthAnchor.constraint(equalToConstant: 50).isActive = true
-        l1.heightAnchor.constraint(equalToConstant: 50).isActive = true
+        //l1.widthAnchor.constraint(equalToConstant: 60).isActive = true
+        l1.heightAnchor.constraint(equalToConstant: 40).isActive = true
         
-        l2.leftAnchor.constraint(equalTo: l1.rightAnchor, constant: 15).isActive = true
+        l2.leftAnchor.constraint(equalTo: l1.rightAnchor, constant: 10).isActive = true
         l2.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
         l3.rightAnchor.constraint(equalTo: rightAnchor, constant: -15).isActive = true
         l3.centerYAnchor.constraint(equalTo: centerYAnchor).isActive = true
@@ -122,11 +122,11 @@ class LeaderboardTableCell: UITableViewCell {
 }
 
 extension UILabel {
-    func configLeaderboardCell(text: String, textColor: UIColor, alignment: NSTextAlignment) -> UILabel{
+    func configLeaderboardCell(text: String, textColor: UIColor, alignment: NSTextAlignment, fontSize: CGFloat = 17) -> UILabel{
         self.text = text
         self.textColor = textColor
         self.textAlignment = alignment
-        self.font = UIFont(name: fontString, size: 17)
+        self.font = UIFont(name: fontString, size: fontSize)
         self.backgroundColor = .clear
         self.layer.cornerRadius = 5
         self.clipsToBounds = true

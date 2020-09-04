@@ -74,7 +74,7 @@ class DailyPuzzleController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        print(currentPuzzle.solution_moves)
         configureUI()
         setUpAutoLayout(isInitLoad: true)
     }
@@ -238,7 +238,7 @@ extension DailyPuzzleController: ChessBoardDelegate {
                 configPageForAttemptSubmit(wasCorrect: true)
                 PublicDBMS().updateDailyPuzzlesInfo(puzzleNumber: puzzleNumber, attemptWasCorrect: true)
             }
-            solutionLabel.text = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
+            solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
         } else {
             PublicDBMS().updateDailyPuzzlesInfo(puzzleNumber: puzzleNumber, attemptWasCorrect: false)
             let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false

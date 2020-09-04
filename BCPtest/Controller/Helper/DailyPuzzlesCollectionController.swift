@@ -163,21 +163,19 @@ class PuzzleCell: UICollectionViewCell {
             numIncorrectTries = 0
         }
         chartController = DailyPuzzleChartController(numTries: numTries, numCorrectTries: numCorrectTries, numIncorrectTries: numIncorrectTries)
+        addSubview(chartController.view)
         
-        let bc1 = ChessBoardImageController(sideLength: bounds.width/2,fen: puzzle.fen, shouldHidePieces: isBlindfold)
-        bc1.view.backgroundColor = .clear
+        let bc1 = ChessBoardImageController(sideLength: UIScreen.main.bounds.width/2,fen: puzzle.fen, shouldHidePieces: isBlindfold)
+        bc1.view.translatesAutoresizingMaskIntoConstraints = false
         bc1.view.layer.cornerRadius = 5
         bc1.view.clipsToBounds = true
+        addSubview(bc1.view)
         
-        let hstack = CommonUI().configureHStackView(arrangedSubViews: [bc1.view, chartController.view])
-        hstack.translatesAutoresizingMaskIntoConstraints = false
-        hstack.distribution = .fillEqually
-        hstack.spacing = 0
-        addSubview(hstack)
+        let deviceWidth = UIScreen.main.bounds.width
+        bc1.view.frame = CGRect(x: 0, y: 0, width: deviceWidth/2.0, height: deviceWidth/2.0)
+        print("set daily board frame as: \(bc1.view.frame)")
+        chartController.view.frame = CGRect(x: deviceWidth/2.0, y: 0, width: frame.width/2.0, height: deviceWidth/2.0)
         
-        hstack.rightAnchor.constraint(equalTo: rightAnchor).isActive = true
-        hstack.leftAnchor.constraint(equalTo: leftAnchor).isActive = true
-        hstack.topAnchor.constraint(equalTo: topAnchor).isActive = true
     }
 }
 
@@ -229,6 +227,7 @@ class DailyPuzzleChartController: UIViewController, ChartViewDelegate {
         chartView.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         chartView.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         chartView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
+        //chartView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
         chartView.heightAnchor.constraint(equalTo: chartView.widthAnchor).isActive = true
         
     }
