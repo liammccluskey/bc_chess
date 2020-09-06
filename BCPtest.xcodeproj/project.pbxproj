@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
 		0141A40924FCA767007DBB26 /* illegal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0141A40824FCA767007DBB26 /* illegal.mp3 */; };
-		0154D84E24FBF7A2003DE0AA /* TestBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0154D84D24FBF7A2003DE0AA /* TestBoardController.swift */; };
+		0154D84E24FBF7A2003DE0AA /* BoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0154D84D24FBF7A2003DE0AA /* BoardController.swift */; };
 		0154D85224FC6585003DE0AA /* move_check.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D84F24FC6580003DE0AA /* move_check.mp3 */; };
 		0154D85324FC6585003DE0AA /* capture.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85024FC6583003DE0AA /* capture.mp3 */; };
 		0154D85424FC6585003DE0AA /* move_self.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85124FC6585003DE0AA /* move_self.mp3 */; };
@@ -35,10 +35,8 @@
 		01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01C9006E24DB2815003293D4 /* ProgressUI.swift */; };
 		01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830524CFA445001F57E6 /* UserDataManager.swift */; };
 		01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */; };
-		01D3F39A25013B9D009E3A84 /* Rush1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D3F39925013B9D009E3A84 /* Rush1.swift */; };
 		01D3F39D25013EBD009E3A84 /* resultGood.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 01D3F39B25013EBD009E3A84 /* resultGood.mp3 */; };
 		01D3F39E25013EBD009E3A84 /* resultBad.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 01D3F39C25013EBD009E3A84 /* resultBad.mp3 */; };
-		01D3F3A02501A878009E3A84 /* Daily1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01D3F39F2501A878009E3A84 /* Daily1.swift */; };
 		01E7BABC24E71E060052B2DD /* PostRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BABB24E71E060052B2DD /* PostRushController.swift */; };
 		01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BABD24E773A70052B2DD /* PublicDBMS.swift */; };
 		01E7BAF124E832060052B2DD /* PuzzleAttempt+CoreDataClass.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01E7BAE724E832060052B2DD /* PuzzleAttempt+CoreDataClass.swift */; };
@@ -66,7 +64,6 @@
 		7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC324BB891C00135967 /* CommonUI.swift */; };
 		7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC524BB91D800135967 /* PositionTableController.swift */; };
 		7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC724BBC71300135967 /* PuzzleUI.swift */; };
-		7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCC924C2171300135967 /* ChessBoardController.swift */; };
 		7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C33CCCB24C3118C00135967 /* Protocols.swift */; };
 		7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7C96CC3F23A03C1D00EE9129 /* AppDelegate.swift */; };
 		7C96CC4523A03C1D00EE9129 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 7C96CC4323A03C1D00EE9129 /* Main.storyboard */; };
@@ -101,7 +98,7 @@
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
 		0141A40824FCA767007DBB26 /* illegal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = illegal.mp3; sourceTree = "<group>"; };
-		0154D84D24FBF7A2003DE0AA /* TestBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TestBoardController.swift; sourceTree = "<group>"; };
+		0154D84D24FBF7A2003DE0AA /* BoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardController.swift; sourceTree = "<group>"; };
 		0154D84F24FC6580003DE0AA /* move_check.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_check.mp3; sourceTree = "<group>"; };
 		0154D85024FC6583003DE0AA /* capture.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = capture.mp3; sourceTree = "<group>"; };
 		0154D85124FC6585003DE0AA /* move_self.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_self.mp3; sourceTree = "<group>"; };
@@ -127,10 +124,8 @@
 		01C9006E24DB2815003293D4 /* ProgressUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressUI.swift; sourceTree = "<group>"; };
 		01D0830524CFA445001F57E6 /* UserDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserDataManager.swift; sourceTree = "<group>"; };
 		01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeTableController.swift; sourceTree = "<group>"; };
-		01D3F39925013B9D009E3A84 /* Rush1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Rush1.swift; sourceTree = "<group>"; };
 		01D3F39B25013EBD009E3A84 /* resultGood.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = resultGood.mp3; sourceTree = "<group>"; };
 		01D3F39C25013EBD009E3A84 /* resultBad.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = resultBad.mp3; sourceTree = "<group>"; };
-		01D3F39F2501A878009E3A84 /* Daily1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Daily1.swift; sourceTree = "<group>"; };
 		01E7BABB24E71E060052B2DD /* PostRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostRushController.swift; sourceTree = "<group>"; };
 		01E7BABD24E773A70052B2DD /* PublicDBMS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PublicDBMS.swift; sourceTree = "<group>"; };
 		01E7BAE724E832060052B2DD /* PuzzleAttempt+CoreDataClass.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "PuzzleAttempt+CoreDataClass.swift"; sourceTree = SOURCE_ROOT; };
@@ -151,6 +146,7 @@
 		01E7BB0A24E9FED90052B2DD /* UpgradeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeController.swift; sourceTree = "<group>"; };
 		01E7BB0F24EED8B40052B2DD /* LimitReachedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LimitReachedController.swift; sourceTree = "<group>"; };
 		01E7BB1124EED8D10052B2DD /* UpgradeConfirmationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UpgradeConfirmationController.swift; sourceTree = "<group>"; };
+		01F887682504BA3900D22502 /* Puzzled.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Puzzled.entitlements; sourceTree = "<group>"; };
 		09AA082A4078732885A98FC3 /* Pods_BCPtest_BCPtestUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_BCPtest_BCPtestUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		0EBBB4FFBC6285CCB9A0C970 /* Pods-BCPtest-BCPtestUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest-BCPtestUITests.debug.xcconfig"; path = "Target Support Files/Pods-BCPtest-BCPtestUITests/Pods-BCPtest-BCPtestUITests.debug.xcconfig"; sourceTree = "<group>"; };
 		462C4FF45114BF0815A592C2 /* Pods-BCPtest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.debug.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.debug.xcconfig"; sourceTree = "<group>"; };
@@ -159,7 +155,6 @@
 		7C33CCC324BB891C00135967 /* CommonUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonUI.swift; sourceTree = "<group>"; };
 		7C33CCC524BB91D800135967 /* PositionTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PositionTableController.swift; sourceTree = "<group>"; };
 		7C33CCC724BBC71300135967 /* PuzzleUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleUI.swift; sourceTree = "<group>"; };
-		7C33CCC924C2171300135967 /* ChessBoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChessBoardController.swift; sourceTree = "<group>"; };
 		7C33CCCB24C3118C00135967 /* Protocols.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Protocols.swift; sourceTree = "<group>"; };
 		7C96CC3C23A03C1C00EE9129 /* Puzzled.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Puzzled.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		7C96CC3F23A03C1D00EE9129 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -228,7 +223,6 @@
 			isa = PBXGroup;
 			children = (
 				01B1ACE124FEB0370036AA23 /* BoardController */,
-				7C33CCC924C2171300135967 /* ChessBoardController.swift */,
 				01D0830724CFA8AC001F57E6 /* ThemeTableController.swift */,
 				7C33CCC524BB91D800135967 /* PositionTableController.swift */,
 				0186FC0B24D6109000726BD8 /* DailyPuzzlesCollectionController.swift */,
@@ -250,7 +244,7 @@
 		01B1ACE124FEB0370036AA23 /* BoardController */ = {
 			isa = PBXGroup;
 			children = (
-				0154D84D24FBF7A2003DE0AA /* TestBoardController.swift */,
+				0154D84D24FBF7A2003DE0AA /* BoardController.swift */,
 				01B1ACE224FEB04C0036AA23 /* BoardControllerHelper.swift */,
 				0186FC0924D5ABCA00726BD8 /* ChessBoardImageController.swift */,
 			);
@@ -272,15 +266,6 @@
 				01E7BAF024E832060052B2DD /* PuzzledUser+CoreDataProperties.swift */,
 			);
 			path = CoreDataModels;
-			sourceTree = "<group>";
-		};
-		01D3F39424FF0198009E3A84 /* PuzzleControllers1 */ = {
-			isa = PBXGroup;
-			children = (
-				01D3F39925013B9D009E3A84 /* Rush1.swift */,
-				01D3F39F2501A878009E3A84 /* Daily1.swift */,
-			);
-			path = PuzzleControllers1;
 			sourceTree = "<group>";
 		};
 		01E7BAFD24E9C6BC0052B2DD /* Sounds */ = {
@@ -370,6 +355,7 @@
 		7C96CC3E23A03C1C00EE9129 /* BCPtest */ = {
 			isa = PBXGroup;
 			children = (
+				01F887682504BA3900D22502 /* Puzzled.entitlements */,
 				01E7BAFD24E9C6BC0052B2DD /* Sounds */,
 				01C2417B24DAE0B7006741E4 /* CoreDataModels */,
 				0186FC0D24D748F800726BD8 /* GoogleService-Info.plist */,
@@ -412,7 +398,6 @@
 		7CE941E7245B6B0D00B9A2A0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				01D3F39424FF0198009E3A84 /* PuzzleControllers1 */,
 				0175105124DCF72500DB87FE /* PuzzleControllers */,
 				0186FC0F24D7539700726BD8 /* SignInController.swift */,
 				0186FC0524D51C8000726BD8 /* ContainerController.swift */,
@@ -697,7 +682,6 @@
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				01E7BAF524E832060052B2DD /* PuzzleReference+CoreDataClass.swift in Sources */,
 				01E7BAF624E832060052B2DD /* PuzzleReference+CoreDataProperties.swift in Sources */,
-				01D3F3A02501A878009E3A84 /* Daily1.swift in Sources */,
 				01E7BAF324E832060052B2DD /* Rush3Attempt+CoreDataClass.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
@@ -713,14 +697,13 @@
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
 				01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
-				0154D84E24FBF7A2003DE0AA /* TestBoardController.swift in Sources */,
+				0154D84E24FBF7A2003DE0AA /* BoardController.swift in Sources */,
 				01E7BABC24E71E060052B2DD /* PostRushController.swift in Sources */,
 				0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */,
 				0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */,
 				01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */,
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				01E7BAF924E832060052B2DD /* PuzzledUser+CoreDataClass.swift in Sources */,
-				01D3F39A25013B9D009E3A84 /* Rush1.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				01E7BAF124E832060052B2DD /* PuzzleAttempt+CoreDataClass.swift in Sources */,
 				0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */,
@@ -734,7 +717,6 @@
 				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
 				0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */,
-				7C33CCCA24C2171300135967 /* ChessBoardController.swift in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 				0186FC1024D7539700726BD8 /* SignInController.swift in Sources */,
@@ -914,8 +896,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_ENTITLEMENTS = BCPtest/Puzzled.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.3;
+				CURRENT_PROJECT_VERSION = 2.1.4;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -926,6 +909,7 @@
 				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = Puzzled;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -937,8 +921,9 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
+				CODE_SIGN_ENTITLEMENTS = BCPtest/Puzzled.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.3;
+				CURRENT_PROJECT_VERSION = 2.1.4;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -949,6 +934,7 @@
 				MARKETING_VERSION = 2;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = Puzzled;
+				SUPPORTS_MACCATALYST = NO;
 				SWIFT_VERSION = 4.2;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};

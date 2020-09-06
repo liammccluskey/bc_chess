@@ -115,9 +115,10 @@ class ProgressController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 15)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        let font = UIFont(name: fontStringBold, size: 17)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
-        navigationItem.title = "PROGRESS"
+        navigationItem.title = "Progress"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
     }
     

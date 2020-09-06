@@ -71,9 +71,10 @@ class LeaderboardController: UIViewController {
         navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 15)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        let font = UIFont(name: fontStringBold, size: 17)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
-        navigationItem.title = "Leaderboard".uppercased()
+        navigationItem.title = "Leaderboard"
         navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill"), style: .plain, target: self, action: #selector(showMeAction))
     }

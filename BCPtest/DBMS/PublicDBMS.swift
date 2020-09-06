@@ -51,9 +51,8 @@ class PublicDBMS {
     
     func fetchDailyPuzzlesInfo() {
         let formatter = DateFormatter()
-        formatter.dateStyle = .short
-        formatter.timeStyle = .none
-        let docName = formatter.string(from: Date()).replacingOccurrences(of: "/", with: "_")
+        formatter.dateFormat = "MM_dd_yyyy"
+        let docName = formatter.string(from: Date())
         print("\n\n\n\n\n the daily puzzles doc is \(docName)")
         let docRef = db.collection("dailyPuzzles").document(docName)
         docRef.getDocument { (document, error) in
@@ -67,7 +66,7 @@ class PublicDBMS {
     
     func updateDailyPuzzlesInfo(puzzleNumber: Int, attemptWasCorrect: Bool) {
         let formatter = DateFormatter()
-        formatter.dateFormat = "mm_dd_yyyy"
+        formatter.dateFormat = "MM_dd_yyyy"
         let docName = formatter.string(from: Date())
         let docRef = db.collection("dailyPuzzles").document(docName)
         

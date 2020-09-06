@@ -73,7 +73,7 @@ class BoardController: UIViewController {
         self.dsColor = theme.darkSquareColor
         self.lsColor = theme.lightSquareColor
         self.boardImage = theme.image
-        self.highlightColor = theme == .darkBlue ? CommonUI().greenCorrect : CommonUI().blueColorDark
+        self.highlightColor = theme == .darkBlue ? .black : CommonUI().blueColorDark
         
         let position = FenSerialization.default.deserialize(fen: fen)
         self.game = Game(position: position)
@@ -175,7 +175,6 @@ class BoardController: UIViewController {
         let xOffset: CGFloat = layoutColor == 0 ? 7 : 0
         let yOffset: CGFloat = layoutColor == 0 ? 0 : 7
         for i in 0..<64 {
-            
             let x = sideLength/8.0 * abs(xOffset - CGFloat(i % 8))
             let y = sideLength/8.0 * abs(yOffset - CGFloat(i/8))
             let iv = UIImageView(frame: CGRect(x: x, y: y, width: sideLength/8.0, height: sideLength/8.0))
@@ -184,6 +183,41 @@ class BoardController: UIViewController {
             iv.isUserInteractionEnabled = true
             view.addSubview(iv)
             squareIVs.append(iv)
+        }
+        configCoordinateLabels()
+    }
+    
+    func configCoordinateLabels() {
+        let rankNames = layoutColor == 1 ? ["1","2","3","4","5","6","7","8"].reversed() : ["1","2","3","4","5","6","7","8"]
+        let fileNames = layoutColor == 1 ? ["a","b","c","d","e","f","g","h"] : ["a","b","c","d","e","f","g","h"].reversed()
+        let coordFont = UIDevice.current.userInterfaceIdiom == .pad ?
+            UIFont(name: fontStringBold, size: 18) :
+            UIFont(name: fontStringBold, size: 11)
+        let smallPadding: CGFloat = 0
+        let bigPadding: CGFloat = 1
+        let labelW:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 19 : 12
+        // fileNames
+        for i in 0..<8 {
+            let rankLabel = UILabel()
+            rankLabel.textAlignment = .center
+            rankLabel.text = rankNames[i]
+            rankLabel.font = coordFont
+            if lsColor == .clear { rankLabel.textColor = i%2 == 0 ? .darkGray : .lightGray }
+            else { rankLabel.textColor = i%2 == 0 ? dsColor : lsColor}
+            rankLabel.frame = CGRect(x: smallPadding, y: sideLength/8.0 * CGFloat(i) + smallPadding, width: labelW, height: labelW)
+            view.addSubview(rankLabel)
+            
+            let fileLabel = UILabel()
+            fileLabel.textAlignment = .center
+            fileLabel.text = fileNames[i]
+            fileLabel.font = coordFont
+            if lsColor == .clear { fileLabel.textColor = i%2 == 0 ? .lightGray : .darkGray }
+            else { fileLabel.textColor = i%2 == 0 ? lsColor : dsColor}
+            fileLabel.frame = CGRect(
+                x: sideLength/8.0 * (1.0 + CGFloat(i)) - labelW - smallPadding,
+                y: sideLength - labelW - bigPadding,
+                width: labelW, height: labelW)
+            view.addSubview(fileLabel)
         }
     }
     

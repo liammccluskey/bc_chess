@@ -14,12 +14,11 @@ class ThemeController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        navigationItem.title = "Board Theme"
         configUI()
     }
     
     func configUI() {
-        configNavigationBar()
         themeTable = ThemeTableController(style: .grouped)
         view.addSubview(themeTable.tableView)
         themeTable.tableView.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
@@ -28,14 +27,7 @@ class ThemeController: UIViewController {
         themeTable.tableView.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
     }
     
-    func configNavigationBar() {
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
-        navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 15)
-        navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
-        navigationItem.title = "Board Theme".uppercased()
-    }
+    
 }
 
 class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
@@ -43,8 +35,6 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
     // MARK: - Properties
     
     var delegate: ThemeTableDelegate?
-    
-    var headerView = CommonUI().configureHeaderLabel(title: "SWIPE DOWN TO APPLY CHANGES", backC: CommonUI().blackColorLight, textC: .white)
     
     // MARK: - Init
     
@@ -54,7 +44,6 @@ class ThemeTableController: UITableViewController, UIGestureRecognizerDelegate {
         tableView.separatorStyle = .none
         tableView.translatesAutoresizingMaskIntoConstraints = false
         tableView.backgroundColor = CommonUI().blackColor
-       // headerView.translatesAutoresizingMaskIntoConstraints = false
         tableView.register(ColorThemeCell.self, forCellReuseIdentifier: colorThemeCellID)
         tableView.register(PieceStyleCell.self, forCellReuseIdentifier: pieceStyleCellID)
     }

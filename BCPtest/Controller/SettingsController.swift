@@ -50,7 +50,7 @@ class SettingsController: UIViewController, SettingsTableDelegate {
     }
     
     func configAutoLayout() {
-        userInfoStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 10).isActive = true
+        userInfoStack.topAnchor.constraint(equalTo: view.topAnchor, constant: 25).isActive = true
         userInfoStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         userInfoStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
         
@@ -70,9 +70,10 @@ class SettingsController: UIViewController, SettingsTableDelegate {
         navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
         navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 15)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        let font = UIFont(name: fontStringBold, size: 17)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
-        navigationItem.title = "Settings".uppercased()
+        navigationItem.title = "Settings"
     }
     
     func configUserInfoStack() -> UIStackView? {

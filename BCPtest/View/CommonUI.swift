@@ -146,29 +146,29 @@ class CommonUI {
 enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
     case darkWood
     case lightBlue
-    case walnut
     case tan
-    case newspaper
     case gray
     case green
+    case walnut
+    case clear
     case darkBlue
-    case purple
     case lightPurple
-    case cement
+    case canvas
     case rustPaper
+    case newspaper
     var darkSquareColor: UIColor {
         switch self {
         case .darkBlue: return UIColor(red: 14/255, green: 77/255, blue: 146/255, alpha: 1)
         case .gray: return UIColor(red: 136/255, green: 136/255, blue: 136/255, alpha: 1)
         case .green: return UIColor(red: 118/255, green: 150/255, blue: 86/255, alpha: 1)
         case .tan: return UIColor(red: 181/255, green: 136/255, blue: 99/255, alpha: 1)
-        case .purple: return UIColor(red: 90/255, green: 53/255, blue: 148/255, alpha: 1)
+        case .clear: return CommonUI().blackColorLight
         case .lightBlue: return UIColor(red: 140/255, green: 162/255, blue: 173/255, alpha: 1)
         case .darkWood: return .clear
         case .walnut: return .clear
         case .newspaper: return .clear
         case .lightPurple: return .clear
-        case .cement: return UIColor().fromRGB("0,0,0", alpha: 0.7)
+        case .canvas: return UIColor().fromRGB("0,0,0", alpha: 0.25)
         case .rustPaper: return UIColor().fromRGB("0,0,0", alpha: 0.5)
         }
     }
@@ -178,13 +178,13 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
             case .gray: return UIColor(red: 169/255, green: 169/255, blue: 169/255, alpha: 1)
             case .green: return UIColor(red: 238/255, green: 238/255, blue: 210/255, alpha: 1)
             case .tan: return UIColor(red: 240/255, green: 217/255, blue: 181/255, alpha: 1)
-            case .purple: return UIColor(red: 155/255, green: 125/255, blue: 202/255, alpha: 1)
+            case .clear: return UIColor().fromRGB("60,60,60")
             case .lightBlue: return UIColor(red: 216/255, green: 221/255, blue: 219/255, alpha: 1)
             case .darkWood: return .clear
             case .walnut: return .clear
             case .newspaper: return .clear
             case .lightPurple: return .clear
-            case .cement: return UIColor().fromRGB("0,0,0", alpha: 0.4)
+            case .canvas: return .clear
             case .rustPaper: return .clear
         }
     }
@@ -194,13 +194,13 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .gray: return "Gray"
         case .green: return "Green"
         case .tan: return "Tan"
-        case .purple: return "Purple"
+        case .clear: return "Transparent"
         case .lightBlue: return "Light Blue"
         case .darkWood: return "Dark Wood"
         case .walnut: return "Walnut"
         case .newspaper: return "Newspaper"
         case .lightPurple: return "Light Purple"
-        case .cement: return "Cement"
+        case .canvas: return "Canvas"
         case .rustPaper: return "Rust Paper"
         }
     }
@@ -210,13 +210,13 @@ enum ColorTheme: Int, CustomStringConvertible, CaseIterable {
         case .gray: return #imageLiteral(resourceName: "clear_square")
         case .green: return #imageLiteral(resourceName: "clear_square")
         case .tan: return #imageLiteral(resourceName: "clear_square")
-        case .purple: return #imageLiteral(resourceName: "clear_square")
+        case .clear: return #imageLiteral(resourceName: "clear_square")
         case .lightBlue: return #imageLiteral(resourceName: "clear_square")
         case .darkWood: return UIImage(named: "dark_wood")!
         case .walnut: return UIImage(named: "walnut")!
         case .newspaper: return UIImage(named: "newspaper")!
         case .lightPurple: return UIImage(named: "light_purple")!
-        case .cement: return UIImage(named: "cement")!
+        case .canvas: return UIImage(named: "canvas")!
         case .rustPaper: return UIImage(named: "rust_paper")!
         }
     }
@@ -227,7 +227,7 @@ public var pieceStyle = UserDataManager().getPieceStyle()
 enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
     case classic //chesscom
     case modern
-    case lichess
+    case lichess // camel color lichess pieces
     case newspaper
     case fancy
     case minimal
@@ -249,7 +249,7 @@ enum PieceStyleTheme: Int, CaseIterable, CustomStringConvertible {
         switch self {
         case .classic: return "Classic"
         case .modern: return "Modern"
-        case .lichess: return "Standard"
+        case .lichess: return "Desert"
         case .newspaper: return "Newspaper"
         case .fancy: return "Fancy"
         case .minimal: return "Minimal"

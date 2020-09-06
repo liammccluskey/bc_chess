@@ -50,7 +50,6 @@ class PuzzleUI {
         let label = UILabel()
         label.backgroundColor = .clear
         label.textColor = .lightGray
-        //label.font = UIFont(name: fontString, size: 25)
         label.numberOfLines = 0
         return label
     }
@@ -193,6 +192,14 @@ extension UILabel {
         self.textColor = color
     }
     
+    func setPlayerToMove(playerToMove: String) {
+        self.text = "\(playerToMove.capitalized) to Move"
+        self.backgroundColor = playerToMove == "white" ? CommonUI().softWhite : .black
+        self.textColor = playerToMove == "white" ? CommonUI().blackColorLight : CommonUI().softWhite
+    }
+    
+    // MARK: - Labels above board controllers
+    
     func setRating(forPuzzledUser user: PuzzledUser, isBlindfold: Bool) {
         
         self.textAlignment = .left
@@ -216,6 +223,32 @@ extension UILabel {
         attrText.append(NSAttributedString(string: "Difficulty\n", attributes: attrSmall))
         attrText.append(NSAttributedString(string: String(rating), attributes: attrLarge))
         self.attributedText = attrText
+    }
+    
+    func setText(title: String, value: String, alignment: NSTextAlignment, textColor: UIColor = .lightGray) {
+        self.textAlignment = alignment
+        let attrSmall = [NSAttributedString.Key.foregroundColor:textColor, NSAttributedString.Key.font:UIFont(name: fontString, size: 15)]
+        let attrLarge = [NSAttributedString.Key.foregroundColor:textColor, NSAttributedString.Key.font:UIFont(name: fontString, size: 20)]
+        
+        let attrText = NSMutableAttributedString(string: "")
+        attrText.append(NSAttributedString(string: "\(title)\n", attributes: attrSmall))
+        attrText.append(NSAttributedString(string: value, attributes: attrLarge))
+        self.attributedText = attrText
+    }
+    
+    func setAttrText(text: String, alignment: NSTextAlignment, fontName: String, textColor: UIColor = .white) {
+        self.textAlignment = alignment
+        let attr = [NSAttributedString.Key.foregroundColor:textColor, NSAttributedString.Key.font:UIFont(name: fontName, size: 25)]
+        self.attributedText = NSAttributedString(string: text, attributes: attr)
+    }
+}
+
+extension String {
+    subscript(from: Int, to: Int) -> String {
+        /*
+         only valid for substring of length 2
+        */
+        return String(self[index(startIndex, offsetBy: from)]) + String(self[index(startIndex, offsetBy: to)])
     }
 }
 

@@ -89,7 +89,7 @@ class PostRushController: UIViewController {
         view.addSubview(blurredEffectView)
         view.addSubview(headerLabel)
         
-        scoreLabel.text = "SCORE: \(score!)"
+        scoreLabel.text = "Score: \(score!)"
         view.addSubview(scoreLabel)
         dayRank = RankingLabel(rankTitle: "TODAY", rankValue: dayRankValue ?? 0)
         weekRank = RankingLabel(rankTitle: "THIS WEEK", rankValue: weekRankValue ?? 0)
@@ -101,12 +101,13 @@ class PostRushController: UIViewController {
         mainStack.spacing = 20
         view.addSubview(mainStack)
         
-        playAgainButton = configButton(title: "Play Again", tag: 0, textColor: CommonUI().greenColor)
-        exitButton = configButton(title: "Exit", tag: 1, textColor: CommonUI().redColor)
+        playAgainButton = configButton(title: "Play Again", tag: 0, backgroundColor: CommonUI().greenCorrect)
+        exitButton = configButton(title: "Exit", tag: 1, backgroundColor: CommonUI().redIncorrect)
         buttonStack = CommonUI().configureStackView(arrangedSubViews: [
-            playAgainButton, CommonUI().configureHeaderLabel(title: "OR"), exitButton
+            playAgainButton, configButton(title: "Or", tag: 2, backgroundColor: .clear), exitButton
         ])
-        buttonStack.spacing = 20
+        buttonStack.distribution = .fillEqually
+        buttonStack.spacing = 0
         view.addSubview(buttonStack)
 
         view.backgroundColor = .clear
@@ -121,26 +122,24 @@ class PostRushController: UIViewController {
         mainStack.topAnchor.constraint(equalTo: headerLabel.bottomAnchor, constant: 50).isActive = true
         mainStack.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
         mainStack.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        //mainStack.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
 
         buttonStack.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20).isActive = true
-        buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -20).isActive = true
-        buttonStack.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 20).isActive = true
+        buttonStack.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        buttonStack.heightAnchor.constraint(equalToConstant: 150).isActive = true
+        buttonStack.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
     }
     
-    func configButton(title: String, tag: Int, textColor: UIColor) -> UIButton {
+    func configButton(title: String, tag: Int, backgroundColor: UIColor) -> UIButton {
         let button = UIButton(type: .system)
         button.setTitle(title, for: .normal)
-        button.titleLabel?.font = UIFont(name: fontString, size: 25)
-        button.backgroundColor = CommonUI().blackColor
-        button.layer.borderWidth = 3.5
-        button.layer.borderColor = UIColor(red: 33/255, green: 34/255, blue: 37/255, alpha: 1).cgColor
-        button.layer.cornerRadius = 10
+        button.titleLabel?.font = UIFont(name: fontStringBold, size: 20)
+        button.backgroundColor = backgroundColor
         button.clipsToBounds = true
-        button.setTitleColor(textColor, for: .normal)
+        button.layer.cornerRadius = 25
+        button.setTitleColor(.white, for: .normal)
         if tag == 0 { // play again button
             button.addTarget(self, action: #selector(playAgainAction), for: .touchUpInside)
-        } else { // exit button
+        } else if tag == 1 { // exit button
             button.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
         }
         return button

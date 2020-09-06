@@ -60,10 +60,10 @@ class LeaderboardTableCell: UITableViewCell {
     var rankIndex: Int! {
         didSet {
             l1.text = "# \(rankIndex ?? -1)    "
-            if rankIndex == 1 { l1.backgroundColor = CommonUI().goldColor }
-            else if rankIndex == 2 { l1.backgroundColor = CommonUI().silverColor }
-            else if rankIndex == 3 { l1.backgroundColor = CommonUI().bronzeColor }
-            else { l1.backgroundColor = .clear }
+            if rankIndex == 1 { l1.backgroundColor = CommonUI().goldColor; l1.textColor = .white }
+            else if rankIndex == 2 { l1.backgroundColor = CommonUI().silverColor; l1.textColor = .white }
+            else if rankIndex == 3 { l1.backgroundColor = CommonUI().bronzeColor; l1.textColor = .white }
+            else { l1.backgroundColor = .clear; l1.textColor = .lightGray }
         }
     }
     var rankedUser: RankedUser! {
@@ -96,8 +96,8 @@ class LeaderboardTableCell: UITableViewCell {
     // MARK: Config
     
     func configUI() {
-        l1 = UILabel().configLeaderboardCell(text: "", textColor: .darkGray, alignment: .center, fontSize: 15)
-        l2 = UILabel().configLeaderboardCell(text: "", textColor: .white, alignment: .left)
+        l1 = UILabel().configLeaderboardCell(text: "", textColor: .lightGray, alignment: .center, fontSize: 15)
+        l2 = UILabel().configLeaderboardCell(text: "", textColor: .lightGray, alignment: .left)
         l3 = UILabel().configLeaderboardCell(text: "", textColor: .white, alignment: .right)
         addSubview(l1)
         addSubview(l2)

@@ -55,11 +55,9 @@ class PuzzleRatedController: UIViewController {
         super.init(nibName: nil, bundle: nil)
         self.piecesHidden = piecesHidden
         self.puzzledUser = UserDBMS().getPuzzledUser()
-        self.pRef = PFJ.getPuzzleReferenceWithFilters(playerToMove: "black", finalAnswerSAN: "f6")
-        self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
         
-        //self.pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
-        //self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
+        self.pRef = PFJ.getPuzzleReferenceInRange(plusOrMinus: Int32(200), isBlindfold: piecesHidden, forUser: self.puzzledUser)!
+        self.currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: self.pRef)
     }
     
     required init?(coder: NSCoder) {

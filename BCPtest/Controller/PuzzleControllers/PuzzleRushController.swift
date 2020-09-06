@@ -8,22 +8,21 @@
 
 import UIKit
 import CoreData
+import ChessKit
+
 
 class PuzzleRushController: UIViewController {
     
     // MARK: - Properties
-    var limitReachedController: LimitReachedController!
-    
-    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
     var startMinutes: Int!
     var piecesHidden: Bool!
-    var onSolutionMoveIndex: Int = 0
-    var stateIsIncorrect = false
     var timer: Timer!
     var pregameTimer: Timer!
     var pregameCountdown: Int!
-    var puzzledUser: PuzzledUser!
     
+    // dynamic data
+    var puzzledUser: PuzzledUser!
+    var onSolutionMoveIndex: Int = 0
     var numCorrect: Int = 0
     var numIncorrect: Int = 0
     var secondsRemaining: Int!
@@ -32,9 +31,32 @@ class PuzzleRushController: UIViewController {
     var pRef: PuzzleReference?
     var currentPuzzle: Puzzle!
     
+    private var workItems: [DispatchWorkItem] = []
+    var limitReachedController: LimitReachedController!
+    
+    let context = (UIApplication.shared.delegate as! AppDelegate).persistentContainer.viewContext
+    
+    // view
+    var playerToMoveLabel: UILabel!
+    var incorrectButton: UIButton! //action: none
+    var correctButton: UIButton! // action: none
+    
+    var numCorrectLabel: UILabel!
+    var timeRemainingLabel: UILabel!
+    var incorrectMarksView: IncorrectMarksView!
+    
+    var boardController: BoardController!
+    var positionTableW: PositionTableController!
+    var positionTableB: PositionTableController!
+    
+    var solutionLabel: UILabel!
+    
+    var tabBarFiller: UIView!
+    var exitButton: UIButton!
+    var buttonStack: UIStackView!
+    
     let pregameCountdownLabel: UILabel = {
         let l = UILabel()
-        l.translatesAutoresizingMaskIntoConstraints = false
         l.font = UIFont(name: fontString, size: 80)
         l.textColor = .white
         l.textAlignment = .center
@@ -44,32 +66,12 @@ class PuzzleRushController: UIViewController {
         return l
     }()
     
-    var solutionLabel: UILabel!
-    var playerToMoveLabel: UILabel!
-    var correctnessLabel: UILabel!
-    var numCorrectLabel: UILabel!
-    var timeRemainingLabel: UILabel!
-    var incorrectMarksView: IncorrectMarksView!
-    var puzzleRatingLabel: UILabel!
-    
-    // stack 1
-    var chessBoardController: ChessBoardController!
-    var positionTableW: PositionTableController!
-    var positionTableB: PositionTableController!
-    
-    // bottom buttons
-    var exitButton: UIButton!
-    var buttonStack: UIStackView! // quit
-    var tabBarFiller: UIView!
-    
-    
     // MARK: - Init
     
     init(piecesHidden: Bool, minutes: Int) {
         super.init(nibName: nil, bundle: nil)
         self.piecesHidden = piecesHidden
         self.startMinutes = minutes // either 3 or 5
-        self.fetchNextPuzzle()
         self.secondsRemaining = startMinutes*60
         self.puzzledUser = UserDBMS().getPuzzledUser()
     }
@@ -79,14 +81,14 @@ class PuzzleRushController: UIViewController {
     }
     
     override func viewDidLoad() {
-        print(UserDataManager().hasReachedRushLimit())
-        
         super.viewDidLoad()
+        
+        self.currentPuzzle = fetchNextPuzzle()
         
         configureUI()
         setUpAutoLayout()
         
-        if UserDataManager().hasReachedRushLimit() {
+        if UserDataManager().hasReachedPuzzleLimit() {
             limitReachedController = LimitReachedController()
             limitReachedController.delegate = self
             pregameCountdownLabel.removeFromSuperview()
@@ -96,83 +98,70 @@ class PuzzleRushController: UIViewController {
         pregameCountdown = 3
         pregameTimer = Timer.scheduledTimer(timeInterval: 1, target: self, selector: #selector(pregameTimerAction), userInfo: nil, repeats: true)
         view.isUserInteractionEnabled = false
-    
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = true
-    }
-    
-    override func viewWillDisappear(_ animated: Bool) {
-        navigationController?.navigationBar.isHidden = false
+    override func viewDidLayoutSubviews() {
+        setFrames()
     }
     
     // MARK: - Config
     
     func configureUI() {
-        configureNavigationBar()
         
-        let prUI = PuzzleRushUI()
-        let pUI = PuzzleUI()
-        // stack
+        correctButton = PuzzleUI().configBannerButton(title: "  Correct", imageName: "checkmark", bgColor: CommonUI().greenCorrect)
+        incorrectButton = PuzzleUI().configBannerButton(title: "  Incorrect", imageName: "xmark", bgColor: CommonUI().redIncorrect)
+        correctButton.isEnabled = false
+        incorrectButton.isEnabled = false
+        view.addSubview(correctButton)
+        view.addSubview(incorrectButton)
+        
         playerToMoveLabel = PuzzleUI().configureToMoveLabel(playerToMove: currentPuzzle.player_to_move)
         view.addSubview(playerToMoveLabel)
         
-        numCorrectLabel = prUI.configNumCorrectLabel()
-        numCorrectLabel.setNumCorrect(numCorrect: 0)
-        correctnessLabel = prUI.configCorrectnessLabel()
-        correctnessLabel.alpha = 0
-        timeRemainingLabel = prUI.configTimeRemainingLabel()
+        numCorrectLabel = PuzzleUI().configRatingLabel()
+        numCorrectLabel.setAttrText(text: "0", alignment: .left, fontName: fontStringBold)
+        timeRemainingLabel = PuzzleRushUI().configTimeRemainingLabel()
         timeRemainingLabel.setTimeRemaining(secondsLeft: secondsRemaining)
         incorrectMarksView = IncorrectMarksView()
         incorrectMarksView.numIncorrect = 0
-        solutionLabel = pUI.configSolutionLabel()
-        solutionLabel.text = " "
-        solutionLabel.translatesAutoresizingMaskIntoConstraints = false
-        //puzzleRatingLabel = pUI.configRatingLabel()
-        //puzzleRatingLabel.setPuzzleRating(forPuzzleReference: pRef!, isBlindfold: piecesHidden)
-        
         view.addSubview(numCorrectLabel)
-        view.addSubview(correctnessLabel)
         view.addSubview(timeRemainingLabel)
         view.addSubview(incorrectMarksView)
-        view.addSubview(solutionLabel)
-        //view.addSubview(puzzleRatingLabel)
         
-        chessBoardController = ChessBoardController(position: currentPuzzle.position, showPiecesInitially: !piecesHidden)
-        chessBoardController.delegate = self
-        chessBoardController.view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(chessBoardController.view)
+        let screenW = view.bounds.width
+        let sideLength = UIDevice.current.userInterfaceIdiom == .pad && piecesHidden ? screenW - 175 : screenW
+        boardController = BoardController(sideLength: sideLength, fen: currentPuzzle.fen, showPiecesInitially: !piecesHidden)
+        boardController.delegate = self
+        view.addSubview(boardController.view)
+        
+        solutionLabel = PuzzleUI().configSolutionLabel()
+        solutionLabel.translatesAutoresizingMaskIntoConstraints = false
+        solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: 0)
+        view.addSubview(solutionLabel)
         
         positionTableW = PositionTableController(puzzle: currentPuzzle, isWhite: true)
         positionTableB = PositionTableController(puzzle: currentPuzzle, isWhite: false)
+        positionTableB.tableView.isHidden = !piecesHidden
+        positionTableW.tableView.isHidden = !piecesHidden
         view.addSubview(positionTableW.tableView)
         view.addSubview(positionTableB.tableView)
         
         // buttons
-        exitButton = PuzzleUI().configureButton(title: "  Quit  ", imageName: "arrow.left.square")
+        exitButton = PuzzleUI().configureButton(title: "  Exit", imageName: "arrow.left.square")
         exitButton.addTarget(self, action: #selector(exitAction), for: .touchUpInside)
         buttonStack = PuzzleUI().configureButtonHStack(arrangedSubViews: [exitButton])
         tabBarFiller = CommonUI().configTabBarFiller()
         view.addSubview(tabBarFiller)
         view.addSubview(buttonStack)
         
-        if piecesHidden == false {
-            positionTableB.tableView.isHidden = true
-            positionTableW.tableView.isHidden = true
-        }
-        view.backgroundColor = CommonUI().blackColorLight
         pregameCountdownLabel.text = "3"
         view.addSubview(pregameCountdownLabel)
+        view.backgroundColor = CommonUI().blackColorLight
     }
     
     func setUpAutoLayout() {
-        pregameCountdownLabel.topAnchor.constraint(equalTo: view.topAnchor).isActive = true
-        pregameCountdownLabel.bottomAnchor.constraint(equalTo: view.bottomAnchor).isActive = true
-        pregameCountdownLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        pregameCountdownLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
+        pregameCountdownLabel.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         
-        let upperPadding: CGFloat = piecesHidden ? 8 : 40
         tabBarFiller.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: 0).isActive = true
         tabBarFiller.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 0).isActive = true
         tabBarFiller.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
@@ -183,85 +172,74 @@ class PuzzleRushController: UIViewController {
         buttonStack.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 0).isActive = true
         buttonStack.heightAnchor.constraint(equalToConstant: tabBarHeight).isActive = true
         
+        let bannerH:CGFloat = UIDevice.current.userInterfaceIdiom == .pad ? 60 : 40
         playerToMoveLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
         playerToMoveLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
         playerToMoveLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        playerToMoveLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
-        correctnessLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor).isActive = true
-        correctnessLabel.rightAnchor.constraint(equalTo: view.rightAnchor).isActive = true
-        correctnessLabel.leftAnchor.constraint(equalTo: view.leftAnchor).isActive = true
-        correctnessLabel.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        playerToMoveLabel.heightAnchor.constraint(equalToConstant: bannerH).isActive = true
         
-        numCorrectLabel.topAnchor.constraint(equalTo: playerToMoveLabel.bottomAnchor, constant: upperPadding).isActive = true
+        numCorrectLabel.topAnchor.constraint(equalTo: playerToMoveLabel.bottomAnchor, constant: 10).isActive = true
         numCorrectLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
-        
-        timeRemainingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         timeRemainingLabel.centerYAnchor.constraint(equalTo: numCorrectLabel.centerYAnchor).isActive = true
+        timeRemainingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
         
-        if piecesHidden {
-            incorrectMarksView.topAnchor.constraint(equalTo: playerToMoveLabel.bottomAnchor, constant: 12).isActive = true
-            //incorrectMarksView.leftAnchor.constraint(equalTo: numCorrectLabel.rightAnchor, constant: 10).isActive = true
-            incorrectMarksView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            incorrectMarksView.widthAnchor.constraint(equalToConstant: view.frame.width/4).isActive = true
-            //incorrectMarksView.centerYAnchor.constraint(equalTo: numCorrectLabel.centerYAnchor).isActive = true
-            //incorrectMarksView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        incorrectMarksView.centerYAnchor.constraint(equalTo: numCorrectLabel.centerYAnchor).isActive = true
+        incorrectMarksView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
+        incorrectMarksView.widthAnchor.constraint(equalToConstant: 90).isActive = true
+        incorrectMarksView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+
+        solutionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
+        solutionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 10).isActive = true
+    }
+    
+    func setFrames() {
+        correctButton.frame = playerToMoveLabel.frame
+        incorrectButton.frame = playerToMoveLabel.frame
+
+        if UIDevice.current.userInterfaceIdiom == .pad && piecesHidden {
+            let tableW: CGFloat = 175
+            let boardW = view.bounds.width - tableW
+            let boardY = view.bounds.midY - boardW/2
+            boardController.view.frame.origin.y = boardY
+            solutionLabel.frame.origin.y = boardY + boardW + 10
+            positionTableW.tableView.frame = CGRect(x: boardW, y: boardY, width: tableW, height: boardW/2)
+            positionTableB.tableView.frame = CGRect(x: boardW, y: boardY + boardW/2, width: tableW, height: boardW/2)
+            solutionLabel.frame.origin.y = boardY + boardW + 0
         } else {
-            incorrectMarksView.topAnchor.constraint(equalTo: numCorrectLabel.bottomAnchor, constant: 10).isActive = true
-            incorrectMarksView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 8).isActive = true
-            //incorrectMarksView.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
-            incorrectMarksView.widthAnchor.constraint(equalToConstant: view.frame.width/4).isActive = true
-            //incorrectMarksView.heightAnchor.constraint(equalToConstant: 30).isActive = true
+            correctButton.frame = playerToMoveLabel.frame
+            incorrectButton.frame = playerToMoveLabel.frame
+            if piecesHidden {
+                boardController.view.frame.origin.y = numCorrectLabel.frame.origin.y + 3 + numCorrectLabel.frame.height
+            } else {
+                let atMid = view.frame.midY - boardController.view.frame.height/2
+                let withPadding = numCorrectLabel.frame.origin.y + 3 + numCorrectLabel.frame.height
+                boardController.view.frame.origin.y = max(atMid, withPadding)
+            }
+            solutionLabel.frame.origin.y = boardController.view.frame.origin.y + boardController.view.frame.height + 0
+            let tvY = solutionLabel.frame.origin.y + solutionLabel.frame.height + 0
+            let tvX = view.frame.width/2
+            let tvHeight = buttonStack.frame.origin.y - tvY
+            positionTableB.tableView.frame = CGRect(x: 0, y: tvY, width: tvX, height: tvHeight)
+            positionTableW.tableView.frame = CGRect(x: tvX, y: tvY, width: tvX, height: tvHeight)
         }
-        
-        
-        //puzzleRatingLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -10).isActive = true
-       // puzzleRatingLabel.topAnchor.constraint(equalTo: timeRemainingLabel.bottomAnchor, constant: 10).isActive = true
-        
-        let sidePadding:CGFloat = piecesHidden ? 20 : 0
-        chessBoardController.view.topAnchor.constraint(equalTo: timeRemainingLabel.bottomAnchor, constant: upperPadding).isActive = true
-        chessBoardController.view.leftAnchor.constraint(equalTo: view.leftAnchor, constant: sidePadding).isActive = true
-        chessBoardController.view.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -sidePadding).isActive = true
-        
-        solutionLabel.topAnchor.constraint(equalTo: chessBoardController.view.bottomAnchor, constant: 5).isActive = true
-        solutionLabel.rightAnchor.constraint(equalTo: view.rightAnchor, constant: -5).isActive = true
-        solutionLabel.leftAnchor.constraint(equalTo: view.leftAnchor, constant: 5).isActive = true
-        
-        positionTableW.tableView.leftAnchor.constraint(equalTo: view.leftAnchor, constant: -3).isActive = true
-        positionTableW.tableView.rightAnchor.constraint(equalTo: view.centerXAnchor, constant: 0).isActive = true
-        positionTableW.tableView.topAnchor.constraint(equalTo: solutionLabel.bottomAnchor, constant: 5).isActive = true
-        positionTableW.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
-        
-        positionTableB.tableView.leftAnchor.constraint(equalTo:  view.centerXAnchor, constant: 0).isActive = true
-        positionTableB.tableView.rightAnchor.constraint(equalTo: view.rightAnchor, constant: 3).isActive = true
-        positionTableB.tableView.topAnchor.constraint(equalTo: solutionLabel.bottomAnchor, constant: 5).isActive = true
-        positionTableB.tableView.bottomAnchor.constraint(equalTo: buttonStack.topAnchor).isActive = true
     }
     
-    func configureNavigationBar() {
-        navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.isHidden = true
-        navigationController?.navigationBar.barStyle = .black
-    }
-    
-    func configurePageForNewPuzzle() {
-        playerToMoveLabel.text = "\(currentPuzzle.player_to_move.uppercased()) TO MOVE"
-        playerToMoveLabel.backgroundColor = currentPuzzle.player_to_move == "white" ? .lightGray : .black //CommonUI().blackColorLight
-        playerToMoveLabel.textColor = currentPuzzle.player_to_move == "white" ? .black : .lightGray
-        positionTableW.setData(puzzle: currentPuzzle, isWhite: true)
-        positionTableB.setData(puzzle: currentPuzzle, isWhite: false)
+    func configurePageForNewPuzzle(puzzle: Puzzle) {
+        solutionLabel.text = ""
+        onSolutionMoveIndex = 0
+        boardController.setNewPosition(fen: puzzle.fen)
+        boardController.configStartPosition(piecesHidden: piecesHidden)
+        boardController.view.isUserInteractionEnabled = true
+        
+        playerToMoveLabel.setPlayerToMove(playerToMove: puzzle.player_to_move)
+        positionTableW.setData(puzzle: puzzle, isWhite: true)
+        positionTableB.setData(puzzle: puzzle, isWhite: false)
         positionTableW.tableView.reloadData()
         positionTableB.tableView.reloadData()
-        chessBoardController.setNewPosition(position: currentPuzzle.position, piecesHidden: piecesHidden)
-        solutionLabel.text = " "
+        showPrePuzzleButtons()
     }
     
-    func restartPuzzleAttempt() {
-        onSolutionMoveIndex = 0
-        stateIsIncorrect = false
-        chessBoardController.setButtonInteraction(isEnabled: true)
-    }
-    
-    func fetchNextPuzzle() {
+    func fetchNextPuzzle() -> Puzzle {
         if numCorrect < 5 {
             lowerBoundFetch = 250 + numCorrect*100
             upperBoundFetch = lowerBoundFetch + 100
@@ -278,9 +256,7 @@ class PuzzleRushController: UIViewController {
                 lowerBoundFetch -= 50
             }
         }
-        currentPuzzle = PFJ.getPuzzle(fromPuzzleReference: pRef!)
-        print(currentPuzzle.solution_moves)
-        print(pRef!.eloRegular)
+        return PFJ.getPuzzle(fromPuzzleReference: pRef!)!
     }
     
     // MARK: - Selectors
@@ -305,80 +281,106 @@ class PuzzleRushController: UIViewController {
         if secondsRemaining == 0 {
             // puzzle is timedout do something
             timer.invalidate()
-            chessBoardController.setButtonInteraction(isEnabled: false)
+            boardController.view.isUserInteractionEnabled = false
             saveRushAttempt(didTimeout: true, didStrikeout: false)
-            let controller = PostRushController(score: numCorrect, rushMinutes: startMinutes, isBlindfold: piecesHidden)
-            controller.delegate = self
-            self.present(controller, animated: true)
+            showPostRustController()
         }
     }
     
     @objc func exitAction() {
         navigationController?.popViewController(animated: true)
+        cancelWorkItems()
     }
-
-    // MARK: - Selector Helper
+    
+    // MARK: - IDK
     
     
+    func showPostPuzzleButtons(wasCorrect: Bool) {
+        if wasCorrect {
+            view.bringSubviewToFront(correctButton)
+        } else {
+            view.bringSubviewToFront(incorrectButton)
+        }
+        view.bringSubviewToFront(boardController.view)
+    }
+    
+    func showPrePuzzleButtons() {
+        view.bringSubviewToFront(self.playerToMoveLabel)
+        view.bringSubviewToFront(boardController.view)
+    }
+    
+    func updateSolutionLabel() {
+        if onSolutionMoveIndex > currentPuzzle.solution_moves.count { return }
+        solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
+    }
+    
+    func didCompletePuzzle(wasCorrect: Bool) {
+        boardController.view.isUserInteractionEnabled = false
+        showPostPuzzleButtons(wasCorrect: wasCorrect)
+        if wasCorrect {
+            numCorrect += 1
+            numCorrectLabel.setAttrText(text: String(numCorrect), alignment: .left, fontName: fontStringBold)
+        } else {
+            numIncorrect += 1
+            incorrectMarksView.numIncorrect = numIncorrect
+        }
+        if numIncorrect == 3 {
+            timer.invalidate()
+            saveRushAttempt(didTimeout: false, didStrikeout: true)
+            showPostRustController()
+        } else {
+            self.currentPuzzle = fetchNextPuzzle()
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                self.configurePageForNewPuzzle(puzzle: self.currentPuzzle)
+            }
+        }
+    }
+    
+    func cancelWorkItems() {
+        workItems.forEach({$0.cancel()})
+    }
+    
+    func showPostRustController() {
+        let controller = PostRushController(score: numCorrect, rushMinutes: startMinutes, isBlindfold: piecesHidden)
+        controller.delegate = self
+        self.present(controller, animated: true)
+    }
 }
 
-extension PuzzleRushController: ChessBoardDelegate {
-    func didFinishShowingSolution() {
-    }
-    
-    func didMakeMove(moveUCI: String) {
-        let solutionUCI = currentPuzzle.solution_moves[onSolutionMoveIndex].answer_uci
-        if solutionUCI.contains(moveUCI) {
-            let solutionMove: WBMove = currentPuzzle.solution_moves[onSolutionMoveIndex]
-            chessBoardController.pushMove(wbMove: solutionMove, firstMovingPlayer: currentPuzzle.player_to_move)
-            onSolutionMoveIndex = onSolutionMoveIndex + 1
-            solutionLabel.attributedText = PuzzleUI().configSolutionText(solutionMoves: currentPuzzle.solution_moves, onIndex: onSolutionMoveIndex)
-            if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
-                didCompletePuzzle(wasCorrect: true)
-            }
-        } else {
-            
-            let playerIsWhite = currentPuzzle.player_to_move == "white" ? true : false
-            chessBoardController.displayMove(moveUCI: moveUCI, playerIsWhite: playerIsWhite)
-            chessBoardController.setButtonInteraction(isEnabled: false)
-            stateIsIncorrect = true
+extension PuzzleRushController: BoardDelegate {
+    func didMakeMove(move: Move, animated: Bool) {
+        self.boardController.view.isUserInteractionEnabled = false
+        let workItem = DispatchWorkItem {
+            self.boardController.pushMove(move: move, animated: animated)
+        }
+        workItems.append(workItem)
+        DispatchQueue.main.asyncAfter(deadline: .now(), execute: workItem)
+        
+        let solutionMoves = currentPuzzle.solution_moves[onSolutionMoveIndex]
+        let answerMove = Move(string: solutionMoves.answer_uci)
+        if move.description != answerMove.description {
             didCompletePuzzle(wasCorrect: false)
+            return
+        }
+        onSolutionMoveIndex += 1
+        updateSolutionLabel()
+        if onSolutionMoveIndex == currentPuzzle.solution_moves.count {
+            didCompletePuzzle(wasCorrect: true)
+        } else {
+            let responseMove = Move(string: solutionMoves.response_uci)
+            self.boardController.view.isUserInteractionEnabled = false
+            let workItem = DispatchWorkItem {
+                self.boardController.pushMove(move: responseMove, animated: true) {
+                    self.boardController.view.isUserInteractionEnabled = true
+                }
+            }
+            workItems.append(workItem)
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.25, execute: workItem)
         }
     }
 }
 
 extension PuzzleRushController {
-    func didCompletePuzzle(wasCorrect: Bool) {
-        correctnessLabel.setCorrectness(isCorrect: wasCorrect)
-        UIView.animate(withDuration: 0.2, animations: {
-            self.correctnessLabel.alpha = 1
-            if wasCorrect {
-                self.numCorrect+=1
-                self.numCorrectLabel.setNumCorrect(numCorrect: self.numCorrect)
-            } else {
-                self.numIncorrect+=1
-                self.incorrectMarksView.numIncorrect = self.numIncorrect
-            }
-        }) { (_) in
-            if self.numIncorrect == 3 {
-                self.timer.invalidate()
-                self.saveRushAttempt(didTimeout: false, didStrikeout: true)
-                let controller = PostRushController(score: self.numCorrect, rushMinutes: self.startMinutes, isBlindfold: self.piecesHidden)
-                controller.delegate = self
-                self.present(controller, animated: true)
-                
-            } else {
-                self.restartPuzzleAttempt()
-                self.fetchNextPuzzle()
-                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                    self.correctnessLabel.alpha = 0
-                    self.configurePageForNewPuzzle()
-                }
-            }
-
-        }
-    }
-    
     func saveRushAttempt(didTimeout: Bool, didStrikeout: Bool) {
         if startMinutes == 3 {
             let rushAttempt = Rush3Attempt(context: context)
@@ -408,34 +410,6 @@ extension PuzzleRushController {
     }
 }
 
-extension PuzzleRushController: PostRushDelegate {
-    func didSelectPlayAgain() {
-        if UserDataManager().hasReachedRushLimit() {
-            limitReachedController = LimitReachedController()
-            limitReachedController.delegate = self
-            view.addSubview(limitReachedController.view)
-            return
-        }
-        onSolutionMoveIndex = 0
-        stateIsIncorrect = false
-        numCorrect = 0
-        numIncorrect = 0
-        fetchNextPuzzle()
-        secondsRemaining = startMinutes*60
-        puzzledUser = UserDBMS().getPuzzledUser()
-        DispatchQueue.main.async {
-            self.view.subviews.forEach{ (view) in
-                view.removeFromSuperview()
-            }
-            self.viewDidLoad()
-        }
-    }
-    func didSelectExit() {
-        navigationController?.popViewController(animated: true)
-    }
-    
-}
-
 extension PuzzleRushController: LimitReachedDelegate {
     func didSelectUpgrade() {
         navigationController?.pushViewController(UpgradeController(), animated: true)
@@ -444,5 +418,19 @@ extension PuzzleRushController: LimitReachedDelegate {
     func didDismiss() {
         navigationController?.popToRootViewController(animated: true)
     }
+}
+
+extension PuzzleRushController: PostRushDelegate {
+    func didSelectExit() {
+        navigationController?.popToRootViewController(animated: true)
+    }
     
+    func didSelectPlayAgain() {
+        onSolutionMoveIndex = 0
+        numCorrect = 0
+        numIncorrect = 0
+        self.secondsRemaining = startMinutes*60
+        self.view.subviews.forEach({$0.removeFromSuperview()})
+        self.viewDidLoad()
+    }
 }

@@ -22,7 +22,7 @@ class PuzzleRushUI {
     func configTimeRemainingLabel() -> UILabel {
         let l = UILabel()
         l.backgroundColor = .clear
-        l.textColor = .white
+        l.textColor = .lightGray
         l.font = UIFont(name: fontString, size: 18)
         l.translatesAutoresizingMaskIntoConstraints = false
         return l
@@ -48,7 +48,7 @@ extension UILabel {
         let seconds = secondsLeft % 60
         let sec = seconds < 10 ? "0\(seconds)" : String(seconds)
         let min = String(secondsLeft/60)
-        self.text = "TIME:  \(min):\(sec)"
+        self.text = "\u{23f1}  \(min):\(sec)"
     }
     
     func setCorrectness(isCorrect: Bool) {
