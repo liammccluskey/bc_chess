@@ -56,7 +56,7 @@ class UpgradeController: UIViewController, SKProductsRequestDelegate, SKPaymentT
         configNavBar()
         
         goldView = configUpgradeView(isGold: true, title: "Gold Member", price: "$4.99", feat1: "Unlimited Puzzle Rush", feat2: "Unlimited Rated Puzzles")
-        silverView = configUpgradeView(isGold: false, title: "Silver Member", price: "$1.99", feat1: "15 Puzzle Rush per day", feat2: "30 Rated Puzzles per day")
+        silverView = configUpgradeView(isGold: false, title: "Silver Member", price: "$1.99", feat1: "25 Puzzle Rush per day", feat2: "50 Rated Puzzles per day")
         
         vstack = CommonUI().configureStackView(arrangedSubViews: [header, goldView, silverView])
         vstack.distribution = .fillEqually
@@ -246,16 +246,16 @@ enum MembershipType: Int {
     
     var rushLimit: Int {
         switch self {
-        case .free: return 3
-        case .silver: return 15
+        case .free: return 5
+        case .silver: return 25
         case .gold: return 1000000 // should be infinte
         }
     }
     
     var puzzleLimit: Int {
         switch self {
-        case .free: return 5
-        case .silver: return 30
+        case .free: return 10
+        case .silver: return 50
         case .gold: return 1000000 // should be infinite
         }
     }

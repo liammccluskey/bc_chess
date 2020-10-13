@@ -7,8 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		010845812533570300639AA8 /* HomeController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010845802533570200639AA8 /* HomeController1.swift */; };
+		010845832533579400639AA8 /* SlideMenuTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010845822533579400639AA8 /* SlideMenuTableController.swift */; };
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
 		0141A40924FCA767007DBB26 /* illegal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0141A40824FCA767007DBB26 /* illegal.mp3 */; };
+		014C5AB6250B30BD0013815C /* OpeningsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014C5AB5250B30BD0013815C /* OpeningsController.swift */; };
+		014C5AB8250B31C80013815C /* CommonMovesTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 014C5AB7250B31C80013815C /* CommonMovesTableController.swift */; };
 		0154D84E24FBF7A2003DE0AA /* BoardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0154D84D24FBF7A2003DE0AA /* BoardController.swift */; };
 		0154D85224FC6585003DE0AA /* move_check.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D84F24FC6580003DE0AA /* move_check.mp3 */; };
 		0154D85324FC6585003DE0AA /* capture.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85024FC6583003DE0AA /* capture.mp3 */; };
@@ -96,8 +100,12 @@
 
 /* Begin PBXFileReference section */
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
+		010845802533570200639AA8 /* HomeController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController1.swift; sourceTree = "<group>"; };
+		010845822533579400639AA8 /* SlideMenuTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuTableController.swift; sourceTree = "<group>"; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
 		0141A40824FCA767007DBB26 /* illegal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = illegal.mp3; sourceTree = "<group>"; };
+		014C5AB5250B30BD0013815C /* OpeningsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OpeningsController.swift; sourceTree = "<group>"; };
+		014C5AB7250B31C80013815C /* CommonMovesTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommonMovesTableController.swift; sourceTree = "<group>"; };
 		0154D84D24FBF7A2003DE0AA /* BoardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoardController.swift; sourceTree = "<group>"; };
 		0154D84F24FC6580003DE0AA /* move_check.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_check.mp3; sourceTree = "<group>"; };
 		0154D85024FC6583003DE0AA /* capture.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = capture.mp3; sourceTree = "<group>"; };
@@ -207,6 +215,24 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0108457F253356EE00639AA8 /* SlideMenuApp */ = {
+			isa = PBXGroup;
+			children = (
+				010845802533570200639AA8 /* HomeController1.swift */,
+				010845822533579400639AA8 /* SlideMenuTableController.swift */,
+			);
+			path = SlideMenuApp;
+			sourceTree = "<group>";
+		};
+		014C5AB4250B30920013815C /* ExtraControllers */ = {
+			isa = PBXGroup;
+			children = (
+				014C5AB5250B30BD0013815C /* OpeningsController.swift */,
+				014C5AB7250B31C80013815C /* CommonMovesTableController.swift */,
+			);
+			path = ExtraControllers;
+			sourceTree = "<group>";
+		};
 		0175105124DCF72500DB87FE /* PuzzleControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -398,6 +424,8 @@
 		7CE941E7245B6B0D00B9A2A0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
+				0108457F253356EE00639AA8 /* SlideMenuApp */,
+				014C5AB4250B30920013815C /* ExtraControllers */,
 				0175105124DCF72500DB87FE /* PuzzleControllers */,
 				0186FC0F24D7539700726BD8 /* SignInController.swift */,
 				0186FC0524D51C8000726BD8 /* ContainerController.swift */,
@@ -685,6 +713,7 @@
 				01E7BAF324E832060052B2DD /* Rush3Attempt+CoreDataClass.swift in Sources */,
 				0186FC0C24D6109000726BD8 /* DailyPuzzlesCollectionController.swift in Sources */,
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
+				014C5AB6250B30BD0013815C /* OpeningsController.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
 				01E7BAF224E832060052B2DD /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
 				01E7BAF424E832060052B2DD /* Rush3Attempt+CoreDataProperties.swift in Sources */,
@@ -695,6 +724,7 @@
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
 				0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */,
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
+				010845832533579400639AA8 /* SlideMenuTableController.swift in Sources */,
 				01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
 				0154D84E24FBF7A2003DE0AA /* BoardController.swift in Sources */,
@@ -704,12 +734,14 @@
 				01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */,
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				01E7BAF924E832060052B2DD /* PuzzledUser+CoreDataClass.swift in Sources */,
+				010845812533570300639AA8 /* HomeController1.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				01E7BAF124E832060052B2DD /* PuzzleAttempt+CoreDataClass.swift in Sources */,
 				0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
 				01E7BAF824E832060052B2DD /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				01E7BB0B24E9FED90052B2DD /* UpgradeController.swift in Sources */,
+				014C5AB8250B31C80013815C /* CommonMovesTableController.swift in Sources */,
 				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
 				01B1ACE324FEB04C0036AA23 /* BoardControllerHelper.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
@@ -898,7 +930,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = BCPtest/Puzzled.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.4;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -906,7 +938,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = Puzzled;
 				SUPPORTS_MACCATALYST = NO;
@@ -923,7 +955,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = BCPtest/Puzzled.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2.1.4;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -931,7 +963,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 2;
+				MARKETING_VERSION = 3.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = kingliam.BCPtest;
 				PRODUCT_NAME = Puzzled;
 				SUPPORTS_MACCATALYST = NO;

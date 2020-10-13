@@ -32,7 +32,11 @@ class BoardController: UIViewController {
     var stationaryPieceOffsetY: CGFloat!
     var stationaryPieceOffsetX: CGFloat!
     
+    let startFEN: String = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     var game: Game!
+    var previousPositions: [LoadedPosition] = []
+    var currentPosition: LoadedPosition?
+    var nextPositions: [LoadedPosition] = []
     
     var sideLength: CGFloat!
     var isDragging = false
@@ -409,7 +413,7 @@ class BoardController: UIViewController {
         }
     }
     
-    // MARK: - Interface
+    // MARK: - Private Interface
     
     func constructCurrentMove() -> Move? {
         guard let fromIndex = fromSquareIndex, let toIndex = toSquareIndex else {return nil}
@@ -444,6 +448,34 @@ class BoardController: UIViewController {
         squareHover.alpha = 0
     }
     
+    private func highlightSquares(forPushedMove move: Move) {
+        let fromSqrIndex = BCH.coordinateToIndex(coordinate: move.from.coordinate)
+        let toSqrIndex = BCH.coordinateToIndex(coordinate: move.to.coordinate)
+        squareFromHighlight.frame = squareIVs[fromSqrIndex].frame
+        squareToHighlight.frame = squareIVs[toSqrIndex].frame
+    }
+    
+    private func addLoadedPosition(pushedMove: Move, fen: String) {
+    /*
+         Note: Called after a move has been pushed
+         Does: Adds var currentPosition to array of previous positions, and updates var currentPosition
+         Does: Clears nextPositions if different moves are pushed
+    */
+        if let pos = currentPosition {
+            previousPositions.append(pos)
+        }
+        currentPosition = LoadedPosition(
+            fen: FenSerialization.default.serialize(position: game.position),
+            pushedMove: pushedMove)
+        if nextPositions.count == 0 {
+            return
+        } else if nextPositions.last! == currentPosition {
+            nextPositions.removeLast()
+        } else if nextPositions.last! != currentPosition {
+            nextPositions = []
+        }
+    }
+    
     // MARK: - Public Interface
     
     func showPieces() {
@@ -455,7 +487,7 @@ class BoardController: UIViewController {
         pieceIVs.forEach({$0.alpha = 0})
     }
     
-    func pushMove(move: Move, animated: Bool, completion: @escaping (()->()) = {}) {
+    func pushMove(move: Move, animated: Bool, completion: @escaping (()->()) = {}, shouldUpdatePositions: Bool = true) {
         let fromSqrIndex = BCH.coordinateToIndex(coordinate: move.from.coordinate)
         let toSqrIndex = BCH.coordinateToIndex(coordinate: move.to.coordinate)
         
@@ -474,7 +506,7 @@ class BoardController: UIViewController {
         
         self.squareFromHighlight.frame = self.squareIVs[fromSqrIndex].frame
         self.squareToHighlight.frame = self.squareIVs[toSqrIndex].frame
-        let animationDuration = animated ? 0.2 : 0.025
+        let animationDuration = animated ? 0.2 : 0.01
         UIView.animate(withDuration: animationDuration, animations: {
             self.setStationaryPieceFrame(forPieceAtTag: fromSqrIndex, atSquareTag: toSqrIndex)
         }) { (_) in
@@ -495,6 +527,61 @@ class BoardController: UIViewController {
             updatePiecesIfNeeded(promotionSquare: move.to)
         } else {
             updatePiecesIfNeeded()
+        }
+        if shouldUpdatePositions {
+            addLoadedPosition(pushedMove: move, fen: FenSerialization.default.serialize(position: game.position))
+        }
+    }
+    
+    func overridePosition(withFEN fen: String, isStartPosition: Bool = false) {
+    /*
+         Sets the board position and clears from and to squares
+    */
+        if isStartPosition {
+            currentPosition = nil
+            previousPositions = []
+            nextPositions = []
+        }
+        let position = FenSerialization.default.deserialize(fen: fen)
+        self.game = Game(position: position)
+        layoutColor = 1
+        fromSquareIndex = nil
+        toSquareIndex = nil
+        promotionPiece = nil
+        squareFromHighlight.frame = .zero
+        squareToHighlight.frame = .zero
+        pieceIVs.forEach({
+            $0.removeFromSuperview()
+        })
+        pieceIVs = []
+        configPieceIVs()
+    }
+    
+    func loadPreviousPosition(completion: (Bool)->() ) {
+        if currentPosition == nil {
+            completion(false)
+            return
+        } else if previousPositions.count == 0 {
+            nextPositions.append(currentPosition!)
+            currentPosition = nil
+            overridePosition(withFEN: startFEN)
+        } else {
+            nextPositions.append(currentPosition!)
+            currentPosition = previousPositions.popLast()!
+            overridePosition(withFEN: currentPosition!.fen)
+            highlightSquares(forPushedMove: currentPosition!.pushedMove)
+        }
+        completion(true)
+    }
+    
+    func loadNextPosition(completion: @escaping (Bool) -> ()) {
+        if nextPositions.count == 0 { completion(false); return }
+        if let pos = currentPosition {
+            previousPositions.append(pos)
+        }
+        currentPosition = nextPositions.popLast()!
+        pushMove(move: currentPosition!.pushedMove, animated: true, shouldUpdatePositions: false) {
+            completion(true)
         }
     }
 }
@@ -592,4 +679,9 @@ extension BoardController {
         }
  
     }
+}
+
+struct LoadedPosition: Equatable {
+    let fen: String
+    let pushedMove: Move
 }

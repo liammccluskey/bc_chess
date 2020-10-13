@@ -52,6 +52,19 @@ protocol LimitReachedDelegate {
     func didDismiss()
     func didSelectUpgrade()
 }
+
+protocol CommonMovesTableDelegate {
+    func didSelectMove(move: CommonMove)
+    func didSelectGame(game: TopGame)
+}
+
+protocol SlideMenuTableDelegate {
+    func didSelectController(controllerIndex: Int)
+}
+
+protocol MainViewDelegate {
+    func didSelectMenu() 
+}
 // Database
 protocol UserDBMSDelegate {
     func sendUser(user: User?)

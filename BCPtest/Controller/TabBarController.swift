@@ -8,7 +8,7 @@
  
 import UIKit
 
-public var tabBarHeight: CGFloat!
+//public var tabBarHeight: CGFloat!
 class TabBarController: UITabBarController {
     
     // MARK: - Properties
@@ -33,6 +33,7 @@ class TabBarController: UITabBarController {
         let leaderboardController = LeaderboardController()
         let settingsController = SettingsController()
         settingsController.delegate = self
+        let openingsController = OpeningsController()
         
         let controller1 = UINavigationController(rootViewController: homeController)
         //controller1.tabBarItem.image = #imageLiteral(resourceName: "puzzle")
@@ -51,8 +52,13 @@ class TabBarController: UITabBarController {
         controller4.tabBarItem.image = #imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate)
         //controller4.tabBarItem.image = UIImage(systemName: "gearshape")
         controller4.tabBarItem.title = "Settings"
+        
+        let controllerA = UINavigationController(rootViewController: openingsController)
+        controllerA.tabBarItem.title = "Openings"
+        controllerA.tabBarItem.image = UIImage(systemName: "book.fill")
     
-        viewControllers = [controller1, controller2, controller3, controller4]
+        //viewControllers = [controller1, controller2, controller3, controller4]
+        viewControllers = [controller1, controllerA, controller2, controller3, controller4]
  
         tabBar.barTintColor = CommonUI().tabBarColor
         tabBar.tintColor = CommonUI().csRed

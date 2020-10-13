@@ -104,6 +104,14 @@ class PuzzleRushController: UIViewController {
         setFrames()
     }
     
+    override func viewWillDisappear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = false
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     // MARK: - Config
     
     func configureUI() {

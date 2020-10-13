@@ -30,6 +30,10 @@ class UserDataManager {
         static let appHasLaunched = "appHasLaunched"
     }
     
+    struct versionKeys {
+        static let appHasLaunched_V2_1_4 = "V2_1_4"
+    }
+    
     // MARK: - Init
     
     func isFirstLaunch() -> Bool {
@@ -38,6 +42,14 @@ class UserDataManager {
     
     func setDidLaunch() {
         defaults.set(true, forKey: stateKeys.appHasLaunched)
+    }
+    
+    func isFirstLaunchOfNewestVersion() -> Bool {
+        return !defaults.bool(forKey: versionKeys.appHasLaunched_V2_1_4)
+    }
+    
+    func setDidLaunchNewestVersion() {
+        defaults.set(true, forKey: versionKeys.appHasLaunched_V2_1_4)
     }
     
     // MARK: - Interface

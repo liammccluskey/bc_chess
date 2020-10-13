@@ -78,7 +78,6 @@ class PuzzleRatedController: UIViewController {
     }
     
     override func viewDidLayoutSubviews() {
-        print("did layout subviews")
         setFrames()
     }
     

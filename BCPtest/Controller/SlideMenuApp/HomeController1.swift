@@ -1,15 +1,16 @@
 //
-//  HomeController.swift
+//  HomeController1.swift
 //  BCPtest
 //
-//  Created by Marty McCluskey on 4/30/20.
+//  Created by Liam Mccluskey on 10/11/20.
 //  Copyright © 2020 Marty McCluskey. All rights reserved.
 //
 
 import UIKit
 import FirebaseAuth
 
-class HomeController: UIViewController {
+
+class HomeController1: UIViewController {
     
     var currentUser: User!
     
@@ -323,7 +324,7 @@ class HomeController: UIViewController {
     }
 }
 
-extension HomeController: DailyPuzzlesCollectionDelegate {
+extension HomeController1: DailyPuzzlesCollectionDelegate {
     func didSelectPuzzle(puzzle: Puzzle, puzzleReference: PuzzleReference, puzzleNumber: Int, piecesHidden: Bool, publicAttemptsInfo: DailyPuzzlesInfo?) {
         let controller = DailyPuzzleController(pRef: puzzleReference, puzzle: puzzle, piecesHidden: piecesHidden, puzzleNumber: puzzleNumber, publicAttemptsInfo: publicAttemptsInfo)
         controller.hidesBottomBarWhenPushed = true
@@ -334,7 +335,7 @@ extension HomeController: DailyPuzzlesCollectionDelegate {
     }
 }
 
-extension HomeController: UserDBMSDelegate {
+extension HomeController1: UserDBMSDelegate {
     func sendUser(user: User?) {
         guard let user = user else {return}
         self.currentUser = user
@@ -343,86 +344,8 @@ extension HomeController: UserDBMSDelegate {
     }
 }
 
-fileprivate var modeConfig = UIImage.SymbolConfiguration(pointSize: 40, weight: .regular, scale: .medium)
-enum PuzzleMode: Int, CustomStringConvertible {
-    case training, rush, piecesShown, piecesHidden
-    var description: String {
-        switch self {
-        case .training: return "Training"
-        case .rush: return "Rush"
-        case .piecesShown: return "Regular"
-        case .piecesHidden: return "Blind"
-        }
-    }
-    var image: UIImage {
-        switch self {
-        case .training: return UIImage(systemName: "chart.bar", withConfiguration: modeConfig)!
-        case .rush: return UIImage(systemName: "alarm", withConfiguration: modeConfig)!
-        case .piecesShown: return UIImage(systemName: "eye", withConfiguration: modeConfig)!
-        case .piecesHidden: return UIImage(systemName: "eye.slash", withConfiguration: modeConfig)!
-        }
-    }
-}
 
 
-class ModeButton: UIButton {
-    
-    var puzzleMode: Int!
-    var wasSelected: Bool! {
-        didSet {
-            let tintColor = wasSelected ? CommonUI().softWhite : .darkGray
-            let borderColor = wasSelected ? UIColor.black : CommonUI().blackColor
-            let bgColor = wasSelected ? .black : CommonUI().blackColorLight
-            layer.borderColor = borderColor.cgColor
-            title.textColor = tintColor
-            image.image = image.image?.withTintColor(tintColor, renderingMode: .alwaysOriginal)
-            backgroundColor = bgColor
-        }
-    }
-    
-    init(puzzleMode: Int) {
-        super.init(frame: .zero)
-        self.puzzleMode = puzzleMode
-        
-        configUI()
-    }
-    
-    required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
-    
-    var title: UILabel!
-    var image: UIImageView!
-    
-    func configUI() {
-        backgroundColor = .clear
-        
-        image = UIImageView()
-        image.clipsToBounds = true
-        image.translatesAutoresizingMaskIntoConstraints = false
-        addSubview(image)
-        title = UILabel()
-        title.translatesAutoresizingMaskIntoConstraints = false
-        title.textAlignment = .center
-        title.font = UIFont(name: fontString, size: 16)
-        title.text = PuzzleMode(rawValue: puzzleMode)?.description
-        title.textColor = .darkGray
-        addSubview(title)
-        
-        image.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
-        image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 0).isActive = true
-        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
-        title.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
-        
-        tag = puzzleMode
-        title.text = PuzzleMode(rawValue: puzzleMode)?.description
-        image.image = PuzzleMode(rawValue: puzzleMode)?.image
-        layer.cornerRadius = 10
-        layer.borderColor = UIColor.clear.cgColor
-        layer.borderWidth = 6
-    }
-}
 
 
 

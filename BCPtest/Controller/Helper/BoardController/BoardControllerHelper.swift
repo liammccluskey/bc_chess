@@ -27,7 +27,6 @@ class BoardControllerHelper {
     // MARK: - Helper
     
     func coordinateToIndex(coordinate: String) -> Int {
-        print("trying to convert coordinate: \(coordinate)")
         let file = coordinate.first!
         let rank = Int(String(coordinate.last!))!
         let files: [Character: Int] = ["a": 0, "b": 1, "c": 2, "d": 3, "e": 4, "f": 5, "g": 6, "h": 7]

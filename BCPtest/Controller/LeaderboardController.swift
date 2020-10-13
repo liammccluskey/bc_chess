@@ -75,8 +75,7 @@ class LeaderboardController: UIViewController {
         let font = UIFont(name: fontStringBold, size: 17)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
         navigationItem.title = "Leaderboard"
-        navigationItem.rightBarButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh, target: self, action: #selector(refreshAction))
-        navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill"), style: .plain, target: self, action: #selector(showMeAction))
+        navigationItem.rightBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "person.fill"), style: .plain, target: self, action: #selector(showMeAction))
     }
     
     func configSegment(items: [String]) -> UISegmentedControl {
