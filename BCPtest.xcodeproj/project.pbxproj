@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		010845812533570300639AA8 /* HomeController1.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010845802533570200639AA8 /* HomeController1.swift */; };
 		010845832533579400639AA8 /* SlideMenuTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 010845822533579400639AA8 /* SlideMenuTableController.swift */; };
 		012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */; };
 		0141A40924FCA767007DBB26 /* illegal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0141A40824FCA767007DBB26 /* illegal.mp3 */; };
@@ -17,12 +16,36 @@
 		0154D85224FC6585003DE0AA /* move_check.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D84F24FC6580003DE0AA /* move_check.mp3 */; };
 		0154D85324FC6585003DE0AA /* capture.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85024FC6583003DE0AA /* capture.mp3 */; };
 		0154D85424FC6585003DE0AA /* move_self.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0154D85124FC6585003DE0AA /* move_self.mp3 */; };
+		015923C425393CA900DA05EF /* EngineController.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0159239325393CA900DA05EF /* EngineController.mm */; };
+		015923C525393CA900DA05EF /* CommandQueue.mm in Sources */ = {isa = PBXBuildFile; fileRef = 0159239525393CA900DA05EF /* CommandQueue.mm */; };
+		015923C625393CA900DA05EF /* EngineManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 0159239725393CA900DA05EF /* EngineManager.m */; };
+		015923C725393CA900DA05EF /* thread.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0159239B25393CA900DA05EF /* thread.cpp */; };
+		015923C825393CA900DA05EF /* timeman.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0159239C25393CA900DA05EF /* timeman.cpp */; };
+		015923C925393CA900DA05EF /* ucioption.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0159239D25393CA900DA05EF /* ucioption.cpp */; };
+		015923CA25393CA900DA05EF /* misc.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 0159239F25393CA900DA05EF /* misc.cpp */; };
+		015923CB25393CA900DA05EF /* bitboard.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923A125393CA900DA05EF /* bitboard.cpp */; };
+		015923CC25393CA900DA05EF /* iosextension.mm in Sources */ = {isa = PBXBuildFile; fileRef = 015923A225393CA900DA05EF /* iosextension.mm */; };
+		015923CD25393CA900DA05EF /* psqt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923A425393CA900DA05EF /* psqt.cpp */; };
+		015923CE25393CA900DA05EF /* benchmark.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923A525393CA900DA05EF /* benchmark.cpp */; };
+		015923CF25393CA900DA05EF /* movepick.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923A625393CA900DA05EF /* movepick.cpp */; };
+		015923D025393CA900DA05EF /* tbprobe.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923AA25393CA900DA05EF /* tbprobe.cpp */; };
+		015923D125393CA900DA05EF /* bitbase.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923AC25393CA900DA05EF /* bitbase.cpp */; };
+		015923D225393CA900DA05EF /* evaluate.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923AD25393CA900DA05EF /* evaluate.cpp */; };
+		015923D325393CA900DA05EF /* search.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923B025393CA900DA05EF /* search.cpp */; };
+		015923D425393CA900DA05EF /* notation.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923B325393CA900DA05EF /* notation.cpp */; };
+		015923D525393CA900DA05EF /* pawns.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923B625393CA900DA05EF /* pawns.cpp */; };
+		015923D625393CA900DA05EF /* movegen.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923B725393CA900DA05EF /* movegen.cpp */; };
+		015923D725393CA900DA05EF /* material.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923B825393CA900DA05EF /* material.cpp */; };
+		015923D825393CA900DA05EF /* tt.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923B925393CA900DA05EF /* tt.cpp */; };
+		015923D925393CA900DA05EF /* position.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923C025393CA900DA05EF /* position.cpp */; };
+		015923DA25393CA900DA05EF /* uci.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923C125393CA900DA05EF /* uci.cpp */; };
+		015923DB25393CA900DA05EF /* endgame.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 015923C225393CA900DA05EF /* endgame.cpp */; };
+		015923DC25393CA900DA05EF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 015923C325393CA900DA05EF /* Info.plist */; };
 		0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175103924DC8FA600DB87FE /* ProgressTableController.swift */; };
 		0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */; };
 		0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */; };
 		0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */; };
 		0175322524DF81670051F71F /* PuzzleRushUI.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0175322424DF81660051F71F /* PuzzleRushUI.swift */; };
-		0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFC24D5106E00726BD8 /* TabBarController.swift */; };
 		0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FBFE24D515C300726BD8 /* SettingsController.swift */; };
 		0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0124D5191400726BD8 /* LeaderboardController.swift */; };
 		0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0186FC0324D5193700726BD8 /* ProgressController.swift */; };
@@ -100,7 +123,6 @@
 
 /* Begin PBXFileReference section */
 		0046FB64587CE6BAFA7B598E /* Pods-BCPtest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-BCPtest.release.xcconfig"; path = "Target Support Files/Pods-BCPtest/Pods-BCPtest.release.xcconfig"; sourceTree = "<group>"; };
-		010845802533570200639AA8 /* HomeController1.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController1.swift; sourceTree = "<group>"; };
 		010845822533579400639AA8 /* SlideMenuTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SlideMenuTableController.swift; sourceTree = "<group>"; };
 		012B3C7724D9296100C55FE3 /* LeaderboardTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardTableController.swift; sourceTree = "<group>"; };
 		0141A40824FCA767007DBB26 /* illegal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = illegal.mp3; sourceTree = "<group>"; };
@@ -110,12 +132,59 @@
 		0154D84F24FC6580003DE0AA /* move_check.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_check.mp3; sourceTree = "<group>"; };
 		0154D85024FC6583003DE0AA /* capture.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = capture.mp3; sourceTree = "<group>"; };
 		0154D85124FC6585003DE0AA /* move_self.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = move_self.mp3; sourceTree = "<group>"; };
+		0159239225393CA900DA05EF /* EngineController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineController.h; sourceTree = "<group>"; };
+		0159239325393CA900DA05EF /* EngineController.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = EngineController.mm; sourceTree = "<group>"; };
+		0159239425393CA900DA05EF /* EngineManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EngineManager.h; sourceTree = "<group>"; };
+		0159239525393CA900DA05EF /* CommandQueue.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = CommandQueue.mm; sourceTree = "<group>"; };
+		0159239625393CA900DA05EF /* ChessEngine.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ChessEngine.h; sourceTree = "<group>"; };
+		0159239725393CA900DA05EF /* EngineManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EngineManager.m; sourceTree = "<group>"; };
+		0159239825393CA900DA05EF /* CommandQueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CommandQueue.h; sourceTree = "<group>"; };
+		0159239A25393CA900DA05EF /* endgame.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = endgame.h; sourceTree = "<group>"; };
+		0159239B25393CA900DA05EF /* thread.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = thread.cpp; sourceTree = "<group>"; };
+		0159239C25393CA900DA05EF /* timeman.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = timeman.cpp; sourceTree = "<group>"; };
+		0159239D25393CA900DA05EF /* ucioption.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = ucioption.cpp; sourceTree = "<group>"; };
+		0159239E25393CA900DA05EF /* types.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = types.h; sourceTree = "<group>"; };
+		0159239F25393CA900DA05EF /* misc.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = misc.cpp; sourceTree = "<group>"; };
+		015923A025393CA900DA05EF /* misc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = misc.h; sourceTree = "<group>"; };
+		015923A125393CA900DA05EF /* bitboard.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bitboard.cpp; sourceTree = "<group>"; };
+		015923A225393CA900DA05EF /* iosextension.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = iosextension.mm; sourceTree = "<group>"; };
+		015923A325393CA900DA05EF /* material.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = material.h; sourceTree = "<group>"; };
+		015923A425393CA900DA05EF /* psqt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = psqt.cpp; sourceTree = "<group>"; };
+		015923A525393CA900DA05EF /* benchmark.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = benchmark.cpp; sourceTree = "<group>"; };
+		015923A625393CA900DA05EF /* movepick.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = movepick.cpp; sourceTree = "<group>"; };
+		015923A725393CA900DA05EF /* bitboard.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bitboard.h; sourceTree = "<group>"; };
+		015923A825393CA900DA05EF /* pawns.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = pawns.h; sourceTree = "<group>"; };
+		015923AA25393CA900DA05EF /* tbprobe.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tbprobe.cpp; sourceTree = "<group>"; };
+		015923AB25393CA900DA05EF /* tbprobe.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tbprobe.h; sourceTree = "<group>"; };
+		015923AC25393CA900DA05EF /* bitbase.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = bitbase.cpp; sourceTree = "<group>"; };
+		015923AD25393CA900DA05EF /* evaluate.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = evaluate.cpp; sourceTree = "<group>"; };
+		015923AE25393CA900DA05EF /* thread.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread.h; sourceTree = "<group>"; };
+		015923AF25393CA900DA05EF /* movegen.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = movegen.h; sourceTree = "<group>"; };
+		015923B025393CA900DA05EF /* search.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = search.cpp; sourceTree = "<group>"; };
+		015923B125393CA900DA05EF /* movepick.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = movepick.h; sourceTree = "<group>"; };
+		015923B225393CA900DA05EF /* iosextension.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = iosextension.h; sourceTree = "<group>"; };
+		015923B325393CA900DA05EF /* notation.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = notation.cpp; sourceTree = "<group>"; };
+		015923B425393CA900DA05EF /* evaluate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = evaluate.h; sourceTree = "<group>"; };
+		015923B525393CA900DA05EF /* notation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = notation.h; sourceTree = "<group>"; };
+		015923B625393CA900DA05EF /* pawns.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = pawns.cpp; sourceTree = "<group>"; };
+		015923B725393CA900DA05EF /* movegen.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = movegen.cpp; sourceTree = "<group>"; };
+		015923B825393CA900DA05EF /* material.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = material.cpp; sourceTree = "<group>"; };
+		015923B925393CA900DA05EF /* tt.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = tt.cpp; sourceTree = "<group>"; };
+		015923BA25393CA900DA05EF /* search.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = search.h; sourceTree = "<group>"; };
+		015923BB25393CA900DA05EF /* thread_win32.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = thread_win32.h; sourceTree = "<group>"; };
+		015923BC25393CA900DA05EF /* tt.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = tt.h; sourceTree = "<group>"; };
+		015923BD25393CA900DA05EF /* uci.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = uci.h; sourceTree = "<group>"; };
+		015923BE25393CA900DA05EF /* position.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = position.h; sourceTree = "<group>"; };
+		015923BF25393CA900DA05EF /* timeman.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = timeman.h; sourceTree = "<group>"; };
+		015923C025393CA900DA05EF /* position.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = position.cpp; sourceTree = "<group>"; };
+		015923C125393CA900DA05EF /* uci.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = uci.cpp; sourceTree = "<group>"; };
+		015923C225393CA900DA05EF /* endgame.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; path = endgame.cpp; sourceTree = "<group>"; };
+		015923C325393CA900DA05EF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0175103924DC8FA600DB87FE /* ProgressTableController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressTableController.swift; sourceTree = "<group>"; };
 		0175104B24DCF6F200DB87FE /* PuzzleRushController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushController.swift; sourceTree = "<group>"; };
 		0175104D24DCF70700DB87FE /* PuzzleRatedController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRatedController.swift; sourceTree = "<group>"; };
 		0175104F24DCF71B00DB87FE /* PuzzleLearningController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleLearningController.swift; sourceTree = "<group>"; };
 		0175322424DF81660051F71F /* PuzzleRushUI.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuzzleRushUI.swift; sourceTree = "<group>"; };
-		0186FBFC24D5106E00726BD8 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		0186FBFE24D515C300726BD8 /* SettingsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsController.swift; sourceTree = "<group>"; };
 		0186FC0124D5191400726BD8 /* LeaderboardController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LeaderboardController.swift; sourceTree = "<group>"; };
 		0186FC0324D5193700726BD8 /* ProgressController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressController.swift; sourceTree = "<group>"; };
@@ -215,15 +284,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		0108457F253356EE00639AA8 /* SlideMenuApp */ = {
-			isa = PBXGroup;
-			children = (
-				010845802533570200639AA8 /* HomeController1.swift */,
-				010845822533579400639AA8 /* SlideMenuTableController.swift */,
-			);
-			path = SlideMenuApp;
-			sourceTree = "<group>";
-		};
 		014C5AB4250B30920013815C /* ExtraControllers */ = {
 			isa = PBXGroup;
 			children = (
@@ -231,6 +291,77 @@
 				014C5AB7250B31C80013815C /* CommonMovesTableController.swift */,
 			);
 			path = ExtraControllers;
+			sourceTree = "<group>";
+		};
+		0159239125393CA900DA05EF /* ChessEngine */ = {
+			isa = PBXGroup;
+			children = (
+				0159239225393CA900DA05EF /* EngineController.h */,
+				0159239325393CA900DA05EF /* EngineController.mm */,
+				0159239425393CA900DA05EF /* EngineManager.h */,
+				0159239525393CA900DA05EF /* CommandQueue.mm */,
+				0159239625393CA900DA05EF /* ChessEngine.h */,
+				0159239725393CA900DA05EF /* EngineManager.m */,
+				0159239825393CA900DA05EF /* CommandQueue.h */,
+				0159239925393CA900DA05EF /* Engine */,
+				015923C325393CA900DA05EF /* Info.plist */,
+			);
+			path = ChessEngine;
+			sourceTree = "<group>";
+		};
+		0159239925393CA900DA05EF /* Engine */ = {
+			isa = PBXGroup;
+			children = (
+				0159239A25393CA900DA05EF /* endgame.h */,
+				0159239B25393CA900DA05EF /* thread.cpp */,
+				0159239C25393CA900DA05EF /* timeman.cpp */,
+				0159239D25393CA900DA05EF /* ucioption.cpp */,
+				0159239E25393CA900DA05EF /* types.h */,
+				0159239F25393CA900DA05EF /* misc.cpp */,
+				015923A025393CA900DA05EF /* misc.h */,
+				015923A125393CA900DA05EF /* bitboard.cpp */,
+				015923A225393CA900DA05EF /* iosextension.mm */,
+				015923A325393CA900DA05EF /* material.h */,
+				015923A425393CA900DA05EF /* psqt.cpp */,
+				015923A525393CA900DA05EF /* benchmark.cpp */,
+				015923A625393CA900DA05EF /* movepick.cpp */,
+				015923A725393CA900DA05EF /* bitboard.h */,
+				015923A825393CA900DA05EF /* pawns.h */,
+				015923A925393CA900DA05EF /* syzygy */,
+				015923AC25393CA900DA05EF /* bitbase.cpp */,
+				015923AD25393CA900DA05EF /* evaluate.cpp */,
+				015923AE25393CA900DA05EF /* thread.h */,
+				015923AF25393CA900DA05EF /* movegen.h */,
+				015923B025393CA900DA05EF /* search.cpp */,
+				015923B125393CA900DA05EF /* movepick.h */,
+				015923B225393CA900DA05EF /* iosextension.h */,
+				015923B325393CA900DA05EF /* notation.cpp */,
+				015923B425393CA900DA05EF /* evaluate.h */,
+				015923B525393CA900DA05EF /* notation.h */,
+				015923B625393CA900DA05EF /* pawns.cpp */,
+				015923B725393CA900DA05EF /* movegen.cpp */,
+				015923B825393CA900DA05EF /* material.cpp */,
+				015923B925393CA900DA05EF /* tt.cpp */,
+				015923BA25393CA900DA05EF /* search.h */,
+				015923BB25393CA900DA05EF /* thread_win32.h */,
+				015923BC25393CA900DA05EF /* tt.h */,
+				015923BD25393CA900DA05EF /* uci.h */,
+				015923BE25393CA900DA05EF /* position.h */,
+				015923BF25393CA900DA05EF /* timeman.h */,
+				015923C025393CA900DA05EF /* position.cpp */,
+				015923C125393CA900DA05EF /* uci.cpp */,
+				015923C225393CA900DA05EF /* endgame.cpp */,
+			);
+			path = Engine;
+			sourceTree = "<group>";
+		};
+		015923A925393CA900DA05EF /* syzygy */ = {
+			isa = PBXGroup;
+			children = (
+				015923AA25393CA900DA05EF /* tbprobe.cpp */,
+				015923AB25393CA900DA05EF /* tbprobe.h */,
+			);
+			path = syzygy;
 			sourceTree = "<group>";
 		};
 		0175105124DCF72500DB87FE /* PuzzleControllers */ = {
@@ -381,6 +512,7 @@
 		7C96CC3E23A03C1C00EE9129 /* BCPtest */ = {
 			isa = PBXGroup;
 			children = (
+				0159239125393CA900DA05EF /* ChessEngine */,
 				01F887682504BA3900D22502 /* Puzzled.entitlements */,
 				01E7BAFD24E9C6BC0052B2DD /* Sounds */,
 				01C2417B24DAE0B7006741E4 /* CoreDataModels */,
@@ -424,12 +556,11 @@
 		7CE941E7245B6B0D00B9A2A0 /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				0108457F253356EE00639AA8 /* SlideMenuApp */,
+				0186FC0524D51C8000726BD8 /* ContainerController.swift */,
+				010845822533579400639AA8 /* SlideMenuTableController.swift */,
 				014C5AB4250B30920013815C /* ExtraControllers */,
 				0175105124DCF72500DB87FE /* PuzzleControllers */,
 				0186FC0F24D7539700726BD8 /* SignInController.swift */,
-				0186FC0524D51C8000726BD8 /* ContainerController.swift */,
-				0186FBFC24D5106E00726BD8 /* TabBarController.swift */,
 				7CE941E9245B6B2900B9A2A0 /* HomeController.swift */,
 				0186FBFE24D515C300726BD8 /* SettingsController.swift */,
 				0186FC0124D5191400726BD8 /* LeaderboardController.swift */,
@@ -565,6 +696,7 @@
 				0154D85324FC6585003DE0AA /* capture.mp3 in Resources */,
 				01B1ACE024FD82FC0036AA23 /* GeneratedPuzzles-5.json in Resources */,
 				7C96CC4A23A03C1E00EE9129 /* LaunchScreen.storyboard in Resources */,
+				015923DC25393CA900DA05EF /* Info.plist in Resources */,
 				01D3F39D25013EBD009E3A84 /* resultGood.mp3 in Resources */,
 				0186FC0E24D748F800726BD8 /* GoogleService-Info.plist in Resources */,
 				0141A40924FCA767007DBB26 /* illegal.mp3 in Resources */,
@@ -699,14 +831,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				015923DB25393CA900DA05EF /* endgame.cpp in Sources */,
+				015923D125393CA900DA05EF /* bitbase.cpp in Sources */,
 				7C33CCC424BB891C00135967 /* CommonUI.swift in Sources */,
 				01E7BB0724E9DB090052B2DD /* SoundEffectPlayer.swift in Sources */,
 				7C33CCBD24BAC83800135967 /* PuzzleFromJson.swift in Sources */,
 				01C9006F24DB2815003293D4 /* ProgressUI.swift in Sources */,
 				01E7BAFA24E832060052B2DD /* PuzzledUser+CoreDataProperties.swift in Sources */,
 				01D0830824CFA8AC001F57E6 /* ThemeTableController.swift in Sources */,
+				015923D825393CA900DA05EF /* tt.cpp in Sources */,
 				01E7BB1024EED8B40052B2DD /* LimitReachedController.swift in Sources */,
-				0186FBFD24D5106E00726BD8 /* TabBarController.swift in Sources */,
 				7C96CC4023A03C1D00EE9129 /* AppDelegate.swift in Sources */,
 				01E7BAF524E832060052B2DD /* PuzzleReference+CoreDataClass.swift in Sources */,
 				01E7BAF624E832060052B2DD /* PuzzleReference+CoreDataProperties.swift in Sources */,
@@ -715,6 +849,7 @@
 				7C33CCCC24C3118C00135967 /* Protocols.swift in Sources */,
 				014C5AB6250B30BD0013815C /* OpeningsController.swift in Sources */,
 				01C2412F24DA7269006741E4 /* BCPTest.xcdatamodeld in Sources */,
+				015923C825393CA900DA05EF /* timeman.cpp in Sources */,
 				01E7BAF224E832060052B2DD /* PuzzleAttempt+CoreDataProperties.swift in Sources */,
 				01E7BAF424E832060052B2DD /* Rush3Attempt+CoreDataProperties.swift in Sources */,
 				0175322524DF81670051F71F /* PuzzleRushUI.swift in Sources */,
@@ -724,34 +859,53 @@
 				7C96CC6E23A03C7600EE9129 /* puzzleInfo.swift in Sources */,
 				0175104C24DCF6F200DB87FE /* PuzzleRushController.swift in Sources */,
 				0186FBFF24D515C300726BD8 /* SettingsController.swift in Sources */,
+				015923CA25393CA900DA05EF /* misc.cpp in Sources */,
+				015923D325393CA900DA05EF /* search.cpp in Sources */,
 				010845832533579400639AA8 /* SlideMenuTableController.swift in Sources */,
 				01E7BABE24E773A70052B2DD /* PublicDBMS.swift in Sources */,
 				7C33CCC824BBC71300135967 /* PuzzleUI.swift in Sources */,
 				0154D84E24FBF7A2003DE0AA /* BoardController.swift in Sources */,
 				01E7BABC24E71E060052B2DD /* PostRushController.swift in Sources */,
+				015923D425393CA900DA05EF /* notation.cpp in Sources */,
+				015923CC25393CA900DA05EF /* iosextension.mm in Sources */,
 				0175104E24DCF70700DB87FE /* PuzzleRatedController.swift in Sources */,
 				0175103A24DC8FA600DB87FE /* ProgressTableController.swift in Sources */,
 				01D0830624CFA445001F57E6 /* UserDataManager.swift in Sources */,
+				015923C525393CA900DA05EF /* CommandQueue.mm in Sources */,
 				0186FC0224D5191400726BD8 /* LeaderboardController.swift in Sources */,
 				01E7BAF924E832060052B2DD /* PuzzledUser+CoreDataClass.swift in Sources */,
-				010845812533570300639AA8 /* HomeController1.swift in Sources */,
 				0186FC0624D51C8000726BD8 /* ContainerController.swift in Sources */,
 				01E7BAF124E832060052B2DD /* PuzzleAttempt+CoreDataClass.swift in Sources */,
+				015923D725393CA900DA05EF /* material.cpp in Sources */,
+				015923D925393CA900DA05EF /* position.cpp in Sources */,
 				0186FC1324D77DA800726BD8 /* UserDMBS.swift in Sources */,
 				7C96CC7223A03CEB00EE9129 /* homepageVC.swift in Sources */,
+				015923D025393CA900DA05EF /* tbprobe.cpp in Sources */,
 				01E7BAF824E832060052B2DD /* Rush5Attempt+CoreDataProperties.swift in Sources */,
 				01E7BB0B24E9FED90052B2DD /* UpgradeController.swift in Sources */,
+				015923CF25393CA900DA05EF /* movepick.cpp in Sources */,
+				015923C925393CA900DA05EF /* ucioption.cpp in Sources */,
+				015923D525393CA900DA05EF /* pawns.cpp in Sources */,
 				014C5AB8250B31C80013815C /* CommonMovesTableController.swift in Sources */,
+				015923C425393CA900DA05EF /* EngineController.mm in Sources */,
+				015923CE25393CA900DA05EF /* benchmark.cpp in Sources */,
+				015923CB25393CA900DA05EF /* bitboard.cpp in Sources */,
 				0186FC0A24D5ABCA00726BD8 /* ChessBoardImageController.swift in Sources */,
+				015923C725393CA900DA05EF /* thread.cpp in Sources */,
 				01B1ACE324FEB04C0036AA23 /* BoardControllerHelper.swift in Sources */,
 				7C96CC7023A03CB600EE9129 /* puzzleVC.swift in Sources */,
 				012B3C7824D9296100C55FE3 /* LeaderboardTableController.swift in Sources */,
 				0186FC0824D53C9600726BD8 /* DailyPuzzleController.swift in Sources */,
 				0186FC0424D5193700726BD8 /* ProgressController.swift in Sources */,
 				0175105024DCF71B00DB87FE /* PuzzleLearningController.swift in Sources */,
+				015923D625393CA900DA05EF /* movegen.cpp in Sources */,
+				015923D225393CA900DA05EF /* evaluate.cpp in Sources */,
 				7C33CCC624BB91D800135967 /* PositionTableController.swift in Sources */,
+				015923DA25393CA900DA05EF /* uci.cpp in Sources */,
 				7CE941EA245B6B2900B9A2A0 /* HomeController.swift in Sources */,
 				0186FC1024D7539700726BD8 /* SignInController.swift in Sources */,
+				015923C625393CA900DA05EF /* EngineManager.m in Sources */,
+				015923CD25393CA900DA05EF /* psqt.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -930,7 +1084,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = BCPtest/Puzzled.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
@@ -955,7 +1109,7 @@
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = "LaunchImage-2";
 				CODE_SIGN_ENTITLEMENTS = BCPtest/Puzzled.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 3;
+				CURRENT_PROJECT_VERSION = 4;
 				DEVELOPMENT_TEAM = VK5RMS38VH;
 				INFOPLIST_FILE = BCPtest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;

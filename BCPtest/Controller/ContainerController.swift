@@ -12,6 +12,8 @@ import Firebase
 
 import CoreData
 
+import ChessEngine
+
 
 // globals
 var PFJ: PuzzlesFromJson!
@@ -30,7 +32,7 @@ class ContainerController: UIViewController {
     }()
     var mainViewController: UINavigationController!
     var menuTableController: SlideMenuTableController!
-    let menuTableWidth: CGFloat = UIScreen.main.bounds.width*0.7
+    let menuTableWidth: CGFloat = UIScreen.main.bounds.width*0.6
     
     // MARK: - Init
     
@@ -92,17 +94,15 @@ class ContainerController: UIViewController {
         if mainViewController != nil {
             mainViewController.view.removeFromSuperview()
         }
-        let controller = SlideMenuItems(rawValue: vcIndex)!.linkedViewController
+        var controller = SlideMenuItems(rawValue: vcIndex)!.linkedViewController
+        if let _controller = controller as? SettingsController {
+            _controller.delegate = self
+            controller = _controller
+        }
         controller.navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(systemName: "line.horizontal.3"), style: .plain, target: self, action: #selector(showMenuAction))
         mainViewController = UINavigationController(rootViewController: controller)
         mainViewController.view.frame.origin.x = isInitLoad ? 0 : menuTableWidth
         view.addSubview(mainViewController.view)
-    }
-
-    func configTabBarController() {
-        let controller = TabBarController()
-        controller.signOutDelegate = self
-        showChildViewController(child: controller)
     }
     
     // MARK: - Handlers
@@ -146,7 +146,8 @@ class ContainerController: UIViewController {
 
 extension ContainerController: SignInDelegate, SignOutDelegate {
     func notifyOfSignIn() {
-        configTabBarController()
+        configMenuTableController()
+        configMainViewController(withIndex: 0, isInitLoad: true)
     }
     
     func notifyOfSignOut() {
@@ -162,92 +163,11 @@ extension ContainerController: SlideMenuTableDelegate {
     }
 }
 
-
-
-/*
-// globals
-var PFJ: PuzzlesFromJson!
-class ContainerController: UIViewController {
-    
-    // MARK: - Properties
-    
-    var mainViewController: UIViewController!
-    var menuTableController: UITableViewController!
-    
-    // MARK: - Init
-    
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        
-        view.backgroundColor = .black
-        
-        PFJ = PuzzlesFromJson()
-        
-        let UDM = UserDataManager()
-        
-        if UDM.isFirstLaunch() {
-            PFJ.savePuzzlesToCoreData()
-            UDM.setDidLaunch()
-            UDM.setMembershipType(type: 0)
-        }
-        if UDM.isFirstLaunchOfNewestVersion() {
-            UDM.setDidLaunchNewestVersion()
-            UDM.setBoardColor(boardColor: ColorTheme(rawValue: 0)!)
-            UDM.setPieceStyle(pieceStyle: 0)
-        }
-        
-        if let _ = Auth.auth().currentUser {
-            let userHasCoreData: Bool = UserDBMS().getPuzzledUser() != nil
-            if userHasCoreData == false {
-                UserDBMS().initExistingUserCoreData(uid: Auth.auth().currentUser!.uid)
-            }
-            //configTabBarController()
-            configHomeController()
-        } else {
-            configSignInController()
-        }
-    }
-    
-    // MARK: - Config
-    
-    func configSignInController() {
-        let controller = SignInController()
-        controller.delegate = self
-        showChildViewController(child: controller)
-    }
-
-    func configTabBarController() {
-        let controller = TabBarController()
-        controller.signOutDelegate = self
-        showChildViewController(child: controller)
-    }
-    
-    func configHomeController() {
-        let controller = UINavigationController(rootViewController: HomeController1())
-        showChildViewController(child: controller)
-        
-    }
-    
-    // MARK: - Handlers
-    
-    func showChildViewController(child: UIViewController) {
-        addChild(child)
-        view.addSubview(child.view)
-        didMove(toParent: self)
-    }
-    
-   
-}
-
-extension ContainerController: SignInDelegate, SignOutDelegate {
-    func notifyOfSignIn() {
-        configTabBarController()
-    }
-    
-    func notifyOfSignOut() {
-        view.subviews.forEach{ (subview) in subview.removeFromSuperview()}
-        configSignInController()
+extension ContainerController {
+    func testEngine() {
+        let engineManager: EngineManager = EngineManager()
+        engineManager
+        engineManager.gameFen = someGameFen
+        engineManager.startAnalyzing()
     }
 }
- 
-*/

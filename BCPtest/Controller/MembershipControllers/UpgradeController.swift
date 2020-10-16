@@ -74,11 +74,13 @@ class UpgradeController: UIViewController, SKProductsRequestDelegate, SKPaymentT
     
     func configNavBar() {
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = CommonUI().blackColor
+        navigationController?.navigationBar.barTintColor = CommonUI().navBarColor
+        navigationController?.navigationBar.tintColor = .lightGray
         navigationController?.navigationBar.tintColor = .white
-        let font = UIFont(name: fontString, size: 17)
+        navigationController?.navigationBar.shadowImage = UIImage()
+        let font = UIFont(name: fontStringBold, size: 17)
         navigationController?.navigationBar.titleTextAttributes = [.font: font!, .foregroundColor: UIColor.white]
-        navigationItem.title = "Upgrade".uppercased()
+        navigationItem.title = "Upgrade"
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Restore", style: .plain, target: self, action: #selector(restoreAction))
     }
     

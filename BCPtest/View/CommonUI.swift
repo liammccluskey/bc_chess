@@ -49,6 +49,7 @@ class CommonUI {
 
     let tabBarColor = UIColor().fromRGB("40,40,40")
     let navBarColor = UIColor().fromRGB("25,25,25")
+    let menuColor = UIColor().fromRGB("39,37,34")
     
     // MARK: - User Data
     

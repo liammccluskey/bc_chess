@@ -242,8 +242,8 @@ class DailyPuzzleChartController: UIViewController, ChartViewDelegate {
         
         let l = chartView.legend
         l.form = .circle
-        l.font = UIFont(name: fontStringLight, size: 14)!
-        l.textColor = .white
+        l.font = UIFont(name: fontString, size: 14)!
+        l.textColor = CommonUI().silverColor
         l.horizontalAlignment = .center
         l.verticalAlignment = .top
         l.orientation = .vertical

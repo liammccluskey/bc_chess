@@ -31,7 +31,7 @@ class SlideMenuTableController: UITableViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        tableView.backgroundColor = CommonUI().tabBarColor
+        tableView.backgroundColor = CommonUI().blackColorLight
         tableView.separatorColor = CommonUI().blackColor
     }
     
@@ -64,7 +64,7 @@ class SlideMenuTableController: UITableViewController {
 }
 
 enum SlideMenuItems: Int, CaseIterable {
-    case home, progress, openings, leaderboard, settings
+    case home, progress, openings, leaderboard, upgrade, settings
     
     var description: String {
         switch self {
@@ -72,6 +72,7 @@ enum SlideMenuItems: Int, CaseIterable {
         case .progress: return "Progress"
         case .openings: return "Openings"
         case .leaderboard: return "Leaderboard"
+        case .upgrade: return "Upgrade"
         case .settings: return "Settings"
         }
     }
@@ -82,6 +83,7 @@ enum SlideMenuItems: Int, CaseIterable {
         case .progress: return UIImage(systemName: "chart.bar.fill")
         case .openings: return UIImage(systemName: "book.fill")
         case .leaderboard: return UIImage(systemName: "person.3.fill")
+        case .upgrade: return UIImage(systemName: "star.fill")
         case .settings: return #imageLiteral(resourceName: "settings").withRenderingMode(.alwaysTemplate)
         }
     }
@@ -92,6 +94,7 @@ enum SlideMenuItems: Int, CaseIterable {
         case .progress: return ProgressController()
         case .openings: return OpeningsController()
         case .leaderboard: return LeaderboardController()
+        case .upgrade: return UpgradeController()
         case .settings: return SettingsController()
         }
     }

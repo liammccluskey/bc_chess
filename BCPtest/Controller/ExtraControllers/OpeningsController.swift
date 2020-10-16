@@ -38,6 +38,9 @@ class OpeningsController: UIViewController {
         
         configUI()
         configAutoLayout()
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
         DispatchQueue.main.async {
             self.commonMovesTable.tableView.reloadData()
         }

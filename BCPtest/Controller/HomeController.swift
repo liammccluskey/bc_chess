@@ -60,7 +60,7 @@ class HomeController: UIViewController {
     let modeInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "Select Game Mode"
-        label.textColor = .white
+        label.textColor = CommonUI().silverColor
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 15)
         label.backgroundColor = .clear
@@ -70,7 +70,7 @@ class HomeController: UIViewController {
     let visInfoLabel: UILabel = {
         let label = UILabel()
         label.text = "Select Piece Visiblity"
-        label.textColor = .white
+        label.textColor = CommonUI().silverColor
         label.textAlignment = .center
         label.font = UIFont(name: fontString, size: 15)
         label.backgroundColor = .clear
@@ -158,13 +158,13 @@ class HomeController: UIViewController {
         let submodeStack = CommonUI().configureHStackView(arrangedSubViews: [submodeSegment])
         
         stack1 = configureStackView(arrangedSubViews: [
-            visInfoLabel,
+            //visInfoLabel,
             visStack,
-            modeInfoLabel,
+           // modeInfoLabel,
             modeStack,
             submodeStack
         ])
-        stack1.spacing = 10
+        stack1.spacing = 12
         stack1.distribution = .fillProportionally
         
         containerView.addSubview(header1Label)
@@ -197,7 +197,7 @@ class HomeController: UIViewController {
         containerView.heightAnchor.constraint(equalToConstant: view.frame.height*1.1).isActive = true
         
         header2Label.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 10).isActive = true
-        header2Label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 30).isActive = true
+        header2Label.topAnchor.constraint(equalTo: containerView.topAnchor, constant: 20).isActive = true
         
         dailyPuzzlesCollection.collectionView.topAnchor.constraint(equalTo: header2Label.bottomAnchor, constant: 10).isActive = true
         dailyPuzzlesCollection.collectionView.leftAnchor.constraint(equalTo: containerView.leftAnchor, constant: 0).isActive = true
@@ -216,7 +216,7 @@ class HomeController: UIViewController {
         playButton.centerXAnchor.constraint(equalTo: view.centerXAnchor).isActive = true
         playButton.heightAnchor.constraint(equalToConstant: 50).isActive = true
         playButton.widthAnchor.constraint(equalToConstant: view.frame.width/2).isActive = true
-        playButton.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 50).isActive = true
+        playButton.topAnchor.constraint(equalTo: stack1.bottomAnchor, constant: 40).isActive = true
   
     }
     
@@ -409,10 +409,10 @@ class ModeButton: UIButton {
         title.textColor = .darkGray
         addSubview(title)
         
-        image.topAnchor.constraint(equalTo: topAnchor, constant: 10).isActive = true
+        image.topAnchor.constraint(equalTo: topAnchor, constant: 20).isActive = true
         image.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         title.topAnchor.constraint(equalTo: image.bottomAnchor, constant: 0).isActive = true
-        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5).isActive = true
+        title.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15).isActive = true
         title.centerXAnchor.constraint(equalTo: centerXAnchor).isActive = true
         
         tag = puzzleMode
