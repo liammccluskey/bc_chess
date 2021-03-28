@@ -12,7 +12,6 @@ import Firebase
 
 import CoreData
 
-import ChessEngine
 
 
 // globals
@@ -163,11 +162,4 @@ extension ContainerController: SlideMenuTableDelegate {
     }
 }
 
-extension ContainerController {
-    func testEngine() {
-        let engineManager: EngineManager = EngineManager()
-        engineManager
-        engineManager.gameFen = someGameFen
-        engineManager.startAnalyzing()
-    }
-}
+

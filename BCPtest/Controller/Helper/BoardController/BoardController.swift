@@ -506,7 +506,7 @@ class BoardController: UIViewController {
         
         self.squareFromHighlight.frame = self.squareIVs[fromSqrIndex].frame
         self.squareToHighlight.frame = self.squareIVs[toSqrIndex].frame
-        let animationDuration = animated ? 0.2 : 0.01
+        let animationDuration = animated ? 0.2 : 0.00
         UIView.animate(withDuration: animationDuration, animations: {
             self.setStationaryPieceFrame(forPieceAtTag: fromSqrIndex, atSquareTag: toSqrIndex)
         }) { (_) in
