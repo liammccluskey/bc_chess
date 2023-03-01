@@ -347,7 +347,6 @@ class PuzzleLearningController: UIViewController {
             boardController.showPieces()
             isShowingPieces = true
         }
-        
         showPostPuzzleButtons(didCompletePuzzle: true, wasCorrect: wasCorrect)
     }
     

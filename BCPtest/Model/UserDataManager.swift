@@ -24,6 +24,7 @@ class UserDataManager {
         static let rushLimit = "rushLimit"
         static let puzzleLimit = "puzzleLimit"
         static let membershipType = "membershipType"
+        static let explorerLimit = "explorerLimit"
     }
     
     struct stateKeys {
@@ -96,6 +97,11 @@ class UserDataManager {
         defaults.set(type, forKey: membershipKeys.membershipType)
         defaults.set(membership.rushLimit, forKey: membershipKeys.rushLimit)
         defaults.set(membership.puzzleLimit, forKey: membershipKeys.puzzleLimit)
+        defaults.set(membership.explorerLimit, forKey: membershipKeys.explorerLimit)
+    }
+    
+    func getMembershipType() -> Int {
+        return defaults.integer(forKey: membershipKeys.membershipType)
     }
     
     func getMembershipName() -> String {
@@ -123,6 +129,12 @@ class UserDataManager {
         let puzzleLimit = defaults.integer(forKey: membershipKeys.puzzleLimit)
         print("Puzzle Limit: \(puzzleLimit)")
         return UserDBMS().getDailyRatedPuzzleCount() >= puzzleLimit
+    }
+    
+    func hasReachedExplorerLimit(moveCount: Int) -> Bool {
+        let explorerLimit = defaults.integer(forKey: membershipKeys.explorerLimit)
+        print("Explorer Limit: \(explorerLimit), moveCount: \(moveCount)")
+        return moveCount >= explorerLimit
     }
     
     

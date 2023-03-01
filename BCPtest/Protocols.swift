@@ -56,6 +56,8 @@ protocol LimitReachedDelegate {
 protocol CommonMovesTableDelegate {
     func didSelectMove(move: CommonMove)
     func didSelectGame(game: TopGame)
+    func didReachExplorerLimit()
+    func didNotReachExplorerLimit()
 }
 
 protocol SlideMenuTableDelegate {

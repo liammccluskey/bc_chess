@@ -8,6 +8,7 @@
 
 import UIKit
 import ChessKit
+import CoreData
 
 class CommonMovesTableController: UITableViewController {
     
@@ -15,13 +16,19 @@ class CommonMovesTableController: UITableViewController {
     
     var delegate: CommonMovesTableDelegate?
     
-    let baseURL = "https://explorer.lichess.ovh/master?fen="
+    let baseURL = "https://explorer.lichess.ovh/masters?fen="
     
     let startFEN: String = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     private var currentFEN: String = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     var currentMoveNumber: Int = 1 {
         didSet {
             turn = currentMoveNumber % 2 == 1 ? .white : .black
+            if UserDataManager().hasReachedExplorerLimit(moveCount: currentMoveNumber / 2) {
+                delegate?.didReachExplorerLimit()
+                return
+            } else {
+                delegate?.didNotReachExplorerLimit()
+            }
         }
     }
     private var turn: PieceColor = .white
@@ -147,6 +154,7 @@ class CommonMovesTableController: UITableViewController {
     private func fetchOpeningPositionData(forFEN fen: String, completion: @escaping (Bool) -> ()) {
         let fenFormatted = fen.replacingOccurrences(of: " ", with: "%20")
         let urlString = baseURL + fenFormatted
+        print(urlString)
         let session = URLSession.shared
         let url = URL(string: urlString)!
         let task = session.dataTask(with: url) { (data, response, error) in
@@ -161,7 +169,7 @@ class CommonMovesTableController: UITableViewController {
                     completion(true)
                 } catch {
                     completion(false)
-                    print("Error during JSON serialization: \(error.localizedDescription)")
+                    print("Error during JSON serialization: \(error)")
                 }
             }
         }
@@ -312,7 +320,6 @@ struct OpeningPositionData: Codable {
     let white: Int
     let draws: Int
     let black: Int
-    let averageRating: Int
     let moves: [CommonMove]
     let topGames: [TopGame]
     let opening: Opening?
@@ -329,7 +336,7 @@ struct CommonMove: Codable {
 
 struct TopGame: Codable {
     let id: String
-    let winner: String
+    //let winner: String
     let white: Player
     let black: Player
 }

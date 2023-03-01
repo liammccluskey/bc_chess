@@ -55,6 +55,12 @@ class ContainerController: UIViewController {
             UDM.setPieceStyle(pieceStyle: 0)
         }
         
+        let userHasCoreData: Bool = UserDBMS().getPuzzledUser() != nil
+        if userHasCoreData {
+            let type = UDM.getMembershipType()
+            UDM.setMembershipType(type: type)
+        }
+        
         if let _ = Auth.auth().currentUser {
             let userHasCoreData: Bool = UserDBMS().getPuzzledUser() != nil
             if userHasCoreData == false {

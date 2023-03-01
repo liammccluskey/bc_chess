@@ -55,8 +55,22 @@ class UpgradeController: UIViewController, SKProductsRequestDelegate, SKPaymentT
     func configUI() {
         configNavBar()
         
-        goldView = configUpgradeView(isGold: true, title: "Gold Member", price: "$4.99", feat1: "Unlimited Puzzle Rush", feat2: "Unlimited Rated Puzzles")
-        silverView = configUpgradeView(isGold: false, title: "Silver Member", price: "$1.99", feat1: "25 Puzzle Rush per day", feat2: "50 Rated Puzzles per day")
+        goldView = configUpgradeView(
+            isGold: true,
+            title: "Gold Member",
+            price: "$4.99",
+            feat1: "Unlimited Puzzle Rush",
+            feat2: "Unlimited Rated Puzzles",
+            feat3: "Unlimited Explorer Access"
+        )
+        silverView = configUpgradeView(
+            isGold: false,
+            title: "Silver Member",
+            price: "$1.99",
+            feat1: "25 Puzzle Rush per day",
+            feat2: "50 Rated Puzzles per day",
+            feat3: "25 Explorer Moves"
+        )
         
         vstack = CommonUI().configureStackView(arrangedSubViews: [header, goldView, silverView])
         vstack.distribution = .fillEqually
@@ -84,7 +98,7 @@ class UpgradeController: UIViewController, SKProductsRequestDelegate, SKPaymentT
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "Restore", style: .plain, target: self, action: #selector(restoreAction))
     }
     
-    func configUpgradeView(isGold: Bool, title: String, price: String, feat1: String, feat2: String) -> UIView {
+    func configUpgradeView(isGold: Bool, title: String, price: String, feat1: String, feat2: String, feat3: String) -> UIView {
         let tintColor = isGold ? CommonUI().goldColor : CommonUI().silverColor
         let v = UIView()
         v.backgroundColor = CommonUI().blackColorLight
@@ -109,10 +123,16 @@ class UpgradeController: UIViewController, SKProductsRequestDelegate, SKPaymentT
         f2.textColor = .white
         f2.textAlignment = .center
         
+        let f3 = UILabel()
+        f3.font = UIFont(name: fontString, size: 18)
+        f3.text = feat3
+        f3.textColor = .white
+        f3.textAlignment = .center
+        
         let tag = isGold ? 0 : 1
         let upgradeButton = configUpgradeButton(color: tintColor, tag: tag)
         
-        let vstack = CommonUI().configureStackView(arrangedSubViews: [header, f1, f2, upgradeButton])
+        let vstack = CommonUI().configureStackView(arrangedSubViews: [header, f1, f2, f3, upgradeButton])
         vstack.distribution = .fillEqually
         vstack.spacing = 10
         
@@ -259,6 +279,14 @@ enum MembershipType: Int {
         case .free: return 10
         case .silver: return 50
         case .gold: return 1000000 // should be infinite
+        }
+    }
+    
+    var explorerLimit: Int {
+        switch self {
+        case .free: return 3
+        case .silver: return 25
+        case .gold: return 1000000
         }
     }
     

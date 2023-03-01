@@ -16,6 +16,7 @@ class OpeningsController: UIViewController {
     private var workItems: [DispatchWorkItem] = []
     var boardController: BoardController!
     var commonMovesTable: CommonMovesTableController!
+    var limitReachedController: ExplorerLimitReachedController!
     
     let startFEN: String = "rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR w KQkq - 0 1"
     
@@ -142,6 +143,10 @@ class OpeningsController: UIViewController {
     }
     
     @objc func nextAction() {
+        if UserDataManager().hasReachedExplorerLimit(moveCount: self.commonMovesTable.currentMoveNumber / 2) {
+            pushLimitReachedController()
+            return
+        }
         view.isUserInteractionEnabled = false
         DispatchQueue.main.async {
             self.boardController.loadNextPosition { (didLoadNext) in
@@ -154,10 +159,20 @@ class OpeningsController: UIViewController {
             }
         }
     }
+    
+    func pushLimitReachedController() {
+        limitReachedController = ExplorerLimitReachedController()
+        limitReachedController.delegate = self
+        view.addSubview(limitReachedController.view)
+    }
 }
 
 extension OpeningsController: BoardDelegate {
     func didMakeMove(move: Move, animated: Bool) {
+        if UserDataManager().hasReachedExplorerLimit(moveCount: self.commonMovesTable.currentMoveNumber / 2) {
+            pushLimitReachedController()
+            return
+        }
         view.isUserInteractionEnabled = false
         let workItem = DispatchWorkItem {
             self.boardController.pushMove(move: move, animated: animated) {
@@ -174,6 +189,10 @@ extension OpeningsController: BoardDelegate {
 
 extension OpeningsController: CommonMovesTableDelegate {
     func didSelectMove(move: CommonMove) {
+        if UserDataManager().hasReachedExplorerLimit(moveCount: self.commonMovesTable.currentMoveNumber / 2) {
+            pushLimitReachedController()
+            return
+        }
         var moveUCI = move.uci
         if move.san == "O-O" || move.san == "O-O-O" {
             moveUCI = moveUCI.replacingOccurrences(of: "a", with: "c")
@@ -198,5 +217,25 @@ extension OpeningsController: CommonMovesTableDelegate {
         // push game review controller
     }
     
+    func didReachExplorerLimit() {
+        boardController.view.isUserInteractionEnabled = false
+        commonMovesTable.view.isUserInteractionEnabled = false
+        pushLimitReachedController()
+        return
+    }
     
+    func didNotReachExplorerLimit() {
+        boardController.view.isUserInteractionEnabled = true
+        commonMovesTable.view.isUserInteractionEnabled = true
+    }
+}
+
+extension OpeningsController: LimitReachedDelegate {
+    func didSelectUpgrade() {
+        navigationController?.pushViewController(UpgradeController(), animated: true)
+    }
+    
+    func didDismiss() {
+        limitReachedController.view.removeFromSuperview()
+    }
 }
